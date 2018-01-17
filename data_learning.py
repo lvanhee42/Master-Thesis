@@ -24,7 +24,7 @@ __copyright__       = "Copyright 2010-2017 University of Liège, Belgium, http:/
 
 import csv
 import config
-from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor
+from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, BaggingRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import cross_val_score
 import numpy as np
@@ -70,6 +70,9 @@ regr = RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=30,
 
 #regr = AdaBoostRegressor(DecisionTreeRegressor(max_depth=20), n_estimators=100, random_state=np.random.RandomState(1))
 # score 2.417
+
+#regr = BaggingRegressor(DecisionTreeRegressor(max_depth=20), n_estimators=100, random_state=np.random.RandomState(1))
+# score 2.308
 
 # fit 70% of our learning sample
 regr.fit(X[sample[:int(config.ML_LEARNING_RATIO*len(X))]],Y[sample[:int(config.ML_LEARNING_RATIO*len(X))]])
