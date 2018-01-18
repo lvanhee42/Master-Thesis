@@ -37,10 +37,6 @@ from PIL import Image
 
 ##TODO : add ConnectionHistory to python client and use it
 
-#mooc
-#cytomine_host="cytomine.mooc.ulg.ac.be"
-#cytomine_public_key="9cd338c4-b283-49dc-83a8-32f22043e5d8"
-#cytomine_private_key="7684813e-c06a-44bd-aa53-08cb9375bda2"
 
 #local
 cytomine_host=config.cytomine_host
