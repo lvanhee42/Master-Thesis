@@ -24,11 +24,16 @@ __copyright__       = "Copyright 2010-2017 University of Liège, Belgium, http:/
 from ast import literal_eval
 import numpy as np
 
-from gazemap import RATIO, gaussian, STD
+from gazemap import RATIO, STD
+from pygazeanalyser.gazeplotter import gaussian
 
 
 def get_dimensions(corners):
-
+    """
+    Gets the dimension of a position based on the 4 corners of a position
+    :param corners: list with 4 elements containg pairs of xy coordinates
+    :return: (x_length, y_length)
+    """
     x0, y0 = corners[0]
     x1, y1 = corners[1]
     x2, y2 = corners[2]
@@ -40,7 +45,16 @@ def get_dimensions(corners):
 
 
 def get_nearest_annotation(timestamp, positions, annotations):
+    """
+    For a given timestamp (associated by a AnnotationAction),
+    tries to guess which annotation was clicked on by the user (since it wasn't tracked)
+    :param timestamp: timestamp of AnnotationAction
+    :param positions: position of all the users in the image
+    :param annotations: list of annotations in the image
+    :return: annotation id (0 if still unknown)
+    """
 
+    # go through the positions and finds the closest position timestamp
     position_timestamps = positions['timestamp']
     index = len(position_timestamps) - 1
     for i in range(len(position_timestamps)):
@@ -58,11 +72,13 @@ def get_nearest_annotation(timestamp, positions, annotations):
     if index < 0:
         return 0
 
+    # x, y coordinates of closest position
     x = positions['x'][index]
     y = positions['y'][index]
 
     d = np.inf
     ann_id = None
+    # guess closest annotation
     for i in range(len(annotations['id'])):
         x_annot = annotations['x'][i]
         y_annot = annotations['y'][i]
@@ -75,10 +91,26 @@ def get_nearest_annotation(timestamp, positions, annotations):
 
 
 def dist(a, b):
+    """
+    distance between 2 values
+    :param a: val1
+    :param b: val2
+    :return: distance between a and b
+    """
     return np.abs(b - a)
 
 
-def parse_positions(data,image_data, duration=20, calc_gauss=True):
+def parse_positions(data, image_data, duration=20, calc_gauss=True):
+    """
+    parse positions of a user in an image to a dictionary based on data read from file
+    :param data: data directly read from position file
+    :param image_data: ImageData object to store eventual gaussians
+    :param duration: base duration for each position (updated later)
+    :param calc_gauss: Whether or not gaussians are calculated for zoom levels
+    :return: dictionary of positions
+    """
+
+    # dict template
     ret = {'x': np.zeros(len(data)),
            'y': np.zeros(len(data)),
            'dur': np.zeros(len(data)),
@@ -87,6 +119,7 @@ def parse_positions(data,image_data, duration=20, calc_gauss=True):
            'corners': [],
            'heatmap': None}
 
+    # fills dictionary
     for row in range(len(data)):
         row_data = data[row]
         x, y = literal_eval(row_data[1])
@@ -98,6 +131,7 @@ def parse_positions(data,image_data, duration=20, calc_gauss=True):
         ret['zoom'][row] = row_data[2]
         ret['timestamp'][row] = np.double(row_data[3])
 
+        # calculate gaussian if needed
         if calc_gauss and ret['zoom'][row] > 3:
             if image_data.gaussians['zoom_' + str(row_data[2])] is None:
                 x_l, y_l = get_dimensions(corners)
@@ -109,11 +143,21 @@ def parse_positions(data,image_data, duration=20, calc_gauss=True):
                 image_data.gaussians['zoom_' + str(row_data[2])] = d
     return ret
 
+
 def parse_annotations(data):
+    """
+    parse annotations of a user in an image to a dictionary based on data read from file
+    :param data: data directly read from annotation files
+    :return: dictionary of annotations
+    """
+
+    # dict template
     ret = {'x': np.zeros(len(data)),
            'y': np.zeros(len(data)),
            'id': np.zeros(len(data)),
            'type': []}
+
+    # fills dictionary
     for row in range(len(data)):
         row_data = data[row]
         ret['x'][row] = row_data[1]
@@ -125,14 +169,26 @@ def parse_annotations(data):
 
 
 def parse_annotation_actions(data, positions, annotations):
+    """
+    parse annotationActions of a user in an image to a dictionary based on data read from file
+    :param data: data directly read from annotationActions files
+    :param positions: dictionary of positions (associated to user/image pair)
+    :param annotations: annotations associated to image
+    :return: dictionary of AnnotationActions
+    """
+
+    # dict template
     ret = {'id' : np.zeros(len(data)),  # annotation id = 0 if it cannot be guessed
            'action' : [],
            'timestamp': np.zeros(len(data))}
+
+    # fils dict
     for row in range(len(data)):
         row_data = data[row]
 
+        # guesses id if id not in file
         if row_data[0] == "":
-            get_nearest_annotation(row_data[1], positions, annotations)
+            ret['id'][row] = get_nearest_annotation(row_data[1], positions, annotations)
         else:
             ret['id'][row] = row_data[0]
 

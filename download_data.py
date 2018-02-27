@@ -37,7 +37,6 @@ from PIL import Image
 
 ##TODO : add ConnectionHistory to python client and use it
 
-
 #local
 cytomine_host=config.cytomine_host
 cytomine_public_key= config.cytomine_public_key
@@ -64,16 +63,16 @@ timestep = 86400  # 1 day (in seconds)
 id_user = 27389949  # DEMO-LANDMARK-ZEBRAFISH
 start_time = "2016-09-09 21:00:00"
 end_time = "2018-06-13 19:30:00"
-id_ref_user = 1590 # gold
-#id_ref_user = 1611 # silver
+#id_ref_user = 1590 # gold
+id_ref_user = 1611 # silver
 
-#id_project=2338 #silver
-id_project = 1197608  # gold
+id_project=2338 #silver
+#id_project = 1197608  # gold
 # id_ref_user=1611  #moochistos
 
 
-project_dir = "gold/"
-#project_dir = "silver/"
+#project_dir = "gold/"
+project_dir = "silver/"
 # --------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------
 if not os.path.exists(working_path + project_dir):
@@ -200,15 +199,15 @@ if not os.path.exists(working_path + project_dir + "images/"):
 # Create user id file
 csv_user_filename = 'users.csv'
 users_file = os.path.join(working_path + project_dir, csv_user_filename)
-copyfile("stats/students.csv", users_file)
+copyfile("stats/students_silver.csv", users_file)
 
-fusers = open("stats/students.csv", "rb")
+fusers = open("stats/students_silver.csv", "rb")
 csvoutusers = csv.reader(fusers)
 data_users = list(csvoutusers)
 data_users.pop(0)
 userlist = []
 for u_tmp in data_users:
-    userlist.append(int(u_tmp[4]))
+    userlist.append(int(u_tmp[0]))
 fusers.close()
 
 #Go through all images

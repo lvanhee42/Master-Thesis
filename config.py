@@ -20,9 +20,12 @@
 __author__          = "Vanhee Laurent <laurent.vanhee@student.uliege.ac.be>"
 __copyright__       = "Copyright 2010-2017 University of Liège, Belgium, http://www.cytomine.be/"
 
+## Global variables
+
 WORKING_DIRECTORY = "/mnt/tmp/UBUNTU_DATA/Cytomine-Data/"
 MAX_ZOOM = 10
 ML_LEARNING_RATIO = 0.7
+CLUSTER_SIZE = 30
 cytomine_host="localhost-core"
 cytomine_public_key="xxx" # to edit
 cytomine_private_key="xxx" # to edit

@@ -26,14 +26,15 @@ import csv
 import config
 import user_data
 from dictionary_data import parse_positions, parse_annotations, parse_annotation_actions
-from  gazemap import make_heatmap, save_heatmap, draw_raw, draw_scanpath, cluster_points
+from gazemap import cluster_points, score_user_on_image
+from pygazeanalyser.gazeplotter import make_heatmap, save_heatmap, draw_raw, draw_scanpath
 from PIL import Image
 import numpy as np
 import gc
 
 
 class Image_data:
-
+    # class containg data related to 1 particular image
 
 
     def __init__(self, project_name, image_dir, manager):
@@ -42,7 +43,10 @@ class Image_data:
         for all the users that have positions in a dictionary. It loads
         :param project_name: gold/silver
         :param image_dir: image_xxxxx
+        :param manager: data_manager object (keep link for when needed)
         """
+
+        # init all variables
         self.manager = manager
         self.image_id = image_dir.split('_')[1]
         self.image_dir = config.WORKING_DIRECTORY + project_name + "/images/" + image_dir + "/"
@@ -64,6 +68,7 @@ class Image_data:
         self.rescaled_width, self.rescaled_height = self.image.size
         self.user_data = {}
 
+        # load positions to memory
         u_positions_files = os.listdir(self.positions_dir)
         for pos in u_positions_files:
             f = open(self.positions_dir + pos, 'rb')
@@ -75,6 +80,7 @@ class Image_data:
             pos_data = parse_positions(data, self, calc_gauss=True)
             self.user_positions[pos_id] = pos_data
 
+        # loads ref annotations to memory
         try:
             f = open(self.ref_annotation_dir, 'rb')
         except:
@@ -87,6 +93,7 @@ class Image_data:
             ann_data = parse_annotations(data)
             self.ref_annotations = ann_data
 
+        # loads annotation actions to memory
         u_action_files = os.listdir(self.annotation_actions_dir)
         for pos in u_action_files:
             f = open(self.annotation_actions_dir + pos, 'rb')
@@ -100,31 +107,61 @@ class Image_data:
 
 
     def init_user_data_link(self, user_data):
+        """
+        creates links between images and users
+        :param user_data: list of user_data objects
+        :return: None
+        """
         for user in user_data:
             if user.user_id in self.user_positions:
                 self.user_data[user.user_id] = user
                 user.image_data[self.image_id] = self
 
     def generate_heatmap(self, user_id):
+        """
+        Generates a heatmap associated to this image and a user, and keeps it in self
+        :param user_id: user to generate heatmap with
+        :return: None
+        """
         pos = self.user_positions[user_id]
         pos['heatmap'] = make_heatmap(pos, (self.rescaled_width, self.rescaled_height), self)
 
+
     def generate_all_heatmaps(self):
+        """
+        Generates heatmaps for all users associated to this image
+        :return: None
+        """
         for u_id in self.user_positions:
             self.generate_heatmap(u_id)
 
     def remove_heatmap(self, user_id):
+        """
+        removes a heatmap from memory
+        :param user_id: user id of heatmap to be removed
+        :return: None
+        """
         pos = self.user_positions[user_id]
         heatmap = pos['heatmap']
         pos['heatmap'] = None
         del heatmap
 
     def remove_all_heatmaps(self):
+        """
+        Remove all heatmaps associated to this image
+        :return: None
+        """
         for u_id in self.user_positions:
             self.remove_heatmap(u_id)
         gc.collect()
 
     def save_all_heatmaps_by_image(self):
+        """
+        Saves all heatmaps in image files, this method compares all heatmaps associated to this image
+        and outputs images based on the minimums and maximums from all heatmaps. It also applies a logarithmic
+        normalizer because of some very high values compared to others which affects scaling
+        :return: None
+        """
         rgb_im = self.image.convert('RGB')
         rgb_im.save('converted_image.jpg')
         dir = self.image_dir + "gazemaps_image_method/"
@@ -133,11 +170,13 @@ class Image_data:
         max_val = 0
         avg_val = 0
         l = 0
+        # determines an average value for all the ln heatmaps
+        # determines the highest value found on all the heatmaps
         for u_id in self.user_positions:
             pos = self.user_positions[u_id]
             heatmap = np.copy(pos['heatmap'])
             heatmap = heatmap + 1
-            heatmap = np.log(heatmap)
+            heatmap = np.log10(heatmap)
             tmp = np.max(heatmap)
             max_val = max(tmp, max_val)
             if len(heatmap[heatmap > 0]) > 0:
@@ -150,12 +189,13 @@ class Image_data:
 
         avg_val = avg_val/l
 
+        # Save all heatmaps while taking to account max and avg
         for u_id in self.user_positions:
             out = dir + u_id + "_heatmap.png"
             pos = self.user_positions[u_id]
             heatmap = np.copy(pos['heatmap'])
             heatmap = heatmap + 1
-            heatmap = np.log(heatmap)
+            heatmap = np.log10(heatmap)
             heatmap[0][0] = max_val
             save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5, avg=avg_val)
             del heatmap
@@ -163,6 +203,11 @@ class Image_data:
         os.remove('converted_image.jpg')
 
     def save_all_heatmaps_ln(self):
+        """
+        Saves all heatmaps in image files. It applies a logarithmic
+        normalizer because of some very high values compared to others which affects scaling
+        :return: None
+        """
         rgb_im = self.image.convert('RGB')
         rgb_im.save('converted_image.jpg')
         dir = self.image_dir + "gazemaps_ln_method/"
@@ -173,13 +218,17 @@ class Image_data:
             pos = self.user_positions[u_id]
             heatmap = np.copy(pos['heatmap'])
             heatmap = heatmap + 1
-            heatmap = np.log(heatmap)
+            heatmap = np.log10(heatmap)
             save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5)
             del heatmap
         gc.collect()
         os.remove('converted_image.jpg')
 
     def save_all_heatmaps(self):
+        """
+        Save all heatmaps in images files, no normalization
+        :return: None
+        """
         rgb_im = self.image.convert('RGB')
         rgb_im.save('converted_image.jpg')
         dir = self.image_dir + "gazemaps_basic/"
@@ -195,6 +244,10 @@ class Image_data:
         os.remove('converted_image.jpg')
 
     def save_all_raw(self):
+        """
+        Saves all positions in an image file, each position is represented by a dot on the image.
+        :return: None
+        """
         rgb_im = self.image.convert('RGB')
         rgb_im.save('converted_image.jpg')
         del rgb_im
@@ -209,6 +262,10 @@ class Image_data:
         os.remove('converted_image.jpg')
 
     def save_all_scanpath(self):
+        """
+        Saves all scanpaths, due to the number of positions, it applies clustering methods to have a better and more viewable image
+        :return: None
+        """
         rgb_im = self.image.convert('RGB')
         rgb_im.save('converted_image.jpg')
         dir = self.image_dir + "scanpath_images/"
@@ -221,6 +278,35 @@ class Image_data:
             draw_scanpath(tmp, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out)
         gc.collect()
         os.remove('converted_image.jpg')
+
+    def score_users(self, u_list):
+        """
+        Scores the users in relation to this image, each user is given a score on "how well" they viewed the image
+        :param u_list: list of user_ids
+        :return: list of user scores
+        """
+        ret = []
+        for u in u_list:
+            if u in self.user_positions and u in self.user_actions:
+                ret.append(score_user_on_image(self.user_positions[u], self.user_actions[u], self))
+            elif u in self.user_positions and u not in self.user_actions:
+                ret.append(score_user_on_image(self.user_positions[u], None, self))
+            else:
+                ret.append(-1.0)
+
+        return ret
+
+    def max_zoom(self):
+        """
+        gets the highest level of zoom reached by a student
+        :return: [0-10] zoom value
+        """
+        max_z = 0
+        for u in self.user_positions:
+            tmp = self.user_positions[u]['zoom']
+            if len(tmp) > 0:
+                max_z = max(max_z, np.max(tmp))
+        return max_z
 
 
     def __repr__(self):
