@@ -211,6 +211,7 @@ def score_user_on_image(user_positions, annotation_actions, image_data):
                 else:
                     score += heat/float(THRESHOLD) # it's regressive, maybe better results if we don't add to score if under threshold
         return score / float(len(annotations['x']))
+
     # If there are no annotations, just score based on the viewing of the entire image
     else:
         gazemap = make_heatmap(user_positions, (image_data.rescaled_width, image_data.rescaled_height), image_data)
