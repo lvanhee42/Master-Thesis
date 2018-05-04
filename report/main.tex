@@ -198,9 +198,9 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 
 \section{Tools and Methods}
 	
-    \subsection{Three Separate Modules}
+    \subsection{Three Separate Components}
     	Since there is a vast amount of data, most operations require some good amount of time to complete.
-    	Therefore, the data analysis tool is divided into three modules :
+    	Therefore, the data analysis tool is divided into three components :
         \begin{itemize}
         \item[\textbullet] Data Acquisition.
         \item[\textbullet] Data Manipulation.
@@ -230,7 +230,7 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
           \begin{itemize}
           \item[\textbullet] Resized images :\newline
           
-          The images stored on Cytomine are in fact very large. For the analysis, a copy of the images will be useful. Many operations in the Data Manipulation module rely on the image resolution when it comes to complexity. It is important that the image is big enough to be viewable while small enough so that the operations done in a reasonable amount of time. The image downloaded is therefore rescaled to a maximum width and height of 1024 pixels.\\
+          The images stored on Cytomine are in fact very large. For the analysis, a copy of the images will be useful. Many operations in the Data Manipulation component rely on the image resolution when it comes to complexity. It is important that the image is big enough to be viewable while small enough so that the operations done in a reasonable amount of time. The image downloaded is therefore rescaled to a maximum width and height of 1024 pixels.\\
           \item[\textbullet] Reference Annotations :\newline
           
           When observing images, students are usually given guidelines in forms of image annotations. These annotations are zones in the image that contain information that students can learn from. These annotations are given a number. Annotations from the same image have a different numbers. This represents the recommended order the user can traverse the image. In this study, only the geometrical center of the annotation is kept. In most cases, this loss of information should have no impact because the size of the zones are usually a couple pixels wide when put in the resized image.\\
@@ -243,9 +243,9 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
         
          The most important information. A Positions is what the user sees at a current time stamp. Positions are defined by its center, four corners, time recorded, and zoom. Positions are saved on a regular basis when a user observes an image. More precisely positions are saved :
          \begin{itemize}
-         	\item Every 5 seconds.
-            \item When the user switches zooms.
-            \item After the user finishes a movement on the image.
+         	\item[\textbullet] Every 5 seconds.
+            \item[\textbullet] When the user switches zooms.
+            \item[\textbullet] After the user finishes a movement on the image.
          \end{itemize}
          Due to how frequently positions are recorded, this information comes in large quantity.
          %todo add image with boxes with each zoom 
@@ -263,17 +263,64 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
         For both projects, an excel file containing user information not found on Cytomine was given. For the SILVER project, this only included basic information that were irrelevant to the analysis (names, emails, etc..). Meanwhile for the GOLD project, the University of Liege students had to partake in multiple graded assignments. The excel file given for the GOLD students therefore contained grades for numerous activities. These grades will be useful in order to understand some aspects of the user behavior on Cytomine. \newline
         
         
-        The project has a dedicated directory to store all this information, usually in a csv format. For each data type, image, and user triplet, there is a dedicated file containing this information. These files will be opened and read by the Data Manipulation Module for generating statistics and ways to represent data visually.
+        The project has a dedicated directory to store all this information, usually in a csv format. For each data type, image, and user triplet, there is a dedicated file containing this information. These files will be opened and read by the Data Manipulation Component for generating statistics and ways to represent data visually.
         
         %todo add image of directory organisation 
         
-	\subsubsection{Data Manipulations}
+	\subsubsection{Data Manipulation}
     
-    This module is used to interpret the data that's in its most basic form. It has multiple outputs based on the parameters set.
+    This component is used to interpret the data that's in its most basic form. It has multiple outputs based on the parameters set. Since it's important to obtain information as a whole on the data set, the component is divided into two main parts:
+    \begin{itemize}
+        \item[\textbullet] Loading data to Memory: The positions, the annotations, the actions, and the image information data are all loaded to memory.
+        \item[\textbullet] Data Handling : Calling numerous methods that extracts important information.
+    \end{itemize}
 
-	\subsubsection{Data Learning}
-    
-	\subsection{}
+    This component knows and uses the file directory structure. This allows it to find the files necessary to do analysis.
+    A object oriented approach was used in order to handle this information. In fact, there are multiple classes:
+
+    \begin{itemize}
+        \item[\textbullet] Data\_Manager : This class defines a object that will coordinate between the other classes in order to obtain the valuable information necessary.
+        \item[\textbullet] Image\_Data : This class defines objects that will contain references to information on a specific image. It also comes with operations associated to said image.
+        \item[\textbullet] User\_Data : This class defines objects that will contain references to information on a specific user. Similarly, to Image\_Data, it commes with numerous operations.
+        \item[\textbullet] Module\_Data : This class defines objects that will contain references to information on a specific module. Modules are predefined by the teachers as a set of objectives within a certain timeframe. There is a subset of images that are associated to a module. It therefore contains references to users and images and it also commes with its own operations.
+    \end{itemize}
+
+    These instances contain references to richer information. This information is handled using dictionaries for fast and easy access.
+    For the set of positions associated to a user and image pair, the dictionary contains these key and value pairs:
+    \begin{itemize}
+        \item[\textbullet] 'x' : Array of X coordinates for all the positions.
+        \item[\textbullet] 'y' : Array of Y coordinates for all the positions.
+        \item[\textbullet] 'dur': Array of the duration for all the positions.
+        \item[\textbullet] 'timestamp': Array of the exact time the positions have been recorded for each position.
+        \item[\textbullet] 'zoom' : Array of the zoom values for each position (1 to 10)
+        \item[\textbullet] 'corners' : Array containing the four corners for each position. The four corners are stored as an array with 4 values. These values contain a pair for the X and Y coordinates.
+    \end{itemize}
+
+    It is noted that the positions are sorted in regards to the timestamp value. This prevents many problems and makes specific operations much easier. The dictionary follows a similar structure for annotations that are either asociated to a image and user pair (user annotation) or just an image (reference annotation):
+    \begin{itemize}
+        \item[\textbullet] 'x' : Array of X coordinates for all the annotations.
+        \item[\textbullet] 'y' : Array of Y coordinates for all the annotations.
+        \item[\textbullet] 'id': Array of the identifiers for all the annotations.
+        \item[\textbullet] 'localId': Array of the local identifiers for all the annotations. Used for reference annotations. This property represents the annotation number shown on the images but also the recommended order of passage for these annotations
+        \item[\textbullet] 'type' : Array of the type for all annotations. This is eather a point or a polygon.
+    \end{itemize}
+
+    There are much fewer annotations then there are positions. Finally there are also annotation actions for image and user pairs:
+    \begin{itemize}
+        \item[\textbullet] 'id' : Array of the identifiers of the concerned annotations for all the annotation actions.
+        \item[\textbullet] 'action' : Array of the action carried out for all annotation actions. The value is always 'select'.
+        \item[\textbullet] 'timestamp' Array of the time the annotation action was carried out.
+    \end{itemize}
+    It is important to know that during the period of January 2017 to September 2017, annotation actions were collected but they did not specify which annotation the action was related to.
+    To determine that the component guesses the annotation. The component finds the position with the closest timestamp and guesses the annotation closest to that position. It's not perfect but it guesses the most likely annotation since at most zooms the user can only see one annotation.\\
+
+
+    This data is referenced by the proper Image\_Data and User\_Data objects for easy access. When loading all this data into memory, extra operations have been carried out. The most notable being generating the gaussian surface for each zoom associated to each image.
+    The Gaussian plane respects the dimensions of the positions associated to that zoom. This allows to better represent a position by not just taking into account the center and corners but the entirety of the field of view of the person.
+    The goal is to give more importance to the center pixels of a position over the pixels near the edge. This will be very important when deriving statistics generating heatmaps.
+        %todo add equation for generating a gaussian
+
+    \subsection{}
 
 
 \section{Data Analysis}
@@ -281,12 +328,12 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 	\subsection{Experiments}
     
     
-    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project. This is due to the many constraints given by the SILVER project including the sample size and the lack of results (student grades). The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation module. There were over 2000 features generated, where each one can weigh in on the prediction. These features were used to learn over 13 grades including the final grade obtained by these students (first session).\newline
+    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project. This is due to the many constraints given by the SILVER project including the sample size and the lack of results (student grades). The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation component. There were over 2000 features generated, where each one can weigh in on the prediction. These features were used to learn over 13 grades including the final grade obtained by these students (first session).\newline
     
     
     Due to the nature of the dataset, regression trees were the most ideal. The somewhat small dataset paired with a large amount of features is a big constraint to work with. Therefore, Ensemble methods were used and tested. This includes Random Forest regression and Extra Trees regression using sklearn.\newline
     
-    The Learning module is given a statistics file containing rows of students paired with their features. The features are split into three categories :
+    The Learning component is given a statistics file containing rows of students paired with their features. The features are split into three categories :
     \begin{itemize}
 \item[\textbullet] \textbf{M} : Meta-data variables, these variables have no statistical significance. These variables usually contain basic information on the users.\\
 \item[\textbullet] \textbf{X} : Variables with statistical significance, these variables mostly include data extracted from the Cytomine website. Either individual image variables or variables on the set of images. These variables are used in the machine learning model as input variables.\\
@@ -373,7 +420,7 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
     
     \subsubsection{Features pre-Calculated}
     
-    There are over two thousand features calculated and generated by the Data Manipulation module. These variables belong to the \textbf{X} category and are listed: 
+    There are over two thousand features calculated and generated by the Data Manipulation component. These variables belong to the \textbf{X} category and are listed:
    
    \begin{itemize}
     \item[\textbullet] NB IMAGES VISITED : The total number of different images that a user has opened over the course of the year.\\
