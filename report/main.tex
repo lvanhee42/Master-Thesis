@@ -27,7 +27,6 @@ includehead]{geometry}
 \usepackage{listings}
 \usepackage{supertabular}
 \usepackage{wasysym}
-\usepackage{xcolor}
 \usepackage{colortbl}
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -140,50 +139,94 @@ University of Li\`{e}ge - Faculty of Applied Sciences\\
 \rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
 \newpage
 \section{Abstract}
-In the medical field, doctors and researchers need to be able to observe and interpret cell samples. The
-most widely spread method is to observe samples with a microscope. New methods allow us to scan a
-sample into a very large and detailed image. These images can be uploaded to the Cytomine web
-application and doctors can go through the images with ease. The application includes many
-functionalities, namely the ability to annotate regions of interest. Currently the ULiege MOOC server is
-used for the benefit of the students studying the medical field at the University of Liege. The students
-study particular images and are then evaluated at the end of the year. Meanwhile, the Cytomine app
-has been collecting data on the students’ time spent on the website. The bulk of the data collected
-consists of where the students decided to look in the images (Gaze data). With that, attempts  were made to find correlations between students’ behavior and the results they obtain during exams. Using Machine
+In the medical field, doctors and researchers need to be able to observe and interpret cell samples.
+The
+most widely spread method is to observe samples with a microscope.
+New methods allow us to scan a
+sample into a very large and detailed image.
+These images can be uploaded to the Cytomine web
+application and doctors can go through the images with ease.
+The application includes many
+functionalities, namely the ability to annotate regions of interest.
+Currently the ULiege MOOC server is
+used for the benefit of the students studying the medical field at the University of Liege.
+The students
+study particular images and are then evaluated at the end of the year.
+Meanwhile, the Cytomine app
+has been collecting data on the students’ time spent on the website.
+The bulk of the data collected
+consists of where the students decided to look in the images (Gaze data).
+With that, attempts  were made to find correlations between students’ behavior and the results they obtain during exams.
+Using Machine
 Learning techniques, the goal is to predict a student’s grade based on how they used the application.
-Currently, the model contains 395 students with over 2000 features. Random Forest and Extra Trees
-learning techniques have been applied to attempt to predict grades. Otherwise, another goal is to
-visualize these patterns. The idea would be to generate Heatmaps of the students’ gaze data (Gazemap).
-These Gazemaps would be included in the app and users can be given access to this information. This
+Currently, the model contains 395 students with over 2000 features.
+Random Forest and Extra Trees
+learning techniques have been applied to attempt to predict grades.
+Otherwise, another goal is to
+visualize these patterns.
+The idea would be to generate Heatmaps of the students’ gaze data (Gazemap).
+These Gazemaps would be included in the app and users can be given access to this information.
+This
 could give teachers the ability to keep track of the students’ work.
 \section{Introduction}
 
 \subsection{Cytomine}
 
-Open-source rich Internet application for collaborative analysis of multi-gigapixel images. Cytomine can be described by three main properties :
+Open-source rich Internet application for collaborative analysis of multi-gigapixel images.
+Cytomine can be described by three main properties :
 \begin{itemize}
-\item[\textbullet] Open Source : The source code is available to the general public, in this case with Github. It has a Apache 2.0 License, which is very permissive for any third party. It is also accompanied by documentation that describes the different modules and how to use them.
+\item[\textbullet] Open Source : The source code is available to the general public, in this case with Github.
+It has a Apache 2.0 License, which is very permissive for any third party.
+It is also accompanied by documentation that describes the different modules and how to use them.
 \item[\textbullet] Open Company : It's a non-profit company that contribute and promote the project.
-\item[\textbullet] Open Research : Cytomine employs researchers at the Montefiore Institute of the University of Liege. They develop Machine Learning algorithms, image informatics, and Big Data modules. Cytomine also collaborates with other researchers.
+\item[\textbullet] Open Research : Cytomine employs researchers at the Montefiore Institute of the University of Liege.
+They develop Machine Learning algorithms, image informatics, and Big Data modules.
+Cytomine also collaborates with other researchers.
 \end{itemize}
 
-Cytomine was developed to ease the analysis of multi-gigapixel images. These images can take Gigabytes of disk space. For most computers, displaying such images at full resolution is impossible. With Cytomine, images are stored in a server. These images can be viewed using the web application with any modern browser. Cytomine handles everything locally so that performance is not an issue for the clients.\\
+Cytomine was developed to ease the analysis of multi-gigapixel images.
+These images can take Gigabytes of disk space.
+For most computers, displaying such images at full resolution is impossible.
+With Cytomine, images are stored in a server.
+These images can be viewed using the web application with any modern browser.
+Cytomine handles everything locally so that performance is not an issue for the clients.\\
 
-	Cytomine also comes with a comprehensive and robust API (Application Programing Interface). This API allows clients to fetch and send data to and from a Cytomine Server. This is very useful for data analysis, it's well organized so that researchers can find what they are looking for. There are also tools included that eases certain aspects of handling big data. For examples image annotations allows the user to create zones of interest. These zones can share characteristics and using learning algorithms, researchers can learn new zones of interest.
+	Cytomine also comes with a comprehensive and robust API (Application Programing Interface).
+	This API allows clients to fetch and send data to and from a Cytomine Server.
+	This is very useful for data analysis, it's well organized so that researchers can find what they are looking for.
+	There are also tools included that eases certain aspects of handling big data.
+	For examples image annotations allows the user to create zones of interest.
+	These zones can share characteristics and using learning algorithms, researchers can learn new zones of interest.
 
 \subsection{Cytomine for education}
 
-Cytomine can be used as a tool of education for many subjects. Since it's open source and well documented, it is possible to fork it and develop new methods and modules. This can be done for many fields in computer sciences including Machine Learning, Vision, Big Data, or even front-end programing.\\
+Cytomine can be used as a tool of education for many subjects.
+Since it's open source and well documented, it is possible to fork it and develop new methods and modules.
+This can be done for many fields in computer sciences including Machine Learning, Vision, Big Data, or even front-end programing.\\
 
-This is not limited to the field of Computer Sciences. Fields that require the use of large high definition images can benefit from using Cytomine. This includes astrology where, people can learn about planets and stars using imagery. Other sectors include Geology, Art, and in this case Medicine.
+This is not limited to the field of Computer Sciences.
+Fields that require the use of large high definition images can benefit from using Cytomine.
+This includes astrology where, people can learn about planets and stars using imagery.
+Other sectors include Geology, Art, and in this case Medicine.
 
 
 \subsection{MOOC Server}
 
-The MOOC server is a Cytomine Web Application used for education by the Faculty of Medicine at the University of Liege. It is used for the HISL0541 (General histology and alternative experimentation methods that do not use animals) course. This course is organized for students enrolled for a Bachelor in Medicine. Students have to study tissue samples. \\
+The MOOC server is a Cytomine Web Application used for education by the Faculty of Medicine at the University of Liege.
+It is used for the HISL0541 (General histology and alternative experimentation methods that do not use animals) course.
+This course is organized for students enrolled for a Bachelor in Medicine.
+Students have to study tissue samples. \\
 
-Cytomine is a great tool for this particular field because it can be used to store and display high quality images of tissue samples. It is also easily accessible for the students, they are not restricted to only using it during lab sessions. It's available 24 hours a day, therefore it gives students a good amount of liberty. The details of the assignments are given by Ecampus which is communication tool for students and teachers delivered by the University. The teachers can also use Cytomine to explain certain visual concepts in real-time. They can also use certain images for exercises by telling students to find patterns in those images.\\
+Cytomine is a great tool for this particular field because it can be used to store and display high quality images of tissue samples.
+It is also easily accessible for the students, they are not restricted to only using it during lab sessions.
+It's available 24 hours a day, therefore it gives students a good amount of liberty.
+The details of the assignments are given by Ecampus which is communication tool for students and teachers delivered by the University.
+The teachers can also use Cytomine to explain certain visual concepts in real-time.
+They can also use certain images for exercises by telling students to find patterns in those images.\\
 
-Since the MOOC is completely integrated to the course, it directly impacts how students learn. Their exams are often based on what they learned using the tool. The goal is to see how much of an effect Cytomine has on students.
+Since the MOOC is completely integrated to the course, it directly impacts how students learn.
+Their exams are often based on what they learned using the tool.
+The goal is to see how much of an effect Cytomine has on students.
 
 %todo subject to change
 \subsection{Teachers' Opinion of the Tool}
@@ -209,9 +252,12 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 
 		\subsubsection{Data Acquisition}
         
-			During the 2016-2017 Academic year, Cytomine tracked and stored user information on the MOOC server. To obtain all this information, Cytomine is accessible by a REST API. To ease the access to the server, Cytomine developed a Python Client that was used for the acquisition of relevant information. With administrator rights, a user can get a hold of all if not most of the data stored on the SQL and MongoDB databases.
+			During the 2016-2017 Academic year, Cytomine tracked and stored user information on the MOOC server.
+			To obtain all this information, Cytomine is accessible by a REST API. To ease the access to the server, Cytomine developed a Python Client that was used for the acquisition of relevant information.
+			With administrator rights, a user can get a hold of all if not most of the data stored on the SQL and MongoDB databases.
             
-          There are currently a total of two projects called GOLD and SILVER that students could participate in. To start of, each project contains a set of images and a set of students that have signed up.
+          There are currently a total of two projects called GOLD and SILVER that students could participate in.
+          To start of, each project contains a set of images and a set of students that have signed up.
           
           \begin{center}
           \begin{tabular}{| l | c | c |}
@@ -223,25 +269,44 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
           \end{tabular}
           \end{center}
 
-		  Both projects have their own objectives but GOLD is more complete and thorough. unlike the SILVER project, the students were tested and graded on the course that was given to them but also the content of the project.
+		  Both projects have their own objectives but GOLD is more complete and thorough.
+		  unlike the SILVER project, the students were tested and graded on the course that was given to them but also the content of the project.
          
           To analyze user behavior, it is necessary to fetch data that is relevant, this includes :
           
           \begin{itemize}
           \item[\textbullet] Resized images :\newline
           
-          The images stored on Cytomine are in fact very large. For the analysis, a copy of the images will be useful. Many operations in the Data Manipulation component rely on the image resolution when it comes to complexity. It is important that the image is big enough to be viewable while small enough so that the operations done in a reasonable amount of time. The image downloaded is therefore rescaled to a maximum width and height of 1024 pixels.\\
+          The images stored on Cytomine are in fact very large.
+          For the analysis, a copy of the images will be useful.
+          Many operations in the Data Manipulation component rely on the image resolution when it comes to complexity.
+          It is important that the image is big enough to be viewable while small enough so that the operations done in a reasonable amount of time.
+          The image downloaded is therefore rescaled to a maximum width and height of 1024 pixels.\\
           \item[\textbullet] Reference Annotations :\newline
           
-          When observing images, students are usually given guidelines in forms of image annotations. These annotations are zones in the image that contain information that students can learn from. These annotations are given a number. Annotations from the same image have a different numbers. This represents the recommended order the user can traverse the image. In this study, only the geometrical center of the annotation is kept. In most cases, this loss of information should have no impact because the size of the zones are usually a couple pixels wide when put in the resized image.\\
+          When observing images, students are usually given guidelines in forms of image annotations.
+          These annotations are zones in the image that contain information that students can learn from.
+          These annotations are given a number.
+          Annotations from the same image have a different numbers.
+          This represents the recommended order the user can traverse the image.
+          In this study, only the geometrical center of the annotation is kept.
+          In most cases, this loss of information should have no impact because the size of the zones are usually a couple pixels wide when put in the resized image.\\
           %%todo add image with annotations 
 		\item[\textbullet]  User Annotations :\newline
         
-        Teachers can set annotations as guidelines, but normal users can also create annotations. If a student user notices something interesting on a patch of an image, that student can annotate it. Later, that student could for example approach a teacher with a question and use the annotation as a reference. Unfortunately, there are currently no User annotations. This will be discussed in section \ref{Discussion}.\\
+        Teachers can set annotations as guidelines, but normal users can also create annotations.
+        If a student user notices something interesting on a patch of an image, that student can annotate it.
+        Later, that student could for example approach a teacher with a question and use the annotation as a reference.
+        Unfortunately, there are currently no User annotations.
+        This will be discussed in section \ref{Discussion}.\\
         
         \item[\textbullet]  User Positions :\newline
         
-         The most important information. A Positions is what the user sees at a current time stamp. Positions are defined by its center, four corners, time recorded, and zoom. Positions are saved on a regular basis when a user observes an image. More precisely positions are saved :
+         The most important information.
+         A Positions is what the user sees at a current time stamp.
+         Positions are defined by its center, four corners, time recorded, and zoom.
+         Positions are saved on a regular basis when a user observes an image.
+         More precisely positions are saved :
          \begin{itemize}
          	\item[\textbullet] Every 5 seconds.
             \item[\textbullet] When the user switches zooms.
@@ -252,40 +317,63 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
         \\
         \item[\textbullet] Annotations Actions :\newline
         
-        Annotations are clickable. When clicked, a toolbox appears giving more information on the annotation. This action is also stored on the server. For the data recorded in 2017, a annotation action only contains a time stamp. It is only in later versions of Cytomine that the reference annotation identifiers were tracked with the annotation actions. In the case where the referenced annotation is unknown, it will be guessed based on positions that appear at the same time.
+        Annotations are clickable.
+        When clicked, a toolbox appears giving more information on the annotation.
+        This action is also stored on the server.
+        For the data recorded in 2017, a annotation action only contains a time stamp.
+        It is only in later versions of Cytomine that the reference annotation identifiers were tracked with the annotation actions.
+        In the case where the referenced annotation is unknown, it will be guessed based on positions that appear at the same time.
         
          \end{itemize}
 	
 		%todo add image of modified data diagram
         
-		All this information needs to be downloaded. Unfortunately, this can take up to 8 hours using the API while putting stress on the MOOC server. After some interruptions to the service, it was decided that the MOOC needed to be installed locally with backups of the original. \newline
+		All this information needs to be downloaded.
+		Unfortunately, this can take up to 8 hours using the API while putting stress on the MOOC server.
+		After some interruptions to the service, it was decided that the MOOC needed to be installed locally with backups of the original. \newline
         
-        For both projects, an excel file containing user information not found on Cytomine was given. For the SILVER project, this only included basic information that were irrelevant to the analysis (names, emails, etc..). Meanwhile for the GOLD project, the University of Liege students had to partake in multiple graded assignments. The excel file given for the GOLD students therefore contained grades for numerous activities. These grades will be useful in order to understand some aspects of the user behavior on Cytomine. \newline
+        For both projects, an excel file containing user information not found on Cytomine was given.
+        For the SILVER project, this only included basic information that were irrelevant to the analysis (names, emails, etc..).
+        Meanwhile for the GOLD project, the University of Liege students had to partake in multiple graded assignments.
+        The excel file given for the GOLD students therefore contained grades for numerous activities.
+        These grades will be useful in order to understand some aspects of the user behavior on Cytomine. \newline
         
         
-        The project has a dedicated directory to store all this information, usually in a csv format. For each data type, image, and user triplet, there is a dedicated file containing this information. These files will be opened and read by the Data Manipulation Component for generating statistics and ways to represent data visually.
+        The project has a dedicated directory to store all this information, usually in a csv format.
+        For each data type, image, and user triplet, there is a dedicated file containing this information.
+        These files will be opened and read by the Data Manipulation Component for generating statistics and ways to represent data visually.
         
         %todo add image of directory organisation 
         
 	\subsubsection{Data Manipulation}
     
-    This component is used to interpret the data that's in its most basic form. It has multiple outputs based on the parameters set. Since it's important to obtain information as a whole on the data set, the component is divided into two main parts:
+    This component is used to interpret the data that's in its most basic form.
+    It has multiple outputs based on the parameters set.
+    Since it's important to obtain information as a whole on the data set, the component is divided into two main parts:
     \begin{itemize}
         \item[\textbullet] Loading data to Memory: The positions, the annotations, the actions, and the image information data are all loaded to memory.
         \item[\textbullet] Data Handling : Calling numerous methods that extracts important information.
     \end{itemize}
 
-    This component knows and uses the file directory structure. This allows it to find the files necessary to do the analysis.
-    A object oriented approach was used in order to handle this information. In fact, there are multiple classes:
+    This component knows and uses the file directory structure.
+    This allows it to find the files necessary to do the analysis.
+    A object oriented approach was used in order to handle this information.
+    In fact, there are multiple classes:
 
     \begin{itemize}
         \item[\textbullet] Data\_Manager : This class defines a object that will coordinate between the other classes in order to obtain the valuable information necessary.
-        \item[\textbullet] Image\_Data : This class defines objects that will contain references to information on a specific image. It also comes with operations associated to said image.
-        \item[\textbullet] User\_Data : This class defines objects that will contain references to information on a specific user. Similarly, to Image\_Data, it commes with numerous operations.
-        \item[\textbullet] Module\_Data : This class defines objects that will contain references to information on a specific module. Modules are predefined by the teachers as a set of objectives within a certain timeframe. There is a subset of images that are associated to a module. It therefore contains references to users and images and it also commes with its own operations.
+        \item[\textbullet] Image\_Data : This class defines objects that will contain references to information on a specific image.
+        It also comes with operations associated to said image.
+        \item[\textbullet] User\_Data : This class defines objects that will contain references to information on a specific user.
+        Similarly, to Image\_Data, it commes with numerous operations.
+        \item[\textbullet] Module\_Data : This class defines objects that will contain references to information on a specific module.
+        Modules are predefined by the teachers as a set of objectives within a certain timeframe.
+        There is a subset of images that are associated to a module.
+        It therefore contains references to users and images and it also commes with its own operations.
     \end{itemize}
 
-    These instances contain references to richer information. This information is handled using dictionaries for fast and easy access.
+    These instances contain references to richer information.
+    This information is handled using dictionaries for fast and easy access.
     For the set of positions associated to a user and image pair, the dictionary contains these key and value pairs:
     \begin{itemize}
         \item[\textbullet] 'x' : Array of X coordinates for all the positions.
@@ -293,41 +381,63 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
         \item[\textbullet] 'dur': Array of the duration for all the positions.
         \item[\textbullet] 'timestamp': Array of the exact time the positions have been recorded for each position.
         \item[\textbullet] 'zoom' : Array of the zoom values for each position (1 to 10)
-        \item[\textbullet] 'corners' : Array containing the four corners for each position. The four corners are stored as an array with 4 values. These values contain a pair for the X and Y coordinates.
+        \item[\textbullet] 'corners' : Array containing the four corners for each position.
+        The four corners are stored as an array with 4 values.
+        These values contain a pair for the X and Y coordinates.
     \end{itemize}
 
-    It is noted that the positions are sorted in regards to the timestamp value. This prevents many problems and makes specific operations much easier. The dictionary follows a similar structure for annotations that are either asociated to a image and user pair (user annotation) or just an image (reference annotation):
+    It is noted that the positions are sorted in regards to the timestamp value.
+    This prevents many problems and makes specific operations much easier.
+    The dictionary follows a similar structure for annotations that are either asociated to a image and user pair (user annotation) or just an image (reference annotation):
     \begin{itemize}
         \item[\textbullet] 'x' : Array of X coordinates for all the annotations.
         \item[\textbullet] 'y' : Array of Y coordinates for all the annotations.
         \item[\textbullet] 'id': Array of the identifiers for all the annotations.
-        \item[\textbullet] 'localId': Array of the local identifiers for all the annotations. Used for reference annotations. This property represents the annotation number shown on the images but also the recommended order of passage for these annotations
-        \item[\textbullet] 'type' : Array of the type for all annotations. This is eather a point or a polygon.
+        \item[\textbullet] 'localId': Array of the local identifiers for all the annotations.
+        Used for reference annotations.
+        This property represents the annotation number shown on the images but also the recommended order of passage for these annotations
+        \item[\textbullet] 'type' : Array of the type for all annotations.
+        This is eather a point or a polygon.
     \end{itemize}
 
-    There are much fewer annotations then there are positions. Finally there are also annotation actions for image and user pairs:
+    There are much fewer annotations then there are positions.
+    Finally there are also annotation actions for image and user pairs:
     \begin{itemize}
         \item[\textbullet] 'id' : Array of the identifiers of the concerned annotations for all the annotation actions.
-        \item[\textbullet] 'action' : Array of the action carried out for all annotation actions. The value is always 'select'.
+        \item[\textbullet] 'action' : Array of the action carried out for all annotation actions.
+        The value is always 'select'.
         \item[\textbullet] 'timestamp' Array of the time the annotation action was carried out.
     \end{itemize}
     It is important to know that during the period of January 2017 to September 2017, annotation actions were collected but they did not specify which annotation the action was related to.
-    To determine that the component guesses the annotation. The component finds the position with the closest timestamp and guesses the annotation closest to that position. It's not perfect but it guesses the most likely annotation since at most zooms the user can only see one annotation.\\
+    To determine that the component guesses the annotation.
+    The component finds the position with the closest timestamp and guesses the annotation closest to that position.
+    It's not perfect but it guesses the most likely annotation since at most zooms the user can only see one annotation.\\
 
 
-    This data is referenced by the proper Image\_Data and User\_Data objects for easy access. When loading all this data into memory, extra operations have been carried out. The most notable being generating the gaussian surface for each zoom associated to each image. This uses a 2 Dimensional Gaussian distribution function.
-    The Gaussian plane respects the dimensions of the positions associated to that zoom. This allows to better represent a position by not just taking into account the center and corners but the entirety of the field of view of the person.
-    The goal is to give more importance to the center pixels of a position over the pixels near the edge. This will be very important when deriving statistics generating heatmaps.
+    This data is referenced by the proper Image\_Data and User\_Data objects for easy access.
+    When loading all this data into memory, extra operations have been carried out.
+    The most notable being generating the gaussian surface for each zoom associated to each image.
+    This uses a 2 Dimensional Gaussian distribution function.
+    The Gaussian plane respects the dimensions of the positions associated to that zoom.
+    This allows to better represent a position by not just taking into account the center and corners but the entirety of the field of view of the person.
+    The goal is to give more importance to the center pixels of a position over the pixels near the edge.
+    This will be very important when deriving statistics generating heatmaps.
 
-    When generating the gaussian with a height of $h$ and a width of $w$. The standard deviation set for the height and width are $s_h = \dfrac{h}{6}$ and $s_w = \dfrac{w}{6}$.
-    $h_0 = \dfrac{h}{2}$ and $w_0 = \dfrac{w}{2}$ are the center coordinates of the surface. The equation is :
+    When generating the gaussian with a height of $h$ and a width of $w$.
+    The standard deviation set for the height and width are $s_h = \dfrac{h}{6}$ and $s_w = \dfrac{w}{6}$.
+    $h_0 = \dfrac{h}{2}$ and $w_0 = \dfrac{w}{2}$ are the center coordinates of the surface.
+    The equation is :
 
-        $$P(i,j) = \exp(\dfrac{-1}{2}*(\dfrac{(i - h_0)^2}{s_h^2} + \dfrac{(j - w_0)^2}{s_w^2}))$$
+        \[P(i,j) = \exp(\dfrac{-1}{2}*(\dfrac{(i - h_0)^2}{s_h^2} + \dfrac{(j - w_0)^2}{s_w^2}))\]
 
     With $i \in [0, h]$ and $j \in [0, w]$.
 
-    With the standard deviation set, 99 percent of the gaussian distribution is in the surface. Therefore when calculating the center point, there is an output close to 1. Likewise, when calculating a point near the edge, there is an output close to 0.
-    The idea is that the human attention is more focused on the center. Therefore a Gaussian distribution is ideal for this particular problem. In the following example is shown the Gaussian distribution for a surface with a length and width of 100. (Figure \ref{fig:gaus22})
+    With the standard deviation set, 99 percent of the gaussian distribution is in the surface.
+    Therefore when calculating the center point, there is an output close to 1.
+    Likewise, when calculating a point near the edge, there is an output close to 0.
+    The idea is that the human attention is more focused on the center.
+    Therefore a Gaussian distribution is ideal for this particular problem.
+    In the following example is shown the Gaussian distribution for a surface with a length and width of 100. (Figure \ref{fig:gaus22})
 
     \begin{figure}[H]
       \centering
@@ -336,15 +446,26 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
       \label{fig:gaus22}
     \end{figure}
 
-    Of course, because the work is done on images, there is a limited resolution and the Gaussian is not as smooth. This is because each pixel is a point and a point has the value set by the formula.
+    Of course, because the work is done on images, there is a limited resolution and the Gaussian is not as smooth.
+    This is because each pixel is a point and a point has the value set by the formula.
     \newline
 
-    Once all all this information is stored in memory. it is possible to call numerous tasks to analyze the data and draw statistics. This includes :
+    Once all all this information is stored in memory.
+    it is possible to call numerous tasks to analyze the data and draw statistics.
+    This includes :
 
     \begin{itemize}
-        \item[\textbullet] Output a Feature File : Students are analyzed individually in regards to the images they visited. A set of features is then extracted in regards to their behavior.
+        \item[\textbullet] Output a Feature File : Students are analyzed individually in regards to the images they visited.
+        A set of features is then extracted in regards to their behavior.
         (see \ref{Data_Set} for more information on the contents and structure of the file)
-        \item[\textbullet] Output activity over time figures : These figure represents the activity over time of a set of students or simply an individual in regards to different modules. It gives a good insight on habits and work consistency of the students. These figures depict the number of positions for every single day. The weekends are tinted in a light yellow. It also shows the activity in regards to the modules. Since the modules comme with a set schedule, the figure also shows when they start and when they end. Finally, the dates for the exams are also a big focus. The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
+        \item[\textbullet] Output activity over time figures : These figure represents the activity over time of a set of students or simply an individual in regards to different modules.
+        It gives a good insight on habits and work consistency of the students.
+        These figures depict the number of positions for every single day.
+        The weekends are tinted in a light yellow.
+        It also shows the activity in regards to the modules.
+        Since the modules comme with a set schedule, the figure also shows when they start and when they end.
+        Finally, the dates for the exams are also a big focus.
+        The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
         \item[\textbullet] Output Gaze Map figures : These figures represents the heatmaps of the student activity in regards to an image.
         \item[\textbullet] Output Scan Path Figures : These figures represents the path taken by the students when they scan through an image.
     \end{itemize}
@@ -365,16 +486,28 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 	\subsection{Experiments}
     
     
-    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project. This is due to the many constraints given by the SILVER project including the sample size and the lack of results (student grades). The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation component. There were over 2000 features generated, where each one can weigh in on the prediction. These features were used to learn over 13 grades including the final grade obtained by these students (first session).\newline
+    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project.
+    This is due to the many constraints given by the SILVER project including the sample size and the lack of results (student grades).
+    The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation component.
+    There were over 2000 features generated, where each one can weigh in on the prediction.
+    These features were used to learn over 13 grades including the final grade obtained by these students (first session).\newline
     
     
-    Due to the nature of the dataset, regression trees were the most ideal. The somewhat small dataset paired with a large amount of features is a big constraint to work with. Therefore, Ensemble methods were used and tested. This includes Random Forest regression and Extra Trees regression using sklearn.\newline
+    Due to the nature of the dataset, regression trees were the most ideal.
+    The somewhat small dataset paired with a large amount of features is a big constraint to work with.
+    Therefore, Ensemble methods were used and tested.
+    This includes Random Forest regression and Extra Trees regression using sklearn.\newline
     
-    The Learning component is given a statistics file containing rows of students paired with their features. The features are split into three categories :
+    The Learning component is given a statistics file containing rows of students paired with their features.
+    The features are split into three categories :
     \begin{itemize}
-\item[\textbullet] \textbf{M} : Meta-data variables, these variables have no statistical significance. These variables usually contain basic information on the users.\\
-\item[\textbullet] \textbf{X} : Variables with statistical significance, these variables mostly include data extracted from the Cytomine website. Either individual image variables or variables on the set of images. These variables are used in the machine learning model as input variables.\\
-\item[\textbullet] \textbf{Y} : Result variables, these variables is what the algorithm is attempting to guess using the  \textbf{X} variables. These variables are used in the machine learning model as output variables.\\ 
+\item[\textbullet] \textbf{M} : Meta-data variables, these variables have no statistical significance.
+These variables usually contain basic information on the users.\\
+\item[\textbullet] \textbf{X} : Variables with statistical significance, these variables mostly include data extracted from the Cytomine website.
+Either individual image variables or variables on the set of images.
+These variables are used in the machine learning model as input variables.\\
+\item[\textbullet] \textbf{Y} : Result variables, these variables is what the algorithm is attempting to guess using the  \textbf{X} variables.
+These variables are used in the machine learning model as output variables.\\
 \end{itemize}
     
     
@@ -382,9 +515,21 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
     \subsection{Data Set} \label{Data_Set}
     
     	\subsubsection{Students}
-    Like mentioned earlier, there are a total of 395 students in the data set. Students are defined by their features and the grades obtained. These student followed the course HISL054, "General histology and alternative experimentation methods that do not use animals" at the University of Liege during the academic year 2016-2017. Most of the work done by the students is done online using the MOOC and Ecampus. Ecampus is a website used by students and teachers of the University of Liege to exchange information used for courses. In fact all of the assignments for this course are explained on Ecampus. The issue with this is that it's a different entity from the MOOC and therefore is not ideal for fetching information. But it's not much of a problem because there's nothing to retrieve about students on Ecampus that is not already known.\newline
+    Like mentioned earlier, there are a total of 395 students in the data set.
+    Students are defined by their features and the grades obtained.
+    These student followed the course HISL054, "General histology and alternative experimentation methods that do not use animals" at the University of Liege during the academic year 2016-2017.
+    Most of the work done by the students is done online using the MOOC and Ecampus.
+    Ecampus is a website used by students and teachers of the University of Liege to exchange information used for courses.
+    In fact all of the assignments for this course are explained on Ecampus.
+    The issue with this is that it's a different entity from the MOOC and therefore is not ideal for fetching information.
+    But it's not much of a problem because there's nothing to retrieve about students on Ecampus that is not already known.\newline
     
-    When applying machine learning techniques, students with a 0/20 were taken out of the sample. This is due to the fact those students defaulted to signing the exam. Since there are too few that do so, there's not enough information to find correlations between people who sign and the features. Keeping students who sign also increases the error rate because they are extreme cases. The goal is to guess how well the exam would have went for the students. If the student decides not to bother with taking the exam, it's a lost sample.\newline
+    When applying machine learning techniques, students with a 0/20 were taken out of the sample.
+    This is due to the fact those students defaulted to signing the exam.
+    Since there are too few that do so, there's not enough information to find correlations between people who sign and the features.
+    Keeping students who sign also increases the error rate because they are extreme cases.
+    The goal is to guess how well the exam would have went for the students.
+    If the student decides not to bother with taking the exam, it's a lost sample.\newline
     
     	\subsubsection{Teacher Input : Grades}
     
@@ -394,7 +539,11 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
     
 	The students are evaluated by multiple exams and quizzes, these take the form of:
     \begin{itemize}
-    \item[\textbullet]  QCM : Multiple choice question test. Students are given questions and have to respond with 1 out of the 9 (or less) options. They have to set a degree of certainty for each response. The exam results are then calculated by a machine. The students are also given more boxes to answer in case they make a mistake the first time.(Figure \ref{fig:qcm})
+    \item[\textbullet]  QCM : Multiple choice question test.
+    Students are given questions and have to respond with 1 out of the 9 (or less) options.
+    They have to set a degree of certainty for each response.
+    The exam results are then calculated by a machine.
+    The students are also given more boxes to answer in case they make a mistake the first time.(Figure \ref{fig:qcm})
     \begin{figure}[H]
     \centering
      \includegraphics[width=0.4\linewidth]{exam_qcm.png}
@@ -402,7 +551,16 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
      \caption{QCM sheet and question example}
      \label{fig:qcm}
     \end{figure}
-	\item[\textbullet]  QCL : Identification and Incidence test. Graded similarly to a QCM, the students are given multiple questions to answer and they have to fill out a form. The are a couple differences. Each question is split into two, the identification and the incidence. For the identification, the students have to identify an object on a image. They are given a exhaustive list of possible answers ranging from cells to tissues. Each answer contains is associated to a 3 digit code that they need to write on the form. For the incidence, the students needs to identify how the observed object "was cut". There are a total of 3 possible answers, transversal, longitudinal, and undetermined. The answer is written on the form under the identification answer.(Figure \ref{fig:qcl})
+	\item[\textbullet]  QCL : Identification and Incidence test.
+	Graded similarly to a QCM, the students are given multiple questions to answer and they have to fill out a form.
+	The are a couple differences.
+	Each question is split into two, the identification and the incidence.
+	For the identification, the students have to identify an object on a image.
+	They are given a exhaustive list of possible answers ranging from cells to tissues.
+	Each answer contains is associated to a 3 digit code that they need to write on the form.
+	For the incidence, the students needs to identify how the observed object "was cut".
+	There are a total of 3 possible answers, transversal, longitudinal, and undetermined.
+	The answer is written on the form under the identification answer.(Figure \ref{fig:qcl})
       \begin{figure}[H]
     \centering
      \includegraphics[width=0.42\linewidth]{exam_qcl2.png}
@@ -410,7 +568,8 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
      \caption{QCL sheet with question example and list of answers}
      \label{fig:qcl}
     \end{figure}
-	\item[\textbullet]  QROL : Long answer open question test. Students are to write and explain their answers in a detailed fashion. (Figure \ref{fig:qrol})
+	\item[\textbullet]  QROL : Long answer open question test.
+	Students are to write and explain their answers in a detailed fashion. (Figure \ref{fig:qrol})
           \begin{figure}[H]
     \centering
      \includegraphics[width=0.45\linewidth]{exam_qrol.png}
@@ -426,7 +585,9 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 	\item[\textbullet]  QCL incidence white test.
 	\item[\textbullet]  Practical QCM white test.
     \end{itemize}
-    Similarly, 7 graded exams and quizzes were given to students with 3 being theoretical and 4 being practical. Something to note for the practical exam is that there are 2 different exam forms for the QCM and the QRL. This means that half the students are given different questions from the other half. The list of exams include:
+    Similarly, 7 graded exams and quizzes were given to students with 3 being theoretical and 4 being practical.
+    Something to note for the practical exam is that there are 2 different exam forms for the QCM and the QRL. This means that half the students are given different questions from the other half.
+    The list of exams include:
     \begin{itemize}
     \item[\textbullet]  QROL1 theory (10\%).
     \item[\textbullet]  QROL2 theory (10\%).
@@ -443,21 +604,27 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
     \item[\textbullet] global Grade (100\%)
     \end{itemize}
     
-    Most of the experiments are done using one of these grades as Y variables. In later experiments, some variables will be set as features. The learning of final grades using white test results as bonus features (\textbf{X} variable) could yield better results. Learning theoretical grades while also using practical grades and vice versa can also give some interesting results. \\
+    Most of the experiments are done using one of these grades as Y variables.
+    In later experiments, some variables will be set as features.
+    The learning of final grades using white test results as bonus features (\textbf{X} variable) could yield better results.
+    Learning theoretical grades while also using practical grades and vice versa can also give some interesting results. \\
     
-    Teachers also input basic student information, but it mostly consists of general information that won't be used in the experiments. These will be denoted as \textbf{M} variables:
+    Teachers also input basic student information, but it mostly consists of general information that won't be used in the experiments.
+    These will be denoted as \textbf{M} variables:
    	\begin{itemize}
    	\item[\textbullet] ID Cytomine : The Cytomine ID associated to the user. (Compulsory)
     \item[\textbullet] LAST NAME : User's last name.
     \item[\textbullet] FIRST NAME : User's First name (forename).
-    \item[\textbullet] GROUP : group user belongs in (GOLDULiege, GOLD, or SILVER). GOLDULIEGE is a subset of GOLD containing the set of students following the course.
+    \item[\textbullet] GROUP : group user belongs in (GOLDULiege, GOLD, or SILVER).
+    GOLDULIEGE is a subset of GOLD containing the set of students following the course.
     \item[\textbullet] USERNAME CYTOMINE : user's Cytomine username.
    	\end{itemize}
     
     
     \subsubsection{Features pre-Calculated}
     
-    There are over two thousand features calculated and generated by the Data Manipulation component. These variables belong to the \textbf{X} category and are listed:
+    There are over two thousand features calculated and generated by the Data Manipulation component.
+    These variables belong to the \textbf{X} category and are listed:
    
    \begin{itemize}
     \item[\textbullet] NB IMAGES VISITED : The total number of different images that a user has opened over the course of the year.\\
@@ -471,17 +638,28 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 
     \item[\textbullet] MEDIAN IMAGE VIEWING TIME (S) : Median amount of time spent viewing images.\\
 
-    \item[\textbullet] NB POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position. 1 variable per zoom value. It represents the total number of positions at zoom <x>.\\
+    \item[\textbullet] NB POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position.
+    1 variable per zoom value.
+    It represents the total number of positions at zoom <x>.\\
     \item[\textbullet] AVG ZOOM : The mean zoom level over all the positions collected.\\
     \item[\textbullet] MEDIAN ZOOM : The median zoom level over all the positions collected.\\
     \item[\textbullet] TOTAL NB ANNOTATION ACTIONS : The total number of times the user clicked on a reference annotation.\\
     \item[\textbullet] AVG NB ANNOTATION ACTIONS : The mean number of times the user clicked on a reference annotation.\\
     \item[\textbullet] MEDIAN NB ANNOTATION ACTIONS : The median number of times the user clicked on a reference annotation.\\
     
-    \item[\textbullet] AVG NB POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position. 1 variable per zoom value. It represents the mean number of positions at zoom <x> relative to all images visited.\\
-    \item[\textbullet] MEDIAN POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position. 1 variable per zoom value. It represents the median number of positions at zoom <x> relative to all images visited.\\
+    \item[\textbullet] AVG NB POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position.
+    1 variable per zoom value.
+    It represents the mean number of positions at zoom <x> relative to all images visited.\\
+    \item[\textbullet] MEDIAN POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position.
+    1 variable per zoom value.
+    It represents the median number of positions at zoom <x> relative to all images visited.\\
     %% TODO : Picture of a gaussian at highest zoom
-    \item[\textbullet] SCORE OF ANNOTATION <y> AT IMAGE <x> : with <y> being the annotation identifier and <x> being the image identifier. When images have annotations, students tend to focus on these points. For each position, the program generates a 2 Dimensional Gaussian function to represent the position. The size and values of this Gaussian relies on the zoom of the position. For example at the center of the Gaussian with the highest zoom, the value is 1. While at the lowest zoom the value is $1/MAX\_ZOOM$. 
+    \item[\textbullet] SCORE OF ANNOTATION <y> AT IMAGE <x> : with <y> being the annotation identifier and <x> being the image identifier.
+    When images have annotations, students tend to focus on these points.
+    For each position, the program generates a 2 Dimensional Gaussian function to represent the position.
+    The size and values of this Gaussian relies on the zoom of the position.
+    For example at the center of the Gaussian with the highest zoom, the value is 1.
+    While at the lowest zoom the value is $1/MAX\_ZOOM$.
     \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.35]{gaussian.png}
@@ -489,15 +667,32 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 \end{center}
 \end{figure} 
    
-   So each annotation has a center coordinate. For this coordinate, a list of Gaussian values is generated based on all the positions near the annotation. This vector is sorted inversely. It's important to note that it does not take much time for the student to assimilate all the information on a part of a image. So the idea is to weight these positions to the point that after enough positions, the next ones would have a weight of close to 0.
+   So each annotation has a center coordinate.
+   For this coordinate, a list of Gaussian values is generated based on all the positions near the annotation.
+   This vector is sorted inversely.
+   It's important to note that it does not take much time for the student to assimilate all the information on a part of a image.
+   So the idea is to weight these positions to the point that after enough positions, the next ones would have a weight of close to 0.
 To do so, a geometrical sequence was used:  
-	$$\sum\limits_{i=0}^N w^i$$
+	\[\sum\limits_{i=0}^N w^i\]
 
-N is the number of positions. In our case, $w$ was set as 0.95. This means that this sequence converges to 20, and after about 50 positions the sequence is close to the convergence value (about 18). Since the list of Gaussian values are sorted, the highest values will have the highest weight. The equation becomes :
-	$$score = \sum\limits_{i=0}^N L[i]*w^i$$
-With L being the list of Gaussian values for the annotation. This means that the highest value has a weight of 1, the second a weight of 0.95, the third $0.95*0.95$, and so on. The value calculated is then used for the score. If a student actually observed in detail the annotation, they would usually get values above 10.\\
+N is the number of positions.
+In our case, $w$ was set as 0.95.
+This means that this sequence converges to 20, and after about 50 positions the sequence is close to the convergence value (about 18).
+Since the list of Gaussian values are sorted, the highest values will have the highest weight.
+The equation becomes :
+	\[score = \sum\limits_{i=0}^N L[i]*w^i\]
+With L being the list of Gaussian values for the annotation.
+This means that the highest value has a weight of 1, the second a weight of 0.95, the third $0.95*0.95$, and so on.
+The value calculated is then used for the score.
+If a student actually observed in detail the annotation, they would usually get values above 10.\\
 
-    \item[\textbullet] USER SCORE AT IMAGE <x> : With <x> the image identifier on Cytomine. The users are given scores between 0 and 1 (not opening an image gives the user a score of 0). The score represents how well the user observed the annotations in the given image. In short, if a user spends a good amount of time on top of a annotation or if the user clicks on the annotation, he/she will get points for that annotation. Doing so for all annotations gives a final score. The score for an annotation is given by the previous variable (SCORE OF ANNOTATION <y> AT IMAGE <x>) and re dimensioned so this variable returns a score between 0 and 1. If the image does not have any annotation, the scores for are calculated for the entire image and the average is returned. \\
+    \item[\textbullet] USER SCORE AT IMAGE <x> : With <x> the image identifier on Cytomine.
+    The users are given scores between 0 and 1 (not opening an image gives the user a score of 0).
+    The score represents how well the user observed the annotations in the given image.
+    In short, if a user spends a good amount of time on top of a annotation or if the user clicks on the annotation, he/she will get points for that annotation.
+    Doing so for all annotations gives a final score.
+    The score for an annotation is given by the previous variable (SCORE OF ANNOTATION <y> AT IMAGE <x>) and re dimensioned so this variable returns a score between 0 and 1.
+    If the image does not have any annotation, the scores for are calculated for the entire image and the average is returned. \\
     
     \item[\textbullet] AVERAGE USER SCORE : The average of all the scores defined previously for a user. \\
     
@@ -507,7 +702,8 @@ With L being the list of Gaussian values for the annotation. This means that the
    
    \item[\textbullet] NB OF ANNOTATION ACTIONS AT IMAGE <x> : With <x> being the image identifier, represents the number of annotation Actions at that image for a user. \\
       
-    \item[\textbullet] NB OF POSITIONS WITH ZOOM <y> AT IMAGE <x> : With <x> being the image identifier and <y> being the zoom value [1-10]. It Represents the number of positions for a certain zoom  at that image for a user. \\
+    \item[\textbullet] NB OF POSITIONS WITH ZOOM <y> AT IMAGE <x> : With <x> being the image identifier and <y> being the zoom value [1-10].
+    It Represents the number of positions for a certain zoom  at that image for a user. \\
 
     \item[\textbullet] NB IMAGES VISITED DURING MODULE <x>: The total number of different images that a user has opened that are associated to the module <x>.\\
     
@@ -523,24 +719,34 @@ With L being the list of Gaussian values for the annotation. This means that the
     
     \item[\textbullet] MEDIAN TIME SPENT DURING MODULE <x> (s) : median amount of time spent viewing images associated to the module <x> during its given time period.\\
     
-    \item[\textbullet] NB POSITIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>. This represents the number of positions recorded at that image for a user during the module's time period. \\ 
+    \item[\textbullet] NB POSITIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+    This represents the number of positions recorded at that image for a user during the module's time period. \\
        
-    \item[\textbullet] TIME SPENT DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>. This represents the time spent at that image for a user during the module's time period. \\         
+    \item[\textbullet] TIME SPENT DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+    This represents the time spent at that image for a user during the module's time period. \\
     
-    \item[\textbullet] NB ANNOTATION ACTIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>. This represents the number of annotation actions recorded at that image for a user during the module's time period. \\ 
+    \item[\textbullet] NB ANNOTATION ACTIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+    This represents the number of annotation actions recorded at that image for a user during the module's time period. \\
      
      
-     \item[\textbullet] NB POSITIONS WITH ZOOM <z> DURING MODULE <y> AT IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>. This represents the number of positions recorded at that image for a user during the module's time period with zoom <z>. The zoom value <z> ranges from 1 to 10. \\ 
+     \item[\textbullet] NB POSITIONS WITH ZOOM <z> DURING MODULE <y> AT IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+     This represents the number of positions recorded at that image for a user during the module's time period with zoom <z>.
+     The zoom value <z> ranges from 1 to 10. \\
      
-     \item[\textbullet] AVERAGE ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>. This represents the average zoom level of all the positions recorded at that image for a user during the module's time period. \\ 
+     \item[\textbullet] AVERAGE ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+     This represents the average zoom level of all the positions recorded at that image for a user during the module's time period. \\
      
-     \item[\textbullet] MEDIAN ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>. This represents the median zoom level of all the positions recorded at that image for a user during the module's time period. \\ 
+     \item[\textbullet] MEDIAN ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+     This represents the median zoom level of all the positions recorded at that image for a user during the module's time period. \\
      
-     \item[\textbullet] NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>. This represents the number of positions for a specific zoom for a user during the module's time period. \\ 
+     \item[\textbullet] NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>.
+     This represents the number of positions for a specific zoom for a user during the module's time period. \\
      
-	\item[\textbullet] AVERAGE NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>. This represents the mean number of positions for a specific zoom for a user during the module's time period. \\ 
+	\item[\textbullet] AVERAGE NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>.
+	This represents the mean number of positions for a specific zoom for a user during the module's time period. \\
 
-	\item[\textbullet] MEDIAN NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>. This represents the median number of positions for a specific zoom for 
+	\item[\textbullet] MEDIAN NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>.
+	This represents the median number of positions for a specific zoom for
 a user during the module's time period. \\ 
 	
 	\item[\textbullet] TOTAL NB ANNOTATION ACTIONS DURING MODULE <x> : With <x> being the module identifier, it represents the total number of annotation  actions for a user during the module's time period. \\ 
@@ -555,17 +761,22 @@ a user during the module's time period. \\
 	
 	\item[\textbullet] SCORE OF ANNOTATION <z> AT IMAGE <y> DURING MODULE <x> : With <x> being the module identifier and <y> the image identifier, it represents the predefined score of the annotation <z> at the image for a user during the module's time period. \\     
          
-    \item[\textbullet] PERCENT TIME WORKED AT NIGHT : Value from 0 to 1. This represents the ratio of the time spent working from 6pm to 6am.
+    \item[\textbullet] PERCENT TIME WORKED AT NIGHT : Value from 0 to 1.
+    This represents the ratio of the time spent working from 6pm to 6am.
     
-    \item[\textbullet] PERCENT TIME WORKED LATE : Value from 0 to 1. This represents the ratio of the time spent working from 1am to 6am.
+    \item[\textbullet] PERCENT TIME WORKED LATE : Value from 0 to 1.
+    This represents the ratio of the time spent working from 1am to 6am.
         
-    \item[\textbullet] PERCENT TIME WORKED MORNING : Value from 0 to 1. This represents the ratio of the time spent working from 6am to 12pm.
+    \item[\textbullet] PERCENT TIME WORKED MORNING : Value from 0 to 1.
+    This represents the ratio of the time spent working from 6am to 12pm.
     
     \item[\textbullet] NUMBER OF DAYS WORKED : The total number of days where a user opened at least one image.
     
-    \item[\textbullet] PERCENT TIME WORKED DURING MODULE <x> : When working on Cytomine, the user can open images associated during a module during its time period or outside of it. This represents the ratio of the user activity during the time period.
+    \item[\textbullet] PERCENT TIME WORKED DURING MODULE <x> : When working on Cytomine, the user can open images associated during a module during its time period or outside of it.
+    This represents the ratio of the user activity during the time period.
     
-	\item[\textbullet] ANNOTATION <y> VISITED BEFORE ANNOTATION <y + 1> AT IMAGE <X> : This binary variable determines whether or not a student visited the annotation <y> before the annotation <y + 1> for a image <x>. The users are encouraged to study the reference annotation in a specific order.    
+	\item[\textbullet] ANNOTATION <y> VISITED BEFORE ANNOTATION <y + 1> AT IMAGE <X> : This binary variable determines whether or not a student visited the annotation <y> before the annotation <y + 1> for a image <x>.
+	The users are encouraged to study the reference annotation in a specific order.
     
     \end{itemize}
     
@@ -576,7 +787,14 @@ a user during the module's time period. \\
     
     \subsubsection{White Test Grades}
     
-    These 3 ungraded exam were taken halfway during the semester (24th of April 2017). They reflect what a student has learned and remembered up until that day. At that point, students should have finished modules 1 through 4 and at least looked at modules 5 and 6. These tests could be a great indicator on how well students can perform during the real exam. These \textbf{Y} variables were tested using a Leave-one-out cross validation on a Extra Tree Regressor with the generated data set. As a reminder, scores are calculated with the Mean Absolute Error technique. Also, the results are also compared with a model that learns by simply using the median. This is to determine if the model has much merit. (Figure \ref{fig:results_white})
+    These 3 ungraded exam were taken halfway during the semester (24th of April 2017).
+    They reflect what a student has learned and remembered up until that day.
+    At that point, students should have finished modules 1 through 4 and at least looked at modules 5 and 6.
+    These tests could be a great indicator on how well students can perform during the real exam.
+    These \textbf{Y} variables were tested using a Leave-one-out cross validation on a Extra Tree Regressor with the generated data set.
+    As a reminder, scores are calculated with the Mean Absolute Error technique.
+    Also, the results are also compared with a model that learns by simply using the median.
+    This is to determine if the model has much merit. (Figure \ref{fig:results_white})
     \begin{figure}[H]
       \centering
   	  \includegraphics[width=.3\linewidth]{cv_boxplot_TRIAL_TEST_TP_QCL_IC_2018-04-27_14_35_12.png}
@@ -588,7 +806,8 @@ a user during the module's time period. \\
       \vspace{0.5cm}
       \begin{tabular}{| l | c | c | c | c | c |}
       \hline
-      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est. Grade}\\ \hline
+      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est.
+      Grade}\\ \hline
       \tiny{QCL incidence white test} & \tiny{3.44} & \tiny{3.37} & \tiny{-0.08} & \tiny{13.33} & \tiny{12.321765}\\ \hline
       \tiny{QCL identification white test} & \tiny{2.99} & \tiny{3.10} & \tiny{0.11} & \tiny{8.0} & \tiny{8.36}\\ \hline
       \tiny{Practical QCM white test} & \tiny{2.58} & \tiny{2.57} & \tiny{-0.004} & \tiny{10.36} & \tiny{10.29}\\
@@ -606,10 +825,24 @@ a user during the module's time period. \\
       \label{fig:results_white}
     \end{figure}
     
-    Unfortunately, the results are not great. The boxplots show very high median and quartiles. There are also a high number of extreme errors with some above 10. The scores represent the average error of the cross validation. With scores nearing nearing 3, in some cases, it's better to try and guess using the median value. For the incidence test, it seems that the scores are underestimated, this seems to be the case because there is a significantly high grades compared to low grades. There are many reasons why results are the way they are. This includes the fact that these grades do not rely on activity that occur after the exam date. When comparing grade the learned grades against the original grades, it's noticeable that the estimated grades tend to predict values close to the average of the actual grades. This makes it so that high and low actual grades when predicted tend to be more erroneous. The sample also lacks a good amount of extreme grades which gives the algorithm less to work with for these cases. Furthermore, the fact that the exams are ungraded puts less pressure on the students to succeed. Therefore, they might not take the tests as seriously as they could by not reviewing and studying the days before. \\
+    Unfortunately, the results are not great.
+    The boxplots show very high median and quartiles.
+    There are also a high number of extreme errors with some above 10.
+    The scores represent the average error of the cross validation.
+    With scores nearing nearing 3, in some cases, it's better to try and guess using the median value.
+    For the incidence test, it seems that the scores are underestimated, this seems to be the case because there is a significantly high grades compared to low grades.
+    There are many reasons why results are the way they are.
+    This includes the fact that these grades do not rely on activity that occur after the exam date.
+    When comparing grade the learned grades against the original grades, it's noticeable that the estimated grades tend to predict values close to the average of the actual grades.
+    This makes it so that high and low actual grades when predicted tend to be more erroneous.
+    The sample also lacks a good amount of extreme grades which gives the algorithm less to work with for these cases.
+    Furthermore, the fact that the exams are ungraded puts less pressure on the students to succeed.
+    Therefore, they might not take the tests as seriously as they could by not reviewing and studying the days before. \\
     %%todo add reference to timeline    
   
-  Since the models are made using regression trees, it it possible to study the features that had an impact in determining the predicted grades. Even though the results were not ideal, it's interesting to observe what images and variables had a big impact on determining the grades. These images can very well be the subject of a question on the exam. (Figures \ref{fig:var_white1}, \ref{fig:var_white2}, \ref{fig:var_white3})
+  Since the models are made using regression trees, it it possible to study the features that had an impact in determining the predicted grades.
+  Even though the results were not ideal, it's interesting to observe what images and variables had a big impact on determining the grades.
+  These images can very well be the subject of a question on the exam. (Figures \ref{fig:var_white1}, \ref{fig:var_white2}, \ref{fig:var_white3})
 
      \begin{figure}[H]
       \centering
@@ -632,14 +865,23 @@ a user during the module's time period. \\
       \label{fig:var_white3}
       \end{figure}
     
-    These figures show the top 80 features (or \textbf{X} variable) for their respective model. Even though each model shares the same features, their importance varies model to model. But it's probable that some features from a specific image can be at the top for multiple model. Anyways, features are split into 3 categories:
+    These figures show the top 80 features (or \textbf{X} variable) for their respective model.
+    Even though each model shares the same features, their importance varies model to model.
+    But it's probable that some features from a specific image can be at the top for multiple model.
+    Anyways, features are split into 3 categories:
     \begin{itemize}
     \item[\textbullet] General Features : Features that describes the data on the set of images as a whole. (average, median, etc..)
     \item[\textbullet] Regular Image Features : Features that describe the data on a specific image. (number of positions at image XXXX)
     \item[\textbullet] Module Image Features : Features similar to the two previous but associated to a specific module period. (number of positions at image XXXX during module Y)
     \end{itemize}
     
-    Note that there are fewer general features, but many of those tend to have a high importance. Apart from the incidence test, it's appropriate to say that the module variables are the most impactful. This is because the white exam is taken in April instead of June. Therefore, user performance during specific modules are better indications on the performance during the white test. Also, for the  identification test, the most impactful variable has a much higher importance than the rest. Even though this may look random, this variable may well be a good splitting factor. Unfortunately, this does not show the overall impact of certain images. (Figures \ref{fig:im_white1}, \ref{fig:im_white2}, \ref{fig:im_white3})
+    Note that there are fewer general features, but many of those tend to have a high importance.
+    Apart from the incidence test, it's appropriate to say that the module variables are the most impactful.
+    This is because the white exam is taken in April instead of June.
+    Therefore, user performance during specific modules are better indications on the performance during the white test.
+    Also, for the  identification test, the most impactful variable has a much higher importance than the rest.
+    Even though this may look random, this variable may well be a good splitting factor.
+    Unfortunately, this does not show the overall impact of certain images. (Figures \ref{fig:im_white1}, \ref{fig:im_white2}, \ref{fig:im_white3})
     
       \begin{figure}[H]
       \centering
@@ -662,12 +904,31 @@ a user during the module's time period. \\
       \label{fig:im_white3}
       \end{figure}
     
-    As a reminder, out of all the images in the GOLD project, about a third of the images were not even visited. Also, some of the images don't belong to any module. It seems that as a general consensus that the most impactful images do not belong to the last module. This is due to the fact that the module 6 is not included in the trial exam. It's also worth noting that the module 1 is not included in the exam either. But since the module 1 is considered a tutorial, it can be useful. A image that appears often at the top is the image 1218120. This image was used for a preparation identification exercise. It seems that those who perform better in regards to that image on Cytomine do better in the white tests. For the QCL identification, the exercise images are often the most important over all the images in the same module. This seems to prove that doing the exercises seriously and correctly can lead to better grades. For the QCM, the image 1552356 which is a module 1 tutorial image is the most impactful. Those who follow the tutorial may have a easier time understanding the course from the start and may perform better for the QCM. As for the incidence test, the module 3 variables seem to be the most impactful. This module may contain examples that allow the student to better differentiate different incidence angles for specific objects in the images. OF course the cross validation results are not the best, so these assumption are not necessary correct. This leads to the actual practical exam.
+    As a reminder, out of all the images in the GOLD project, about a third of the images were not even visited.
+    Also, some of the images don't belong to any module.
+    It seems that as a general consensus that the most impactful images do not belong to the last module.
+    This is due to the fact that the module 6 is not included in the trial exam.
+    It's also worth noting that the module 1 is not included in the exam either.
+    But since the module 1 is considered a tutorial, it can be useful.
+    A image that appears often at the top is the image 1218120.
+    This image was used for a preparation identification exercise.
+    It seems that those who perform better in regards to that image on Cytomine do better in the white tests.
+    For the QCL identification, the exercise images are often the most important over all the images in the same module.
+    This seems to prove that doing the exercises seriously and correctly can lead to better grades.
+    For the QCM, the image 1552356 which is a module 1 tutorial image is the most impactful.
+    Those who follow the tutorial may have a easier time understanding the course from the start and may perform better for the QCM. As for the incidence test, the module 3 variables seem to be the most impactful.
+    This module may contain examples that allow the student to better differentiate different incidence angles for specific objects in the images.
+    OF course the cross validation results are not the best, so these assumption are not necessary correct. This leads to the actual practical exam.
     
     \subsubsection{Practical Exam Grades}
 
-	There are a total of 5 practical exam results including the total. These \textbf{Y} variables tested similarly to the white tests. The exam took place on the 12th of June 2017. Unlike the white exam, the students should have finished working on all the modules. These exams also depend on the entirety of the program unlike
-the white tests. Since these exams are graded, students should have the motivation to study and apply themselves. (Figure \ref{fig:results_prac})
+	There are a total of 5 practical exam results including the total.
+	These \textbf{Y} variables tested similarly to the white tests.
+	The exam took place on the 12th of June 2017.
+	Unlike the white exam, the students should have finished working on all the modules.
+	These exams also depend on the entirety of the program unlike
+the white tests.
+Since these exams are graded, students should have the motivation to study and apply themselves. (Figure \ref{fig:results_prac})
 
     \begin{figure}[H]
       \centering
@@ -681,7 +942,8 @@ the white tests. Since these exams are graded, students should have the motivati
       \vspace{0.5cm}
       \begin{tabular}{| l | c | c | c | c | c |}
       \hline
-      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est. Grade}\\ \hline
+      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est.
+      Grade}\\ \hline
       \tiny{QCM practical} & \tiny{1.94} & \tiny{2.29} & \tiny{0.36} & \tiny{10.80} & \tiny{11.01}\\ \hline
       \tiny{QROL practical} & \tiny{3.23} & \tiny{3.64} & \tiny{0.40} & \tiny{7.93} & \tiny{8.80}\\ \hline
       \tiny{QCL identification Practical} & \tiny{2.86} & \tiny{3.36} & \tiny{0.5} & \tiny{11.0} & \tiny{11.61}\\ \hline
@@ -701,15 +963,39 @@ the white tests. Since these exams are graded, students should have the motivati
       \label{fig:results_prac}
     \end{figure}
 
-	the results obtained are more interesting. The results vary heavily depending on the exams that were taken. All the scores are significantly better than their respective median compared to the trial tests.
+	the results obtained are more interesting.
+	The results vary heavily depending on the exams that were taken.
+	All the scores are significantly better than their respective median compared to the trial tests.
     \begin{itemize}
-    \item[\textbullet]  QCM practical : The best score, the boxplots show the most well rounded results. The 75 percentile of grades estimated have a error of less than 3 and a 25 percentile of grades with a error of less than 1. Unfortunately, there are still some cases with a significantly high error. As for relation between the expected grade and the estimated grade, there is a clear pattern following the red line. The exception being that low actual grades are overestimated by the model. QCM exams are usually are straight to the point. Students need to know the answer to question but they don't have to explain it. All students by definition are graded equally because the exam is straightforward and easy to correct.
-    \item[\textbullet]  QROL practical : As opposed to the QCM, the score is significantly worse. This is also shown by the boxplot where the 75 percentile is at less than 4.5. By comparing the grades, it's apparent that there are more extreme grades and their estimations are off for the most part. This is normal because students write long and detailed responses to the questions. The teachers are more critical of the students. They look to see if students understand the contents of the course as opposed to learning by heart.
-    \item[\textbullet]  QCL identification Practical : With a score of 2.86, this QCL does not offer the best results. It follows a somewhat lessened pattern of the QROL. As this portion of the exam gives the student a exhaustive list of possible answers, it's hard to a student to guess. It's critical that the students knows what they observe. Similarly to the QROL, lack of certainty lowers the grade. As opposed to the QCM where uncertainty is not much of an issue due to the lack of options.
-    \item[\textbullet]  QCL incidence Practical : the incidence score  is somewhat better. Apart from a couple exceptions most of the real grades have a small variance. This helps explain the very low 75 percentile of about 3 and the big number of erroneous cases above 6. Since this part of the exam is similar to a QCM but with only 3 options, it's relatively easy to answer the questions correctly. This explains the higher grades for most students.
+    \item[\textbullet]  QCM practical : The best score, the boxplots show the most well rounded results.
+    The 75 percentile of grades estimated have a error of less than 3 and a 25 percentile of grades with a error of less than 1.
+    Unfortunately, there are still some cases with a significantly high error.
+    As for relation between the expected grade and the estimated grade, there is a clear pattern following the red line.
+    The exception being that low actual grades are overestimated by the model.
+    QCM exams are usually are straight to the point.
+    Students need to know the answer to question but they don't have to explain it.
+    All students by definition are graded equally because the exam is straightforward and easy to correct.
+    \item[\textbullet]  QROL practical : As opposed to the QCM, the score is significantly worse.
+    This is also shown by the boxplot where the 75 percentile is at less than 4.5. By comparing the grades, it's apparent that there are more extreme grades and their estimations are off for the most part.
+    This is normal because students write long and detailed responses to the questions.
+    The teachers are more critical of the students.
+    They look to see if students understand the contents of the course as opposed to learning by heart.
+    \item[\textbullet]  QCL identification Practical : With a score of 2.86, this QCL does not offer the best results.
+    It follows a somewhat lessened pattern of the QROL. As this portion of the exam gives the student a exhaustive list of possible answers, it's hard to a student to guess.
+    It's critical that the students knows what they observe.
+    Similarly to the QROL, lack of certainty lowers the grade.
+    As opposed to the QCM where uncertainty is not much of an issue due to the lack of options.
+    \item[\textbullet]  QCL incidence Practical : the incidence score  is somewhat better.
+    Apart from a couple exceptions most of the real grades have a small variance.
+    This helps explain the very low 75 percentile of about 3 and the big number of erroneous cases above 6.
+    Since this part of the exam is similar to a QCM but with only 3 options, it's relatively easy to answer the questions correctly.
+    This explains the higher grades for most students.
     \end{itemize}
     
-    When taking practical exams the students have images to look at. Certain aspects of the images need to be identified before answering the questions. Unfortunately with the data fetched from Cytomine, it's hard to determine whether or not the students were able to identify certain concepts when using Cytomine. But attempting to identify the features that are close to determining whether or not a student understood the course is a start. (Figures \ref{fig:var_tp1}, \ref{fig:var_tp2}, \ref{fig:var_tp3},\ref{fig:var_tp4})
+    When taking practical exams the students have images to look at.
+    Certain aspects of the images need to be identified before answering the questions.
+    Unfortunately with the data fetched from Cytomine, it's hard to determine whether or not the students were able to identify certain concepts when using Cytomine.
+    But attempting to identify the features that are close to determining whether or not a student understood the course is a start. (Figures \ref{fig:var_tp1}, \ref{fig:var_tp2}, \ref{fig:var_tp3},\ref{fig:var_tp4})
 
      \begin{figure}[H]
       \centering
@@ -739,8 +1025,13 @@ the white tests. Since these exams are graded, students should have the motivati
       \label{fig:var_tp4}
       \end{figure}
 
-The results are different from the trial tests. For one, the Module features are relatively less impactful than before. This shows that the total work done throughout the semester is more important than working more during specific modules. It also is shown that the students spent the most time on Cytomine the day before the exam.%%todo add reference to timeline
-Similar to the white tests models, the Average Score feature always shows up as a important feature. This variable seems to be the closest variable into determining whether or not a student understands the course but it's still not perfect. In the end, some images and some modules have more impact than others.  (Figures \ref{fig:im_tp1}, \ref{fig:im_tp2}, \ref{fig:im_tp3},\ref{fig:im_tp4})
+The results are different from the trial tests.
+For one, the Module features are relatively less impactful than before.
+This shows that the total work done throughout the semester is more important than working more during specific modules.
+It also is shown that the students spent the most time on Cytomine the day before the exam.%%todo add reference to timeline
+Similar to the white tests models, the Average Score feature always shows up as a important feature.
+This variable seems to be the closest variable into determining whether or not a student understands the course but it's still not perfect.
+In the end, some images and some modules have more impact than others.  (Figures \ref{fig:im_tp1}, \ref{fig:im_tp2}, \ref{fig:im_tp3},\ref{fig:im_tp4})
 
      \begin{figure}[H]
       \centering
@@ -770,9 +1061,16 @@ Similar to the white tests models, the Average Score feature always shows up as 
       \label{fig:im_tp4}
       \end{figure}
 
-	It's hard to determine which modules were are more impactful as a whole.It seems that each module has at least one image that has a big impact on the result for each test. Like before, most these images are the ones dedicated to exercises. This supports the hypothesis that doing the exercises has a positive impact on the grades. But for example the image 1218120 does not appear at the top anymore. This shows that even tough the models follow the same patterns, it's still varies based on the contents of the exam.\\
+	It's hard to determine which modules were are more impactful as a whole.It seems that each module has at least one image that has a big impact on the result for each test.
+	Like before, most these images are the ones dedicated to exercises.
+	This supports the hypothesis that doing the exercises has a positive impact on the grades.
+	But for example the image 1218120 does not appear at the top anymore.
+	This shows that even tough the models follow the same patterns, it's still varies based on the contents of the exam.\\
     
-    Sometimes it's interesting  to look for correlations between the expected result and some features. This helps to see its direct impact in estimating a grade. In fact, with most of the the features, a higher value should mean a better score. To test this, the Pearson Correlation was calculated for the top 6 features of the Practical QCM. (Figure \ref{fig:corr_tp})
+    Sometimes it's interesting  to look for correlations between the expected result and some features.
+    This helps to see its direct impact in estimating a grade.
+    In fact, with most of the the features, a higher value should mean a better score.
+    To test this, the Pearson Correlation was calculated for the top 6 features of the Practical QCM. (Figure \ref{fig:corr_tp})
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{var_correlation_QCM_PRACTICAL_2018-04-29_14_38_14.png}
@@ -780,13 +1078,20 @@ Similar to the white tests models, the Average Score feature always shows up as 
       \label{fig:corr_tp}
       \end{figure}
     
-   Most of these features are score features which in short tells the model how well the user viewed the image in regards to the annotations. Therefore a higher value means a better observation of all the annotations. This correlation means that the more time the student is focused on annotations, the more likely that student is to get a better grade. This could explain the somewhat good Pearson Correlation for these variables.\\
+   Most of these features are score features which in short tells the model how well the user viewed the image in regards to the annotations.
+   Therefore a higher value means a better observation of all the annotations.
+   This correlation means that the more time the student is focused on annotations, the more likely that student is to get a better grade.
+   This could explain the somewhat good Pearson Correlation for these variables.\\
    
    After studying the results for the practical exams, a question that can be asked is whether or not this analysis can work on Theoretical Exam grades.
     
     \subsubsection{Theoretical Exam Grades}
         
-        The same tests were launched for the theoretical grade results. The main difference for the theory portion is that there are no QCL tests and two QROL tests. The learning done on the QROL test results of the practical showed the worst results. Meanwhile the QCM provided the best results. This trend is likely to continue. (Figure \ref{fig:results_theo})
+        The same tests were launched for the theoretical grade results.
+        The main difference for the theory portion is that there are no QCL tests and two QROL tests.
+        The learning done on the QROL test results of the practical showed the worst results.
+        Meanwhile the QCM provided the best results.
+        This trend is likely to continue. (Figure \ref{fig:results_theo})
         
       \begin{figure}[H]
       \centering
@@ -799,7 +1104,8 @@ Similar to the white tests models, the Average Score feature always shows up as 
       \vspace{0.5cm}
       \begin{tabular}{| l | c | c | c | c | c |}
       \hline
-      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est. Grade}\\ \hline
+      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est.
+      Grade}\\ \hline
       \tiny{QCM Theory} & \tiny{1.86} & \tiny{2.05} & \tiny{0.19} & \tiny{10.03} & \tiny{10.24}\\ \hline
       \tiny{QROL1 Theory} & \tiny{3.00} & \tiny{3.30} & \tiny{0.30} & \tiny{10.87} & \tiny{11.05}\\ \hline
       \tiny{QROL2 Theory} & \tiny{3.25} & \tiny{3.60} & \tiny{0.36} & \tiny{13.0} & \tiny{12.67}\\
@@ -817,7 +1123,11 @@ Similar to the white tests models, the Average Score feature always shows up as 
       \label{fig:results_theo}
     \end{figure}
     
-    As predicted, the QCM yielded the best scores while the QROL provided sub par scores. The assumptions made based off of the practical exams were correct. The Extra Trees has a easier time predicting QCM exams. But in this case, the QCM grades has a lower variance then the QROL.
+    As predicted, the QCM yielded the best scores while the QROL provided sub par scores.
+    The assumptions made based off of the practical exams were correct.
+    The Extra Trees has a easier time predicting QCM exams.
+    But in this case, the QCM grades has a lower variance then the QROL.
+
 
      \begin{figure}[H]
       \centering
@@ -877,7 +1187,8 @@ Similar to the white tests models, the Average Score feature always shows up as 
       \vspace{0.5cm}
       \begin{tabular}{| l | c | c | c | c | c |}
       \hline
-      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est. Grade}\\ \hline
+      & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est.
+      Grade}\\ \hline
       \tiny{Total Practical} & \tiny2.12 & \tiny{2.59} & \tiny{0.47} & \tiny{10.80} & \tiny{11.06}\\ \hline
       \tiny{Total Theory} & \tiny{2.03} & \tiny{2.34} & \tiny{0.31} & \tiny{10.79} & \tiny{10.86}\\ \hline
       \tiny{Global Grade} & \tiny{1.95} & \tiny{2.37} & \tiny{0.42} & \tiny{10.72} & \tiny{10.95}\\
