@@ -275,7 +275,7 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
         \item[\textbullet] Data Handling : Calling numerous methods that extracts important information.
     \end{itemize}
 
-    This component knows and uses the file directory structure. This allows it to find the files necessary to do analysis.
+    This component knows and uses the file directory structure. This allows it to find the files necessary to do the analysis.
     A object oriented approach was used in order to handle this information. In fact, there are multiple classes:
 
     \begin{itemize}
@@ -315,12 +315,49 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
     To determine that the component guesses the annotation. The component finds the position with the closest timestamp and guesses the annotation closest to that position. It's not perfect but it guesses the most likely annotation since at most zooms the user can only see one annotation.\\
 
 
-    This data is referenced by the proper Image\_Data and User\_Data objects for easy access. When loading all this data into memory, extra operations have been carried out. The most notable being generating the gaussian surface for each zoom associated to each image.
+    This data is referenced by the proper Image\_Data and User\_Data objects for easy access. When loading all this data into memory, extra operations have been carried out. The most notable being generating the gaussian surface for each zoom associated to each image. This uses a 2 Dimensional Gaussian distribution function.
     The Gaussian plane respects the dimensions of the positions associated to that zoom. This allows to better represent a position by not just taking into account the center and corners but the entirety of the field of view of the person.
     The goal is to give more importance to the center pixels of a position over the pixels near the edge. This will be very important when deriving statistics generating heatmaps.
-        %todo add equation for generating a gaussian
 
-    \subsection{}
+    When generating the gaussian with a height of $h$ and a width of $w$. The standard deviation set for the height and width are $s_h = \dfrac{h}{6}$ and $s_w = \dfrac{w}{6}$.
+    $h_0 = \dfrac{h}{2}$ and $w_0 = \dfrac{w}{2}$ are the center coordinates of the surface. The equation is :
+
+        $$P(i,j) = \exp(\dfrac{-1}{2}*(\dfrac{(i - h_0)^2}{s_h^2} + \dfrac{(j - w_0)^2}{s_w^2}))$$
+
+    With $i \in [0, h]$ and $j \in [0, w]$.
+
+    With the standard deviation set, 99 percent of the gaussian distribution is in the surface. Therefore when calculating the center point, there is an output close to 1. Likewise, when calculating a point near the edge, there is an output close to 0.
+    The idea is that the human attention is more focused on the center. Therefore a Gaussian distribution is ideal for this particular problem. In the following example is shown the Gaussian distribution for a surface with a length and width of 100. (Figure \ref{fig:gaus22})
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=.45\linewidth]{gaussian2D.png}
+      \caption{Gaussian Distribution Example}
+      \label{fig:gaus22}
+    \end{figure}
+
+    Of course, because the work is done on images, there is a limited resolution and the Gaussian is not as smooth. This is because each pixel is a point and a point has the value set by the formula.
+    \newline
+
+    Once all all this information is stored in memory. it is possible to call numerous tasks to analyze the data and draw statistics. This includes :
+
+    \begin{itemize}
+        \item[\textbullet] Output a Feature File : Students are analyzed individually in regards to the images they visited. A set of features is then extracted in regards to their behavior.
+        (see \ref{Data_Set} for more information on the contents and structure of the file)
+        \item[\textbullet] Output activity over time figures : These figure represents the activity over time of a set of students or simply an individual in regards to different modules. It gives a good insight on habits and work consistency of the students. These figures depict the number of positions for every single day. The weekends are tinted in a light yellow. It also shows the activity in regards to the modules. Since the modules comme with a set schedule, the figure also shows when they start and when they end. Finally, the dates for the exams are also a big focus. The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
+        \item[\textbullet] Output Gaze Map figures : These figures represents the heatmaps of the student activity in regards to an image.
+        \item[\textbullet] Output Scan Path Figures : These figures represents the path taken by the students when they scan through an image.
+    \end{itemize}
+    %todo go more in detail + add image examples
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=.45\linewidth]{timelapse.png}
+      \caption{Overall Student Activity over Time}
+      \label{fig:timelapse}
+    \end{figure}
+
+
+    \subsubsection{Data Learning}
 
 
 \section{Data Analysis}
@@ -342,7 +379,7 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
     
     
     
-    \subsection{Data Set}
+    \subsection{Data Set} \label{Data_Set}
     
     	\subsubsection{Students}
     Like mentioned earlier, there are a total of 395 students in the data set. Students are defined by their features and the grades obtained. These student followed the course HISL054, "General histology and alternative experimentation methods that do not use animals" at the University of Liege during the academic year 2016-2017. Most of the work done by the students is done online using the MOOC and Ecampus. Ecampus is a website used by students and teachers of the University of Liege to exchange information used for courses. In fact all of the assignments for this course are explained on Ecampus. The issue with this is that it's a different entity from the MOOC and therefore is not ideal for fetching information. But it's not much of a problem because there's nothing to retrieve about students on Ecampus that is not already known.\newline
