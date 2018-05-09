@@ -176,7 +176,7 @@ Open-source rich Internet application for collaborative analysis of multi-gigapi
 Cytomine can be described by three main properties :
 \begin{itemize}
 \item[\textbullet] Open Source : The source code is available to the general public, in this case with Github.
-It has a Apache 2.0 License, which is very permissive for any third party.
+It has an Apache 2.0 License, which is very permissive for any third party.
 It is also accompanied by documentation that describes the different modules and how to use them.
 \item[\textbullet] Open Company : It's a non-profit company that contribute and promote the project.
 \item[\textbullet] Open Research : Cytomine employs researchers at the Montefiore Institute of the University of Liege.
@@ -320,7 +320,7 @@ The goal is to see how much of an effect Cytomine has on students.
         Annotations are clickable.
         When clicked, a toolbox appears giving more information on the annotation.
         This action is also stored on the server.
-        For the data recorded in 2017, a annotation action only contains a time stamp.
+        For the data recorded in 2017, an annotation action only contains a time stamp.
         It is only in later versions of Cytomine that the reference annotation identifiers were tracked with the annotation actions.
         In the case where the referenced annotation is unknown, it will be guessed based on positions that appear at the same time.
         
@@ -357,11 +357,11 @@ The goal is to see how much of an effect Cytomine has on students.
 
     This component knows and uses the file directory structure.
     This allows it to find the files necessary to do the analysis.
-    A object oriented approach was used in order to handle this information.
+    An object oriented approach was used in order to handle this information.
     In fact, there are multiple classes:
 
     \begin{itemize}
-        \item[\textbullet] Data\_Manager : This class defines a object that will coordinate between the other classes in order to obtain the valuable information necessary.
+        \item[\textbullet] Data\_Manager : This class defines an object that will coordinate between the other classes in order to obtain the valuable information necessary.
         \item[\textbullet] Image\_Data : This class defines objects that will contain references to information on a specific image.
         It also comes with operations associated to said image.
         \item[\textbullet] User\_Data : This class defines objects that will contain references to information on a specific user.
@@ -388,7 +388,7 @@ The goal is to see how much of an effect Cytomine has on students.
 
     It is noted that the positions are sorted in regards to the timestamp value.
     This prevents many problems and makes specific operations much easier.
-    The dictionary follows a similar structure for annotations that are either asociated to a image and user pair (user annotation) or just an image (reference annotation):
+    The dictionary follows a similar structure for annotations that are either asociated to an image and user pair (user annotation) or just an image (reference annotation):
     \begin{itemize}
         \item[\textbullet] 'x' : Array of X coordinates for all the annotations.
         \item[\textbullet] 'y' : Array of Y coordinates for all the annotations.
@@ -465,8 +465,54 @@ The goal is to see how much of an effect Cytomine has on students.
         It also shows the activity in regards to the modules.
         Since the modules comme with a set schedule, the figure also shows when they start and when they end.
         Finally, the dates for the exams are also a big focus.
+        This allows the observation of the students' patterns as a whole or comparing the behavior of particular students.
+        An interesting experiment would be to compare the figures for the very best student and the very worst students to get more insight.
         The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
         \item[\textbullet] Output Gaze Map figures : These figures represents the heatmaps of the student activity in regards to an image.
+        Since an image is resized to a reasonable resolution, each pixel is assigned a weight based on the user's activity near that pixel.
+        Therefore, operations are done pixel by pixel.
+        The values assigned rely on the 2D gaussians generated for the positions.
+        The 2D grid for the heatmap was generated with this component but generating and saving the image was implemented by PyGazeAnalyzer.
+        Their heatmaps are beautiful but they lack information. For a pixel the color red means that it was the most visited a blue means that it was not a big focus.
+        Even with a legend it would be hard to compare different images because the scales would not be the same for many heatmap implementations.
+        Depending on the method, generating a heatmap can be a very costly operation.
+        Methods include :
+        \begin{itemize}
+            \item Raw Heatmap : For each position, the respective gaussian values are added into the heatmap at the right position.
+            There are some advantages including that it's the fastest and shows clear distinctions between parts of the images.
+            Drawbacks include that it is really hard to quantify and compare between users and other images.
+            An another issue is with extreme cases the distinctions between regions of the image that been visited are too strong.
+            For extreme cases, the most visited region might have such a high heatmap value that the other regions are hard to compare with each other.
+            \item Logarithmic Heatmap : The heatmap is generated similarly but a $Log_{10}$ normalizer applied at the end for each pixel.
+            The advantages of that is that it's easier to compare areas of an image since the distinctions are smoothed.
+            But it's main drawback is that it's really hard to quantify because the normalizer can be too extreme.
+            Similarly, it's not straightforward when comparing students and images with each other since the scales are different for each heatmap.
+            \item Logarithmic Heatmap Relative to an image : The idea would be to reimplement the previous heatmap for every user of a specific image and standardize the scale.
+            Since the minimum heat value will always be 0, this method only looks for the maximum heat value between all the heatmaps for that image.
+            This value is set for all the heatmaps and they are drawn. This method's goal was to compare different students for the same image.
+            Unfortunately, it still shares most of the same drawbacks of the Logarithmic Heatmap.
+            \item Logarithmic Heatmap Relative to a user : This is the same concept as previously but the goal is to compare activity of the same student accross multiple images.
+            This has the same advantages and drawbacks as the previous heatmap.
+            \item Reduced Heatmap : A interesting observation is that it's hard to quantify user observations for long durations.
+            The longer a person looks at the same area the less important the positions become over time.
+            This explains the attempt to normalize the heatmap using the logarithmic function.
+            The problem is that there's no theoretical explanation to why the the logarithmic method should work.
+            In this case a pixel is represented by vector instead of a value.
+            The vector contains a list of all the respective Gaussian value for each position that is close enough.
+            The value is always in the range of $[0,1]$.
+            For each pixel, the list is sorted inversely.
+            Finally, the value of the pixel is given by a weighted sum of the values of this list.
+            The weights follow a geometrical sequence that converges.
+            Therefore, after numerous positions, the weights are near 0.
+            This normalization method is further explained in the section \ref{enum:score}.
+            In this case, $w$ is set to 0.95 and the sequence converges at a value of 20.
+            Therefore, the heat values from each pixel belong in the range $[0,20]$.
+            The maximum value for all heatmaps can easily be set to 20.
+            This method has a more relaxed normalization and it is much easier to compare different heatmaps and infer heat values by looking at the image.
+            The main drawback is that it's much slower.
+            Since for each pixel, the algorithm is given a list to sort a values to weight it takes much more time.
+        \end{itemize}
+        %% todo : images of different heatmaps.
         \item[\textbullet] Output Scan Path Figures : These figures represents the path taken by the students when they scan through an image.
     \end{itemize}
     %todo go more in detail + add image examples
@@ -555,8 +601,8 @@ These variables are used in the machine learning model as output variables.\\
 	Graded similarly to a QCM, the students are given multiple questions to answer and they have to fill out a form.
 	The are a couple differences.
 	Each question is split into two, the identification and the incidence.
-	For the identification, the students have to identify an object on a image.
-	They are given a exhaustive list of possible answers ranging from cells to tissues.
+	For the identification, the students have to identify an object on an image.
+	They are given an exhaustive list of possible answers ranging from cells to tissues.
 	Each answer contains is associated to a 3 digit code that they need to write on the form.
 	For the incidence, the students needs to identify how the observed object "was cut".
 	There are a total of 3 possible answers, transversal, longitudinal, and undetermined.
@@ -654,7 +700,7 @@ These variables are used in the machine learning model as output variables.\\
     1 variable per zoom value.
     It represents the median number of positions at zoom <x> relative to all images visited.\\
     %% TODO : Picture of a gaussian at highest zoom
-    \item[\textbullet] SCORE OF ANNOTATION <y> AT IMAGE <x> : with <y> being the annotation identifier and <x> being the image identifier.
+    \item[\textbullet] \label{enum:score} SCORE OF ANNOTATION <y> AT IMAGE <x> : with <y> being the annotation identifier and <x> being the image identifier.
     When images have annotations, students tend to focus on these points.
     For each position, the program generates a 2 Dimensional Gaussian function to represent the position.
     The size and values of this Gaussian relies on the zoom of the position.
@@ -663,14 +709,14 @@ These variables are used in the machine learning model as output variables.\\
     \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.35]{gaussian.png}
-\caption{Example Gaussian Grids for a Image that has a zoom up to 9}
+\caption{Example Gaussian Grids for an Image that has a zoom up to 9}
 \end{center}
 \end{figure} 
    
    So each annotation has a center coordinate.
    For this coordinate, a list of Gaussian values is generated based on all the positions near the annotation.
    This vector is sorted inversely.
-   It's important to note that it does not take much time for the student to assimilate all the information on a part of a image.
+   It's important to note that it does not take much time for the student to assimilate all the information on a part of an image.
    So the idea is to weight these positions to the point that after enough positions, the next ones would have a weight of close to 0.
 To do so, a geometrical sequence was used:  
 	\[\sum\limits_{i=0}^N w^i\]
@@ -689,7 +735,7 @@ If a student actually observed in detail the annotation, they would usually get 
     \item[\textbullet] USER SCORE AT IMAGE <x> : With <x> the image identifier on Cytomine.
     The users are given scores between 0 and 1 (not opening an image gives the user a score of 0).
     The score represents how well the user observed the annotations in the given image.
-    In short, if a user spends a good amount of time on top of a annotation or if the user clicks on the annotation, he/she will get points for that annotation.
+    In short, if a user spends a good amount of time on top of an annotation or if the user clicks on the annotation, he/she will get points for that annotation.
     Doing so for all annotations gives a final score.
     The score for an annotation is given by the previous variable (SCORE OF ANNOTATION <y> AT IMAGE <x>) and re dimensioned so this variable returns a score between 0 and 1.
     If the image does not have any annotation, the scores for are calculated for the entire image and the average is returned. \\
@@ -698,7 +744,7 @@ If a student actually observed in detail the annotation, they would usually get 
     
     \item[\textbullet] NB POSITIONS AT IMAGE <x> : with <x> being the image Identifier, represents the number of positions recorded at that image for a user. \\
     
-   \item[\textbullet] TIME SPENT AT IMAGE <x> : With <x> being the image identifier, represents the total time spent on a image for a user. \\
+   \item[\textbullet] TIME SPENT AT IMAGE <x> : With <x> being the image identifier, represents the total time spent on an image for a user. \\
    
    \item[\textbullet] NB OF ANNOTATION ACTIONS AT IMAGE <x> : With <x> being the image identifier, represents the number of annotation Actions at that image for a user. \\
       
@@ -719,24 +765,24 @@ If a student actually observed in detail the annotation, they would usually get 
     
     \item[\textbullet] MEDIAN TIME SPENT DURING MODULE <x> (s) : median amount of time spent viewing images associated to the module <x> during its given time period.\\
     
-    \item[\textbullet] NB POSITIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+    \item[\textbullet] NB POSITIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
     This represents the number of positions recorded at that image for a user during the module's time period. \\
        
-    \item[\textbullet] TIME SPENT DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+    \item[\textbullet] TIME SPENT DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
     This represents the time spent at that image for a user during the module's time period. \\
     
-    \item[\textbullet] NB ANNOTATION ACTIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+    \item[\textbullet] NB ANNOTATION ACTIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
     This represents the number of annotation actions recorded at that image for a user during the module's time period. \\
      
      
-     \item[\textbullet] NB POSITIONS WITH ZOOM <z> DURING MODULE <y> AT IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+     \item[\textbullet] NB POSITIONS WITH ZOOM <z> DURING MODULE <y> AT IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
      This represents the number of positions recorded at that image for a user during the module's time period with zoom <z>.
      The zoom value <z> ranges from 1 to 10. \\
      
-     \item[\textbullet] AVERAGE ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+     \item[\textbullet] AVERAGE ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
      This represents the average zoom level of all the positions recorded at that image for a user during the module's time period. \\
      
-     \item[\textbullet] MEDIAN ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of a image associated to the module <y>.
+     \item[\textbullet] MEDIAN ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
      This represents the median zoom level of all the positions recorded at that image for a user during the module's time period. \\
      
      \item[\textbullet] NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>.
@@ -775,7 +821,7 @@ a user during the module's time period. \\
     \item[\textbullet] PERCENT TIME WORKED DURING MODULE <x> : When working on Cytomine, the user can open images associated during a module during its time period or outside of it.
     This represents the ratio of the user activity during the time period.
     
-	\item[\textbullet] ANNOTATION <y> VISITED BEFORE ANNOTATION <y + 1> AT IMAGE <X> : This binary variable determines whether or not a student visited the annotation <y> before the annotation <y + 1> for a image <x>.
+	\item[\textbullet] ANNOTATION <y> VISITED BEFORE ANNOTATION <y + 1> AT IMAGE <X> : This binary variable determines whether or not a student visited the annotation <y> before the annotation <y + 1> for an image <x>.
 	The users are encouraged to study the reference annotation in a specific order.
     
     \end{itemize}
@@ -791,7 +837,7 @@ a user during the module's time period. \\
     They reflect what a student has learned and remembered up until that day.
     At that point, students should have finished modules 1 through 4 and at least looked at modules 5 and 6.
     These tests could be a great indicator on how well students can perform during the real exam.
-    These \textbf{Y} variables were tested using a Leave-one-out cross validation on a Extra Tree Regressor with the generated data set.
+    These \textbf{Y} variables were tested using a Leave-one-out cross validation on an Extra Tree Regressor with the generated data set.
     As a reminder, scores are calculated with the Mean Absolute Error technique.
     Also, the results are also compared with a model that learns by simply using the median.
     This is to determine if the model has much merit. (Figure \ref{fig:results_white})
@@ -910,13 +956,13 @@ a user during the module's time period. \\
     This is due to the fact that the module 6 is not included in the trial exam.
     It's also worth noting that the module 1 is not included in the exam either.
     But since the module 1 is considered a tutorial, it can be useful.
-    A image that appears often at the top is the image 1218120.
+    An image that appears often at the top is the image 1218120.
     This image was used for a preparation identification exercise.
     It seems that those who perform better in regards to that image on Cytomine do better in the white tests.
     For the QCL identification, the exercise images are often the most important over all the images in the same module.
     This seems to prove that doing the exercises seriously and correctly can lead to better grades.
     For the QCM, the image 1552356 which is a module 1 tutorial image is the most impactful.
-    Those who follow the tutorial may have a easier time understanding the course from the start and may perform better for the QCM. As for the incidence test, the module 3 variables seem to be the most impactful.
+    Those who follow the tutorial may have an easier time understanding the course from the start and may perform better for the QCM. As for the incidence test, the module 3 variables seem to be the most impactful.
     This module may contain examples that allow the student to better differentiate different incidence angles for specific objects in the images.
     OF course the cross validation results are not the best, so these assumption are not necessary correct. This leads to the actual practical exam.
     
@@ -968,7 +1014,7 @@ Since these exams are graded, students should have the motivation to study and a
 	All the scores are significantly better than their respective median compared to the trial tests.
     \begin{itemize}
     \item[\textbullet]  QCM practical : The best score, the boxplots show the most well rounded results.
-    The 75 percentile of grades estimated have a error of less than 3 and a 25 percentile of grades with a error of less than 1.
+    The 75 percentile of grades estimated have an error of less than 3 and a 25 percentile of grades with an error of less than 1.
     Unfortunately, there are still some cases with a significantly high error.
     As for relation between the expected grade and the estimated grade, there is a clear pattern following the red line.
     The exception being that low actual grades are overestimated by the model.
@@ -981,7 +1027,7 @@ Since these exams are graded, students should have the motivation to study and a
     The teachers are more critical of the students.
     They look to see if students understand the contents of the course as opposed to learning by heart.
     \item[\textbullet]  QCL identification Practical : With a score of 2.86, this QCL does not offer the best results.
-    It follows a somewhat lessened pattern of the QROL. As this portion of the exam gives the student a exhaustive list of possible answers, it's hard to a student to guess.
+    It follows a somewhat lessened pattern of the QROL. As this portion of the exam gives the student an exhaustive list of possible answers, it's hard to a student to guess.
     It's critical that the students knows what they observe.
     Similarly to the QROL, lack of certainty lowers the grade.
     As opposed to the QCM where uncertainty is not much of an issue due to the lack of options.
@@ -1029,7 +1075,7 @@ The results are different from the trial tests.
 For one, the Module features are relatively less impactful than before.
 This shows that the total work done throughout the semester is more important than working more during specific modules.
 It also is shown that the students spent the most time on Cytomine the day before the exam.%%todo add reference to timeline
-Similar to the white tests models, the Average Score feature always shows up as a important feature.
+Similar to the white tests models, the Average Score feature always shows up as an important feature.
 This variable seems to be the closest variable into determining whether or not a student understands the course but it's still not perfect.
 In the end, some images and some modules have more impact than others.  (Figures \ref{fig:im_tp1}, \ref{fig:im_tp2}, \ref{fig:im_tp3},\ref{fig:im_tp4})
 
@@ -1125,7 +1171,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     
     As predicted, the QCM yielded the best scores while the QROL provided sub par scores.
     The assumptions made based off of the practical exams were correct.
-    The Extra Trees has a easier time predicting QCM exams.
+    The Extra Trees has an easier time predicting QCM exams.
     But in this case, the QCM grades has a lower variance then the QROL.
 
 
