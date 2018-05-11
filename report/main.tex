@@ -116,8 +116,6 @@ Academic year 2017-2018\\
 University of Li\`{e}ge - Faculty of Applied Sciences\\
 \vspace{3cm}
 \includegraphics[scale=0.75]{logo.jpg}
-\hspace{2cm}
-\includegraphics[scale=0.80]{logo_cytomine.jpg}\\
 \vspace{2cm}
 }
 \author{ Graduation Studies conducted for obtaining the Master's degree in \\Computer Sciences by Laurent Vanhee}
@@ -171,6 +169,11 @@ could give teachers the ability to keep track of the students’ work.
 \section{Introduction}
 
 \subsection{Cytomine}
+
+
+\begin{center}
+    \includegraphics[scale=0.80]{logo_cytomine.jpg}
+\end{center}
 
 Open-source rich Internet application for collaborative analysis of multi-gigapixel images.
 Cytomine can be described by three main properties :
@@ -365,11 +368,11 @@ The goal is to see how much of an effect Cytomine has on students.
         \item[\textbullet] Image\_Data : This class defines objects that will contain references to information on a specific image.
         It also comes with operations associated to said image.
         \item[\textbullet] User\_Data : This class defines objects that will contain references to information on a specific user.
-        Similarly, to Image\_Data, it commes with numerous operations.
+        Similarly, to Image\_Data, it comes with numerous operations.
         \item[\textbullet] Module\_Data : This class defines objects that will contain references to information on a specific module.
         Modules are predefined by the teachers as a set of objectives within a certain timeframe.
         There is a subset of images that are associated to a module.
-        It therefore contains references to users and images and it also commes with its own operations.
+        It therefore contains references to users and images and it also comes with its own operations.
     \end{itemize}
 
     These instances contain references to richer information.
@@ -388,7 +391,7 @@ The goal is to see how much of an effect Cytomine has on students.
 
     It is noted that the positions are sorted in regards to the timestamp value.
     This prevents many problems and makes specific operations much easier.
-    The dictionary follows a similar structure for annotations that are either asociated to an image and user pair (user annotation) or just an image (reference annotation):
+    The dictionary follows a similar structure for annotations that are either associated to an image and user pair (user annotation) or just an image (reference annotation):
     \begin{itemize}
         \item[\textbullet] 'x' : Array of X coordinates for all the annotations.
         \item[\textbullet] 'y' : Array of Y coordinates for all the annotations.
@@ -397,7 +400,7 @@ The goal is to see how much of an effect Cytomine has on students.
         Used for reference annotations.
         This property represents the annotation number shown on the images but also the recommended order of passage for these annotations
         \item[\textbullet] 'type' : Array of the type for all annotations.
-        This is eather a point or a polygon.
+        This is either a point or a polygon.
     \end{itemize}
 
     There are much fewer annotations then there are positions.
@@ -426,18 +429,27 @@ The goal is to see how much of an effect Cytomine has on students.
     When generating the gaussian with a height of $h$ and a width of $w$.
     The standard deviation set for the height and width are $s_h = \dfrac{h}{6}$ and $s_w = \dfrac{w}{6}$.
     $h_0 = \dfrac{h}{2}$ and $w_0 = \dfrac{w}{2}$ are the center coordinates of the surface.
+    $coeff$ is a coefficient based on the zoom.
+    The coefficient is a value from 0 to 1, the higher the zoom the higher the coefficient with $coeff = \dfrac{zoom}{max\_zoom}$.
     The equation is :
 
-        \[P(i,j) = \exp(\dfrac{-1}{2}*(\dfrac{(i - h_0)^2}{s_h^2} + \dfrac{(j - w_0)^2}{s_w^2}))\]
+        \[P(i,j) = \exp(\dfrac{-1}{2}*(\dfrac{(i - h_0)^2}{s_h^2} + \dfrac{(j - w_0)^2}{s_w^2})) * coeff \]
 
     With $i \in [0, h]$ and $j \in [0, w]$.
 
     With the standard deviation set, 99 percent of the gaussian distribution is in the surface.
     Therefore when calculating the center point, there is an output close to 1.
     Likewise, when calculating a point near the edge, there is an output close to 0.
-    The idea is that the human attention is more focused on the center.
+    An interesting idea that was not implemented was to was to replace $coeff$ with $\dfrac{1}{2\pi*s_h*s_w}$.
+    With that, the integral of all the Gaussian surfaces would be equal to 1.
+    The problem with this method is with each zoom level, the height and the width halves in size.
+    The surface would be four times as small.
+    Therefore, from zoom 1 to 10 there is a factor of $4^{10}$ or about a million.
+    The difference in values between zooms would be too extreme.
+    This is why a more linear coefficient is used so that Heatmaps are observable.
+    In the end, the idea is that the human attention is more focused on the center.
     Therefore a Gaussian distribution is ideal for this particular problem.
-    In the following example is shown the Gaussian distribution for a surface with a length and width of 100. (Figure \ref{fig:gaus22})
+    In the following example is shown the Gaussian distribution for a surface with a length and width of 100, and a coefficient of 1. (Figure \ref{fig:gaus22})
 
     \begin{figure}[H]
       \centering
@@ -463,7 +475,7 @@ The goal is to see how much of an effect Cytomine has on students.
         These figures depict the number of positions for every single day.
         The weekends are tinted in a light yellow.
         It also shows the activity in regards to the modules.
-        Since the modules comme with a set schedule, the figure also shows when they start and when they end.
+        Since the modules come with a set schedule, the figure also shows when they start and when they end.
         Finally, the dates for the exams are also a big focus.
         This allows the observation of the students' patterns as a whole or comparing the behavior of particular students.
         An interesting experiment would be to compare the figures for the very best student and the very worst students to get more insight.
@@ -471,7 +483,7 @@ The goal is to see how much of an effect Cytomine has on students.
         \item[\textbullet] Output Gaze Map figures : These figures represents the heatmaps of the student activity in regards to an image.
         Since an image is resized to a reasonable resolution, each pixel is assigned a weight based on the user's activity near that pixel.
         Therefore, operations are done pixel by pixel.
-        The values assigned rely on the 2D gaussians generated for the positions.
+        The values assigned rely on the 2D Gaussians generated for the positions.
         The 2D grid for the heatmap was generated with this component but generating and saving the image was implemented by PyGazeAnalyzer.
         Their heatmaps are beautiful but they lack information. For a pixel the color red means that it was the most visited a blue means that it was not a big focus.
         Even with a legend it would be hard to compare different images because the scales would not be the same for many heatmap implementations.
@@ -491,7 +503,7 @@ The goal is to see how much of an effect Cytomine has on students.
             Since the minimum heat value will always be 0, this method only looks for the maximum heat value between all the heatmaps for that image.
             This value is set for all the heatmaps and they are drawn. This method's goal was to compare different students for the same image.
             Unfortunately, it still shares most of the same drawbacks of the Logarithmic Heatmap.
-            \item Logarithmic Heatmap Relative to a user : This is the same concept as previously but the goal is to compare activity of the same student accross multiple images.
+            \item Logarithmic Heatmap Relative to a user : This is the same concept as previously but the goal is to compare activity of the same student across multiple images.
             This has the same advantages and drawbacks as the previous heatmap.
             \item Reduced Heatmap : A interesting observation is that it's hard to quantify user observations for long durations.
             The longer a person looks at the same area the less important the positions become over time.
@@ -514,11 +526,21 @@ The goal is to see how much of an effect Cytomine has on students.
         \end{itemize}
         %% todo : images of different heatmaps.
         \item[\textbullet] Output Scan Path Figures : These figures represents the path taken by the students when they scan through an image.
+        Another Idea that seems interesting is to observe a student's viewing order when looking at images.
+        The idea is to draw arrow an plot that connects each position to the following position.
+        After doing so for all the positions, it's possible to analyze the viewing order.
+        Unfortunately, in most cases there are too many positions.
+        This is why clustering is used to group up close positions in regards to time and space.
+        K-Means clustering was implemented with K predetermined and ranging from 10 to 50.
+        With this amount of clusters there may be a small loss in information but it allows the Scan Path to be observable.
+        These clusters are arranged by the average time of their positions.
+        Each cluster is also given a weight based on the number of positions that belong to it.
+        This makes the scan path complete in a sense that it shows most of the needed information relating to the user's viewing order.
     \end{itemize}
-    %todo go more in detail + add image examples
+    %todo add image examples
     \begin{figure}[H]
       \centering
-      \includegraphics[width=.45\linewidth]{timelapse.png}
+      \includegraphics[width=.9\linewidth]{timelapse.png}
       \caption{Overall Student Activity over Time}
       \label{fig:timelapse}
     \end{figure}
@@ -663,6 +685,7 @@ These variables are used in the machine learning model as output variables.\\
     \item[\textbullet] FIRST NAME : User's First name (forename).
     \item[\textbullet] GROUP : group user belongs in (GOLDULiege, GOLD, or SILVER).
     GOLDULIEGE is a subset of GOLD containing the set of students following the course.
+    This will be used for the analysis.
     \item[\textbullet] USERNAME CYTOMINE : user's Cytomine username.
    	\end{itemize}
     
