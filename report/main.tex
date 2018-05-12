@@ -15,6 +15,7 @@ includehead]{geometry}
 \usepackage{float}
 \usepackage{enumerate}
 \usepackage{algorithm}
+\usepackage{tabularx}
 \usepackage{algorithmic}
 \usepackage{array}
 \usepackage{amssymb}
@@ -676,7 +677,25 @@ These variables are used in the machine learning model as output variables.\\
     In later experiments, some variables will be set as features.
     The learning of final grades using white test results as bonus features (\textbf{X} variable) could yield better results.
     Learning theoretical grades while also using practical grades and vice versa can also give some interesting results. \\
-    
+
+    Statistics can be derived for each variable :\\
+
+    \begin{center}
+      \begin{tabular}{| p{1cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | }
+      \hline
+      & \tiny{White Test QCL ID} & \tiny{White Test QCL IC} & \tiny{White Test QCM} & \tiny{QROL Theory 1} & \tiny{QROL Theory 2} & \tiny{QCM Theory} & \tiny{QCM Practical} & \tiny{QROL Practical} & \tiny{QCL ID Practical} & \tiny{QCM IC Practical} & \tiny{Total Theory} & \tiny{Total Practical} & \tiny{Global Grade}\\ \hline
+      \tiny{Minimum} & \tiny{1.33} & \tiny{1.33} & \tiny{0.36} & \tiny{0.44} & \tiny{0.67} & \tiny{3.43} & \tiny{3.16} & \tiny{0.29} & \tiny{1} & \tiny{2} & \tiny{2.59} & \tiny{2.01} & \tiny{1.68}\\ \hline
+      \tiny{Maximum} & \tiny{18.67} & \tiny{20} & \tiny{19.64} & \tiny{20} & \tiny{20} & \tiny{17} & \tiny{17.32} & \tiny{18.82} & \tiny{20} & \tiny{20} & \tiny{17.8} & \tiny{17.99} & \tiny{17.85}\\ \hline
+      \tiny{Average} & \tiny{8.09} & \tiny{12.17} & \tiny{10.18} & \tiny{10.67} & \tiny{12.16} & \tiny{10.05} & \tiny{10.88} & \tiny{8.6} & \tiny{11.15} & \tiny{15.03} & \tiny{10.56} & \tiny{10.81} & \tiny{10.63}\\ \hline
+      \tiny{Median} & \tiny{8} & \tiny{13.33} & \tiny{10.31} & \tiny{10.75} & \tiny{12.83} & \tiny{10.03} & \tiny{10.8} & \tiny{7.93} & \tiny{11} & \tiny{15} & \tiny{10.75} & \tiny{10.76} & \tiny{10.67}\\ \hline
+      \tiny{Variance} & \tiny{14.09} & \tiny{17.67} & \tiny{13.3} & \tiny{16.78} & \tiny{19.51} & \tiny{6.41} & \tiny{7.93} & \tiny{18.92} & \tiny{16.48} & \tiny{9.35} & \tiny{8.46} & \tiny{9.92} & \tiny{8.64}\\ \hline
+      \tiny{Standard Deviation} & \tiny{3.75} & \tiny{4.2} & \tiny{3.36} & \tiny{4.09} & \tiny{4.41} & \tiny{2.53} & \tiny{2.81} & \tiny{4.34} & \tiny{4.06} & \tiny{3.05} & \tiny{2.9} & \tiny{3.15} & \tiny{2.94}\\ \hline
+      \end{tabular}
+
+
+    \end{center}
+
+
     Teachers also input basic student information, but it mostly consists of general information that won't be used in the experiments.
     These will be denoted as \textbf{M} variables:
    	\begin{itemize}
