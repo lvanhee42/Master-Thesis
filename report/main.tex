@@ -234,7 +234,18 @@ The goal is to see how much of an effect Cytomine has on students.
 
 %todo subject to change
 \subsection{Teachers' Opinion of the Tool}
+
 \subsection{General Goals}
+
+
+    The Main objective is to observe how the students use Cytomine.
+    Since Cytomine is still in development, an objective is to make it robust and user friendly.
+    This analysis can give some insight on what works well and what doesn't.
+    As a follow up, it would be interesting to see the patterns that that can be observed in regards to the user.
+    The teachers also provided some information on students that followed the course.
+    This includes the grade obtained and all the tests that lead to that final grade.
+    With this information, machine learning can be used to analyze these grades and what patterns lead to them.
+    This analysis returns statistics in many forms since there is such a wide range of variables. (Figure \ref{fig:highlevel})
 
       \begin{figure}[H]
       \centering
@@ -276,7 +287,7 @@ The goal is to see how much of an effect Cytomine has on students.
 		  Both projects have their own objectives but GOLD is more complete and thorough.
 		  unlike the SILVER project, the students were tested and graded on the course that was given to them but also the content of the project.
          
-          To analyze user behavior, it is necessary to fetch data that is relevant, this includes :
+          To analyze user behavior, it is necessary to fetch data that is relevant, this includes (as shown in Figure \ref{fig:data}):
           
           \begin{itemize}
           \item[\textbullet] Resized images :\newline
@@ -329,8 +340,14 @@ The goal is to see how much of an effect Cytomine has on students.
         In the case where the referenced annotation is unknown, it will be guessed based on positions that appear at the same time.
         
          \end{itemize}
-	
-		%todo add image of modified data diagram
+
+       \begin{figure}[H]
+        \centering
+         \includegraphics[width=.9\linewidth]{dataDiagram.pdf}
+         \caption{Data and their relations}
+         \label{fig:data}
+       \end{figure}
+
         
 		All this information needs to be downloaded.
 		Unfortunately, this can take up to 8 hours using the API while putting stress on the MOOC server.
