@@ -328,8 +328,17 @@ The goal is to see how much of an effect Cytomine has on students.
             \item[\textbullet] After the user finishes a movement on the image.
          \end{itemize}
          Due to how frequently positions are recorded, this information comes in large quantity.
+         Unfortunately, with all browsers (E.G. Google Chrome and Firefox) positions are still recorded when the page is minimized or tabbed out.
+         This means that users can browse some unrelated website or even read course's Syllabus while positions are still recorded on Cytomine.
+         The issue is that it's hard to determine whether or not a position is considered invalid because the user was not focused on it during the time.
+         An idea that was attempted was after a certain amount of positions with the same coordinates, is to remove the following positions with that coordinate.
+         Unfortunately, it requires the setting of a threshold.
+         This threshold would be arbitrary.
+         After some attempts, this loss of information became a detriment to the Machine Learning and the results were worse.
+         Therefore, the idea has been put on hold.\\
+
          %todo add image with boxes with each zoom 
-        \\
+
         \item[\textbullet] Annotations Actions :\newline
         
         Annotations are clickable.
@@ -1398,6 +1407,39 @@ In the end, some images and some modules have more impact than others.  (Figures
     
 \section{Discussion} \label{Discussion}
 
+    \subsection{Negatives}
+
+        First of all, the results obtained from the Machine Learning were subpar.
+        A mean Absolute error of around 2.0 out of 20 is 10\% of the range which is not great.
+        The main cause of which is the small data set of 395 students.
+        If it was possible to group people up based on habits and patterns, 395 students would not be enough for such study.
+        It's still important to stay skeptical because every person is unique.
+        Some people have a much easier time learning than others.
+        In such cases, the student may not need much time to understand the concepts provided by Cytomine.
+        Therefore, there there are less recorded positions and actions.
+        In other case, the exact opposite.
+        When on Cytomine, the analyst can't be in the person's head when using the application.
+        The student can go on the website and retain nothing.
+        Also, the Gaze data may not be perfectly accurate.
+        Without sensors that observe the user's eye movements, it's very impractical to track Gaze data.
+        In most cases, a person is usually focused on or near the center of the screen.
+        It's possible that they can focus more towards a corner.
+        In it's current state, corners have a lower value from the calculated Gaussian distribution.
+        It's also worth to mention again that positions are still recorded even when the window is not active.
+        Since this issue is not easy to resolve without losing information, it also may lead to some inaccuracies.
+        It's also important to note that much information is contained in the course itself.
+        The course contains numerous examples of cells and tissues that is also found on Cytomine.
+        It's entirely possible that students can ignore Cytomine for the most part and just learn from the course's Syllabus.\\
+
+
+        But overall it may be a good thing that the results were not so great.
+        It is important to keep in mind that this study is not used to encourage students to follow the directions to the letter.
+        The students should be free to work on their course the way they see fit.
+        If they were to fail, it is their own problem.
+        It's also important to encourage different styles and methods, and not force a particular way of thinking.
+        This is why the Annotation visit order features were not very impactful.
+        If those variables were more impactful and the results were better, it could have implied that visiting annotations in a specific order would be important to passing the exam.
+        Overall the goal is not to try and dictate how the students work.
 
 \section{Conclusion}
 \end{document}
