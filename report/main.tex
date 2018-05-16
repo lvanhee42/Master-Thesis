@@ -1231,8 +1231,10 @@ In the end, some images and some modules have more impact than others.  (Figures
     As predicted, the QCM yielded the best scores while the QROL provided sub par scores.
     The assumptions made based off of the practical exams were correct.
     The Extra Trees has an easier time predicting QCM exams.
-    But in this case, the QCM grades has a lower variance then the QROL.
+    But in this case, the QCM grades has a lower variance then the QROL.\\
 
+
+    The following figures show the feature importance for their respective model (Figures \ref{fig:var_th1}, \ref{fig:var_th2}, and \ref{fig:var_th3}).
 
      \begin{figure}[H]
       \centering
@@ -1255,6 +1257,14 @@ In the end, some images and some modules have more impact than others.  (Figures
       \label{fig:var_th3}
       \end{figure}    
 
+    As usual, the scores are the most prominent features for all the theoretical exercises.
+    It's interesting to note some differences with the practical exercices.
+    This includes features that are associated to the time worked.
+    It would not be too much of a stretch to theorize that studying with Cytomine during certain time periods, the student would assimilate more information.
+    For example, when working after 2AM, the students may be more tired and they might retain less information.\\
+
+
+    As for images themselves, the QROL questions are more specific so certain images may be the centerpiece. (Figures \ref{fig:im_th1}, \ref{fig:im_th2}, and \ref{fig:im_th3})
 
      \begin{figure}[H]
       \centering
@@ -1277,9 +1287,20 @@ In the end, some images and some modules have more impact than others.  (Figures
       \label{fig:im_th3}
       \end{figure}    
 
+    As predicted, some images and modules are more relevant then others.
+    For the QROL1, it seems that the question was associated information that the students learned from the modules 5 and 6.
+    The image 1208906 which is an image used for learning is the most important.
+    This is contrasted by the QROL1 question where the more important images are associated to the earlier modules (1 and 3).
+    In this case, the image 1218727 was the most impactful.
+    This image was given more as an exercise image as opposed to the previous one.
+    As for the QCM, the image 1208906 also stood out.
+    It's possible that, there's more educational interest behind this image.
 
     \subsubsection{Global Grades}
-    
+
+    The next objective is to study these grades as a whole.
+    This includes the total theoretical grades, the total practical grade, and the exam as a whole. (Figure \ref{fig:results_tot})
+
     
       \begin{figure}[H]
       \centering
@@ -1311,7 +1332,13 @@ In the end, some images and some modules have more impact than others.  (Figures
       \label{fig:results_tot}
     \end{figure}
     
-    
+    As a whole, there's a mean absolute error of about 2.
+    Overall, still not the best results.
+    An interesting observation is that the learning algorithm has a easier time predicting theoretical grades over practical grades.
+    As using Cytomine is overall a practical activity, the fact predicting theoretical grades works just as well can possibly imply that students can retain theoretical concepts with Cytomine.\\
+
+    Observing what behaviors lead to this grade can prove useful : (Figures \ref{fig:var_tot1}, \ref{fig:var_tot2}, and \ref{fig:var_tot3})
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{var_importance_TOTAL_TP_2018-04-29_14_37_37.png}
@@ -1332,9 +1359,36 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Feature Importance for the Total}
       \label{fig:var_tot3}
       \end{figure}   
+
+    Overall, the most impactful features are often associated to the students' performance scores for all the models.
+    This indicator that the student followed the instructions has a notable impact on the results.
+    Also, module features are also much less impactful than their regular counterparts.\\
+
+    As for the images themselves the results are : (Figures \ref{fig:im_tot1}, \ref{fig:im_tot2}, and \ref{fig:im_tot3})
       
-      
-      %%todo add image importance
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{im_importance_TOTAL_TP_2018-04-29_14_37_40.png}
+      \caption{Image Importance for the total Practical}
+      \label{fig:im_tot1}
+      \end{figure}
+
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{im_importance_TOTAL_THEORY_2018-05-02_23_31_57.png}
+      \caption{Image Importance for the total Theory}
+      \label{fig:im_tot2}
+      \end{figure}
+
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{im_importance_GLOBAL_GRADE_2018-05-02_20_56_13.png}
+      \caption{Image Importance for the Global Grade}
+      \label{fig:im_tot3}
+      \end{figure}
+
+    For the most part, the important images are similar to those of all the individual tests put together.
+    So as a whole, there's a sizable set of images that have a high impact on the grades predicted.
     
     \subsubsection{Learning with additional Information}
     %todo guess theory with practical
