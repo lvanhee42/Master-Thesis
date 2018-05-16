@@ -1398,21 +1398,21 @@ In the end, some images and some modules have more impact than others.  (Figures
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{var_importance_TOTAL_TP_2018-04-29_14_37_37.png}
-      \caption{Feature Importance for the Practical}
+      \caption{Feature Importance for the total Practical}
       \label{fig:var_tot1}
       \end{figure}
       
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{var_importance_TOTAL_THEORY_2018-05-02_23_31_54.png}
-      \caption{Feature Importance for the Theory}
+      \caption{Feature Importance for the total Theory}
       \label{fig:var_tot2}
       \end{figure}
       
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{var_importance_GLOBAL_GRADE_2018-05-02_20_56_11.png}
-      \caption{Feature Importance for the Total}
+      \caption{Feature Importance for the global Grade}
       \label{fig:var_tot3}
       \end{figure}   
 
@@ -1439,12 +1439,13 @@ In the end, some images and some modules have more impact than others.  (Figures
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{im_importance_GLOBAL_GRADE_2018-05-02_20_56_13.png}
-      \caption{Image Importance for the Global Grade}
+      \caption{Image Importance for the global Grade}
       \label{fig:im_tot3}
       \end{figure}
 
     For the most part, the important images are similar to those of all the individual tests put together.
     So as a whole, there's a sizable set of images that have a high impact on the grades predicted.
+    These results give an indication on what patterns can lead a student to pass.
     
     \subsubsection{Learning with additional Information}
     %todo guess theory with practical
@@ -1486,7 +1487,64 @@ In the end, some images and some modules have more impact than others.  (Figures
         It's also important to encourage different styles and methods, and not force a particular way of thinking.
         This is why the Annotation visit order features were not very impactful.
         If those variables were more impactful and the results were better, it could have implied that visiting annotations in a specific order would be important to passing the exam.
-        Overall the goal is not to try and dictate how the students work.
+        Overall the goal is not to try and dictate how the students work.\\
+
+
+        Secondly, even with sizable number of features it still feels like it's still possible to infer new features.
+        The problem is to find features that can have a real impact on the results.
+        For example, it's possible to generate the same features but for each day of the semester.
+        This would end up adding tens of thousands of features.
+        Due to the small number of individuals, it would be hard to draw conclusion for many of these features.
+        It would also be just as hard to determine whether or not students understand the course.\\
+
+        Thirdly, Cytomine comes with tools to create and edit annotations.
+        Unfortunately, in its current state annotation operations are only accessible to the project manager.
+        It would be interesting for students to be able to create personal annotations.
+        There could be multiple applications, including :
+        \begin{itemize}
+            \item[\textbullet] For exercises, students can be asked to look for certain objects in images.
+            These objects can be annotated.
+            These annotations can be seen by the teachers.
+            After a certain deadline, teachers can correct and give advice to students.
+            \item[\textbullet] For the images used for teaching, students can annotate and describe certain objects similarly to before.
+            But this time, it's used to ask questions to the teachers.
+            For example on Cytomine, teachers can be notified.
+            Afterwards, they can reply to these questions.
+            This can be a interactive way fo students to communicate with teachers.
+            \item[\textbullet] Private annotations for the students, Simply to keep information on certain objects saved and easily accessible.
+        \end{itemize}
+        This option for students can help improve the course in the long run.
+
+    \subsection{Positives}
+
+        This tool was able to generate many ways to visually observe user behavior on Cytomine. This includes :
+        \begin{itemize}
+            \item[\textbullet] Gazemaps (Gaze Heatmaps)
+            \item[\textbullet] Scan Paths
+            \item[\textbullet] Timelines
+            \item[\textbullet] Feature importance graphs
+            \item[\textbullet] Image Importance graphs
+            \item[\textbullet] Feature correlation graphs
+            \item[\textbullet] Cross Validation error Boxplots
+            \item[\textbullet] Cross Validation error Scatter Plots
+        \end{itemize}
+
+        These tools can give indication on what the students are doing and when they are doing it.
+        It's unfortunate that generating some of the figures may take some time.
+        But with this tool, it's possible to generate Scan Paths or Gazemaps for specific image and user pairs on demand.
+        This can be directly implemented on a Cytomine website and not necessarly only for the MOOC.\\
+
+
+        Even though the Machine Learning results were not the best, the variable importance can still give small indications on what can lead students to pass or fail exams.
+        For example, the features that are student's performance score in regards to annotations quantifies how well a student follows instructions.
+        These features often are the top in regards to importance.
+        The main thing that can be determined is which annotations had the most impact for the exam.
+        This leads to image importance, and which images were the most impactful.
+        A good example is for the QROL1 and the QROL2, the differences are clear.
+        One question was most likely more associated to the earlier portion of the course while the other was more associated to the end of the course.
+        This is theorized without actually knowing the contents of the two questions.
+
+
 
 \section{Conclusion}
 \end{document}
