@@ -179,11 +179,11 @@ could give teachers the ability to keep track of the students' work.
 Open-source rich Internet application for collaborative analysis of multi-gigapixel images.
 Cytomine can be described by three main properties :
 \begin{itemize}
-\item[\textbullet] Open Source : The source code is available to the general public, in this case with Github.
+\item[\textbullet] \textbf{Open Source} : The source code is available to the general public, in this case with Github.
 It has an Apache 2.0 License, which is very permissive for any third party.
 It is also accompanied by documentation that describes the different modules and how to use them.
-\item[\textbullet] Open Company : It's a non-profit company that contribute and promote the project.
-\item[\textbullet] Open Research : Cytomine employs researchers at the Montefiore Institute of the University of Liege.
+\item[\textbullet] \textbf{Open Company} : It's a non-profit company that contribute and promote the project.
+\item[\textbullet] \textbf{Open Research} : Cytomine employs researchers at the Montefiore Institute of the University of Liege.
 They develop Machine Learning algorithms, image informatics, and Big Data modules.
 Cytomine also collaborates with other researchers.
 \end{itemize}
@@ -290,14 +290,14 @@ The goal is to see how much of an effect Cytomine has on students.
           To analyze user behavior, it is necessary to fetch data that is relevant, this includes (as shown in Figure \ref{fig:data}):
           
           \begin{itemize}
-          \item[\textbullet] Resized images :\newline
+          \item[\textbullet] \textbf{Resized images :}\newline
           
           The images stored on Cytomine are in fact very large.
           For the analysis, a copy of the images will be useful.
           Many operations in the Data Manipulation component rely on the image resolution when it comes to complexity.
           It is important that the image is big enough to be viewable while small enough so that the operations done in a reasonable amount of time.
           The image downloaded is therefore rescaled to a maximum width and height of 1024 pixels.\\
-          \item[\textbullet] Reference Annotations :\newline
+          \item[\textbullet] \textbf{Reference Annotations :}\newline
           
           When observing images, students are usually given guidelines in forms of image annotations.
           These annotations are zones in the image that contain information that students can learn from.
@@ -307,7 +307,7 @@ The goal is to see how much of an effect Cytomine has on students.
           In this study, only the geometrical center of the annotation is kept.
           In most cases, this loss of information should have no impact because the size of the zones are usually a couple pixels wide when put in the resized image.\\
           %%todo add image with annotations 
-		\item[\textbullet]  User Annotations :\newline
+		\item[\textbullet]  \textbf{User Annotations :}\newline
         
         Teachers can set annotations as guidelines, but normal users can also create annotations.
         If a student user notices something interesting on a patch of an image, that student can annotate it.
@@ -315,7 +315,7 @@ The goal is to see how much of an effect Cytomine has on students.
         Unfortunately, there are currently no User annotations.
         This will be discussed in section \ref{Discussion}.\\
         
-        \item[\textbullet]  User Positions :\newline
+        \item[\textbullet]  \textbf{User Positions :}\newline
         
          The most important information.
          A Positions is what the user sees at a current time stamp.
@@ -339,7 +339,7 @@ The goal is to see how much of an effect Cytomine has on students.
 
          %todo add image with boxes with each zoom 
 
-        \item[\textbullet] Annotations Actions :\newline
+        \item[\textbullet] \textbf{Annotations Actions :}\newline
         
         Annotations are clickable.
         When clicked, a toolbox appears giving more information on the annotation.
@@ -381,8 +381,8 @@ The goal is to see how much of an effect Cytomine has on students.
     It has multiple outputs based on the parameters set.
     Since it's important to obtain information as a whole on the data set, the component is divided into two main parts:
     \begin{itemize}
-        \item[\textbullet] Loading data to Memory: The positions, the annotations, the actions, and the image information data are all loaded to memory.
-        \item[\textbullet] Data Handling : Calling numerous methods that extracts important information.
+        \item[\textbullet] \textbf{Loading data to Memory:} The positions, the annotations, the actions, and the image information data are all loaded to memory.
+        \item[\textbullet] \textbf{Data Handling :} Calling numerous methods that extracts important information.
     \end{itemize}
 
     This component knows and uses the file directory structure.
@@ -391,12 +391,12 @@ The goal is to see how much of an effect Cytomine has on students.
     In fact, there are multiple classes:
 
     \begin{itemize}
-        \item[\textbullet] Data\_Manager : This class defines an object that will coordinate between the other classes in order to obtain the valuable information necessary.
-        \item[\textbullet] Image\_Data : This class defines objects that will contain references to information on a specific image.
+        \item[\textbullet] \textbf{Data\_Manager :} This class defines an object that will coordinate between the other classes in order to obtain the valuable information necessary.
+        \item[\textbullet] \textbf{Image\_Data :} This class defines objects that will contain references to information on a specific image.
         It also comes with operations associated to said image.
-        \item[\textbullet] User\_Data : This class defines objects that will contain references to information on a specific user.
+        \item[\textbullet] \textbf{User\_Data :} This class defines objects that will contain references to information on a specific user.
         Similarly, to Image\_Data, it comes with numerous operations.
-        \item[\textbullet] Module\_Data : This class defines objects that will contain references to information on a specific module.
+        \item[\textbullet] \textbf{Module\_Data :} This class defines objects that will contain references to information on a specific module.
         Modules are predefined by the teachers as a set of objectives within a certain timeframe.
         There is a subset of images that are associated to a module.
         It therefore contains references to users and images and it also comes with its own operations.
@@ -406,12 +406,12 @@ The goal is to see how much of an effect Cytomine has on students.
     This information is handled using dictionaries for fast and easy access.
     For the set of positions associated to a user and image pair, the dictionary contains these key and value pairs:
     \begin{itemize}
-        \item[\textbullet] 'x' : Array of X coordinates for all the positions.
-        \item[\textbullet] 'y' : Array of Y coordinates for all the positions.
-        \item[\textbullet] 'dur': Array of the duration for all the positions.
-        \item[\textbullet] 'timestamp': Array of the exact time the positions have been recorded for each position.
-        \item[\textbullet] 'zoom' : Array of the zoom values for each position (1 to 10)
-        \item[\textbullet] 'corners' : Array containing the four corners for each position.
+        \item[\textbullet] \textbf{'x' :} Array of X coordinates for all the positions.
+        \item[\textbullet] \textbf{'y' :} Array of Y coordinates for all the positions.
+        \item[\textbullet] \textbf{'dur':} Array of the duration for all the positions.
+        \item[\textbullet] \textbf{'timestamp':} Array of the exact time the positions have been recorded for each position.
+        \item[\textbullet] \textbf{'zoom' :} Array of the zoom values for each position (1 to 10)
+        \item[\textbullet] \textbf{'corners'} : Array containing the four corners for each position.
         The four corners are stored as an array with 4 values.
         These values contain a pair for the X and Y coordinates.
     \end{itemize}
@@ -420,23 +420,23 @@ The goal is to see how much of an effect Cytomine has on students.
     This prevents many problems and makes specific operations much easier.
     The dictionary follows a similar structure for annotations that are either associated to an image and user pair (user annotation) or just an image (reference annotation):
     \begin{itemize}
-        \item[\textbullet] 'x' : Array of X coordinates for all the annotations.
-        \item[\textbullet] 'y' : Array of Y coordinates for all the annotations.
-        \item[\textbullet] 'id': Array of the identifiers for all the annotations.
-        \item[\textbullet] 'localId': Array of the local identifiers for all the annotations.
+        \item[\textbullet] \textbf{'x' :} Array of X coordinates for all the annotations.
+        \item[\textbullet] \textbf{'y' :} Array of Y coordinates for all the annotations.
+        \item[\textbullet] \textbf{'id':} Array of the identifiers for all the annotations.
+        \item[\textbullet] \textbf{'localId':} Array of the local identifiers for all the annotations.
         Used for reference annotations.
         This property represents the annotation number shown on the images but also the recommended order of passage for these annotations
-        \item[\textbullet] 'type' : Array of the type for all annotations.
+        \item[\textbullet] \textbf{'type' :} Array of the type for all annotations.
         This is either a point or a polygon.
     \end{itemize}
 
     There are much fewer annotations then there are positions.
     Finally there are also annotation actions for image and user pairs:
     \begin{itemize}
-        \item[\textbullet] 'id' : Array of the identifiers of the concerned annotations for all the annotation actions.
-        \item[\textbullet] 'action' : Array of the action carried out for all annotation actions.
+        \item[\textbullet] \textbf{'id' :} Array of the identifiers of the concerned annotations for all the annotation actions.
+        \item[\textbullet] \textbf{'action' :} Array of the action carried out for all annotation actions.
         The value is always 'select'.
-        \item[\textbullet] 'timestamp' Array of the time the annotation action was carried out.
+        \item[\textbullet] \textbf{'timestamp':} Array of the time the annotation action was carried out.
     \end{itemize}
     It is important to know that during the period of January 2017 to September 2017, annotation actions were collected but they did not specify which annotation the action was related to.
     To determine that the component guesses the annotation.
@@ -494,10 +494,10 @@ The goal is to see how much of an effect Cytomine has on students.
     This includes :
 
     \begin{itemize}
-        \item[\textbullet] Output a Feature File : Students are analyzed individually in regards to the images they visited.
+        \item[\textbullet] \textbf{Output a Feature File :} Students are analyzed individually in regards to the images they visited.
         A set of features is then extracted in regards to their behavior.
         (see \ref{Data_Set} for more information on the contents and structure of the file)
-        \item[\textbullet] Output activity over time figures : These figure represents the activity over time of a set of students or simply an individual in regards to different modules.
+        \item[\textbullet] \textbf{Output activity over time figures :} These figure represents the activity over time of a set of students or simply an individual in regards to different modules.
         It gives a good insight on habits and work consistency of the students.
         These figures depict the number of positions for every single day.
         The weekends are tinted in a light yellow.
@@ -507,7 +507,7 @@ The goal is to see how much of an effect Cytomine has on students.
         This allows the observation of the students' patterns as a whole or comparing the behavior of particular students.
         An interesting experiment would be to compare the figures for the very best student and the very worst students to get more insight.
         The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
-        \item[\textbullet] Output Gaze Map figures : These figures represents the heatmaps of the student activity in regards to an image.
+        \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represents the heatmaps of the student activity in regards to an image.
         Since an image is resized to a reasonable resolution, each pixel is assigned a weight based on the user's activity near that pixel.
         Therefore, operations are done pixel by pixel.
         The values assigned rely on the 2D Gaussians generated for the positions.
@@ -517,22 +517,22 @@ The goal is to see how much of an effect Cytomine has on students.
         Depending on the method, generating a heatmap can be a very costly operation.
         Methods include :
         \begin{itemize}
-            \item Raw Heatmap : For each position, the respective gaussian values are added into the heatmap at the right position.
+            \item \textbf{Raw Heatmap :} For each position, the respective gaussian values are added into the heatmap at the right position.
             There are some advantages including that it's the fastest and shows clear distinctions between parts of the images.
             Drawbacks include that it is really hard to quantify and compare between users and other images.
             An another issue is with extreme cases the distinctions between regions of the image that been visited are too strong.
             For extreme cases, the most visited region might have such a high heatmap value that the other regions are hard to compare with each other.
-            \item Logarithmic Heatmap : The heatmap is generated similarly but a $Log_{10}$ normalizer applied at the end for each pixel.
+            \item \textbf{Logarithmic Heatmap :} The heatmap is generated similarly but a $Log_{10}$ normalizer applied at the end for each pixel.
             The advantages of that is that it's easier to compare areas of an image since the distinctions are smoothed.
             But it's main drawback is that it's really hard to quantify because the normalizer can be too extreme.
             Similarly, it's not straightforward when comparing students and images with each other since the scales are different for each heatmap.
-            \item Logarithmic Heatmap Relative to an image : The idea would be to reimplement the previous heatmap for every user of a specific image and standardize the scale.
+            \item \textbf{Logarithmic Heatmap Relative to an image :} The idea would be to reimplement the previous heatmap for every user of a specific image and standardize the scale.
             Since the minimum heat value will always be 0, this method only looks for the maximum heat value between all the heatmaps for that image.
             This value is set for all the heatmaps and they are drawn. This method's goal was to compare different students for the same image.
             Unfortunately, it still shares most of the same drawbacks of the Logarithmic Heatmap.
-            \item Logarithmic Heatmap Relative to a user : This is the same concept as previously but the goal is to compare activity of the same student across multiple images.
+            \item \textbf{Logarithmic Heatmap Relative to a user :} This is the same concept as previously but the goal is to compare activity of the same student across multiple images.
             This has the same advantages and drawbacks as the previous heatmap.
-            \item Reduced Heatmap : A interesting observation is that it's hard to quantify user observations for long durations.
+            \item \textbf{Reduced Heatmap :} A interesting observation is that it's hard to quantify user observations for long durations.
             The longer a person looks at the same area the less important the positions become over time.
             This explains the attempt to normalize the heatmap using the logarithmic function.
             The problem is that there's no theoretical explanation to why the the logarithmic method should work.
@@ -552,7 +552,7 @@ The goal is to see how much of an effect Cytomine has on students.
             Since for each pixel, the algorithm is given a list to sort a values to weight it takes much more time.
         \end{itemize}
         %% todo : images of different heatmaps.
-        \item[\textbullet] Output Scan Path Figures : These figures represents the path taken by the students when they scan through an image.
+        \item[\textbullet] \textbf{Output Scan Path Figures :} These figures represents the path taken by the students when they scan through an image.
         Another Idea that seems interesting is to observe a student's viewing order when looking at images.
         The idea is to draw arrow an plot that connects each position to the following position.
         After doing so for all the positions, it's possible to analyze the viewing order.
@@ -575,6 +575,98 @@ The goal is to see how much of an effect Cytomine has on students.
 
     \subsubsection{Data Learning}
 
+    This component has the objective of working with the output Feature file from the Data Manipulation component.
+    As there many output variables, a Graphical Unit Interface (GUI) was implemented.
+    This GUI shows the list of output variables that the user can chose from.
+    The user then has the option to run two different methods :
+    \begin{itemize}
+        \item[\textbullet] \textbf{Building a full model :} All the feature variables have been fit into a ExtraTree Regressor with the selected output variable.
+        From this model, statistics are extracted and visualized.
+        This includes :
+        \begin{itemize}
+            \item \textbf{Feature Importance Histogram :} An ExtraTree Regressor outputs the impact of all the variables after the model is fit.
+            Since there are over two thousand features, they can't all be visualized.
+            Therefore, only the 80 most impactful features have visualized with an Histogram.
+            Features are divided into 3 categories, those who were associated to specific Modules (in red), those who were associated to specific images (in green) and the more general features (in blue).
+            This helps give a rough idea on the effect of certain features.
+            \item \textbf{Image Importance Histogram :} This Histogram uses the features associated to specific images.
+            For each image, the average feature importance is calculated.
+            This is then shown in the Histogram.
+            Images were also split into categories based on the module they belong to.
+            The each category is represented by a color.
+            This helps determining what images and modules had the biggest impact on the grades obtained.
+            \item \textbf{Variable Correlation Scatter Plot :} This scatter plot compares the output variable to a top feature.
+            This visualizes the relation between those two variables.
+            This includes aline with a Pearson Correlation to represent the slope of the of the relation.
+        \end{itemize}
+        \item \textbf{Running a Leave-One-Out Cross Validation :} With a total of N individuals, the model is fit N times with N-1 individuals.
+        For each iteration, the individual left out will be tested with the model.
+        With this, the learned value is returned and is compared with the original value.
+        After each iteration, statistics were derived from the results :
+        \begin{itemize}
+            \item \textbf{Mean Absolute Error (score):} The average absolute error obtained by the cross-validation.
+            \item \textbf{Score of the Median Model :} The cross-validation is compared to a method that does a leave-one-out cross validation of the set by just taking the median value.
+            This is to give confirmation on whether or not the results of the ExtraTree Regressor are determined somewhat randomly.
+            \item \textbf{Score Difference :} This is the difference between the two previously mentioned scores.
+            The higher the difference, the better.
+            \item \textbf{P-Value :} The P-value of the cross validation results with the original output variables.
+            This method uses the T-Test to see if the two variables are significantly different from each other.
+            The P-value is valued from 0 to 1 with 1 meaning that the sets are exactly the same and 0 meaning the sets are completely different.
+            In this case, the ideal P-value would be 0.95.
+            \item \textbf{P-Value of the Median Model :} Similar to the previous P-Value but applied to the median model.
+        \end{itemize}
+        This leads to the implementation of statistics that are visualized in graphs:
+        \begin{itemize}
+            \item \textbf{Scatter Plot :} This compares the learned results with the output variables.
+            It includes four Lines.
+            The first line (in red) represents $x = y$, the best possible outcome for the learning.
+            The goal is to have the most accurate regression.
+            This happens when the scattered points are closest to that line.
+            The next two (in green) represents $x = y \pm score$, this is to give a interval where the error for the scattered points inside are less than the mean.
+            The last (in blue) represents the slope of the relation between the two variables.
+            It includes a Pearson Correlation to better understand the slope of the line.
+            \item \textbf{Box Plot :} This visualizes the error between the learned results with the output variables.
+            In this case, it draws the median error, the two quartiles Q1 (seperating the 25 \% with the lowest error with the rest) and Q3 (seperating the 75 \% with the lowest error with the rest), and the two whiskers.
+            The whiskers have a reach that are 1.5 times the inter-quartile range.
+            This means that any error outside the reach of the whiskers would be deemed extreme cases.
+            These cases are related to really high error values.
+        \end{itemize}
+    \end{itemize}
+
+    The ExtraTree (Extremely Randomized Tree) regressor is a class that fits a number of randomized decision trees on many sub samples of the population.
+    This method uses averaging to to improve learning accuracy all while controlling over-fitting.
+    It is therefore considered a Ensemble Method.
+    The Regressor has been implemented with sklearn (http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html).
+    It has been configured with the following parameters :
+    \begin{itemize}
+        \item[\textbullet] \textbf{Number of Estimators : 10 000}\\
+        Represents the number randomized trees generated.
+        \item[\textbullet] \textbf{Max depth : None}\\
+        The max depth of the trees.
+        \item[\textbullet] \textbf{Bootstrap : False}\\
+        Whether or not bootstrapping was implemented.
+        Bootstrapping implements sampling with replacement within the training set.
+        \item[\textbullet] \textbf{Max Features : Auto ( = Number of Features)}\\
+        Max number of features that can be used by the randomized tree.
+        \item[\textbullet] \textbf{Max leaf Nodes : None}\\
+        The maximum number of leaf nodes that be present in a tree.
+        \item[\textbullet] \textbf{Minimum Impurity Decrease : 0.0}\\
+        A node will be split if the impurity is less than the minimum impurity decrease value.
+        Threshold for early stopping tree growth.
+        \item[\textbullet] \textbf{Minimum Samples Leaf : 1}\\
+        The minimum number of samples required at a leaf node.
+        \item[\textbullet] \textbf{Minimum Samples split : 2}\\
+        The minimum number of samples required to split an internal node.
+        \item[\textbullet] \textbf{Minimum Weight Fraction Leaf : 0.0}\\
+        Minimum weighted fraction of the sum total of all weights (of all input samples) required at a leaf node.
+        If 0.0, samples have equal weights.
+        \item[\textbullet] \textbf{Criterion : msq - Mean Square Error (mae is too slow)}\\
+        The method to measure the quality of a split.
+        \item[\textbullet] \textbf{Out-of-bag Score : False}\\
+        Whether out-of-baf samples are used to estimate how well unseen data is fitted to a regression line.
+    \end{itemize}
+    Since the ExtraTree regressor handles overfilling by itself, it's useful to have many estimators when handling a vast amount of features.
+    Also, with many estimators the method will converge to output the best possible results where ExtraTrees are are concerned.
 
 \section{Data Analysis}
 
@@ -602,10 +694,14 @@ These variables usually contain basic information on the users.\\
 Either individual image variables or variables on the set of images.
 These variables are used in the machine learning model as input variables.\\
 \item[\textbullet] \textbf{Y} : Result variables, these variables is what the algorithm is attempting to guess using the  \textbf{X} variables.
-These variables are used in the machine learning model as output variables.\\
+These variables are used in the machine learning model as output variables. In this case, they are the students' grades.\\
 \end{itemize}
     
-    
+    With this, a couple experiments have been ran.
+    For each Y variable (that will be described in the next sections), the model was built fully for the first analysis.
+    The second analysis, a leave-one-out cross validation was ran.
+    The goal is to give insight on different user behaviors.
+    Hopefully, these experiments will prove to be useful.
     
     \subsection{Data Set} \label{Data_Set}
     
@@ -634,7 +730,7 @@ These variables are used in the machine learning model as output variables.\\
     
 	The students are evaluated by multiple exams and quizzes, these take the form of:
     \begin{itemize}
-    \item[\textbullet]  QCM : Multiple choice question test.
+    \item[\textbullet]  \textbf{QCM : Multiple choice question test.}
     Students are given questions and have to respond with 1 out of the 9 (or less) options.
     They have to set a degree of certainty for each response.
     The exam results are then calculated by a machine.
@@ -646,7 +742,7 @@ These variables are used in the machine learning model as output variables.\\
      \caption{QCM sheet and question example}
      \label{fig:qcm}
     \end{figure}
-	\item[\textbullet]  QCL : Identification and Incidence test.
+	\item[\textbullet]  \textbf{QCL : Identification and Incidence test.}
 	Graded similarly to a QCM, the students are given multiple questions to answer and they have to fill out a form.
 	The are a couple differences.
 	Each question is split into two, the identification and the incidence.
@@ -663,7 +759,7 @@ These variables are used in the machine learning model as output variables.\\
      \caption{QCL sheet with question example and list of answers}
      \label{fig:qcl}
     \end{figure}
-	\item[\textbullet]  QROL : Long answer open question test.
+	\item[\textbullet]  \textbf{QROL : Long answer open question test.}
 	Students are to write and explain their answers in a detailed fashion. (Figure \ref{fig:qrol})
           \begin{figure}[H]
     \centering
@@ -725,13 +821,13 @@ These variables are used in the machine learning model as output variables.\\
     Teachers also input basic student information, but it mostly consists of general information that won't be used in the experiments.
     These will be denoted as \textbf{M} variables:
    	\begin{itemize}
-   	\item[\textbullet] ID Cytomine : The Cytomine ID associated to the user. (Compulsory)
-    \item[\textbullet] LAST NAME : User's last name.
-    \item[\textbullet] FIRST NAME : User's First name (forename).
-    \item[\textbullet] GROUP : group user belongs in (GOLDULiege, GOLD, or SILVER).
+   	\item[\textbullet] \textbf{ID Cytomine :} The Cytomine ID associated to the user. (Compulsory)
+    \item[\textbullet] \textbf{LAST NAME :} User's last name.
+    \item[\textbullet] \textbf{FIRST NAME :} User's First name (forename).
+    \item[\textbullet] \textbf{GROUP :} group user belongs in (GOLDULiege, GOLD, or SILVER).
     GOLDULIEGE is a subset of GOLD containing the set of students following the course.
     This will be used for the analysis.
-    \item[\textbullet] USERNAME CYTOMINE : user's Cytomine username.
+    \item[\textbullet] \textbf{USERNAME CYTOMINE :} user's Cytomine username.
    	\end{itemize}
     
     
@@ -741,34 +837,34 @@ These variables are used in the machine learning model as output variables.\\
     These variables belong to the \textbf{X} category and are listed:
    
    \begin{itemize}
-    \item[\textbullet] NB IMAGES VISITED : The total number of different images that a user has opened over the course of the year.\\
-    \item[\textbullet] TOTAL NB POSITIONS : The total number of positions obtained from all the images opened.\\
-    \item[\textbullet] AVG NB POSITIONS : The mean number of positions obtained relative to all the images opened.\\
+    \item[\textbullet] \textbf{NB IMAGES VISITED :} The total number of different images that a user has opened over the course of the year.\\
+    \item[\textbullet] \textbf{TOTAL NB POSITIONS :} The total number of positions obtained from all the images opened.\\
+    \item[\textbullet] \textbf{AVG NB POSITIONS :} The mean number of positions obtained relative to all the images opened.\\
     
-    \item[\textbullet] MEDIAN NB POSITIONS : The median number of positions  obtained relative to all the images opened.\\
-    \item[\textbullet] TOTAL IMAGE VIEWING TIME (s) : Total amount of time spent viewing images.\\
+    \item[\textbullet] \textbf{MEDIAN NB POSITIONS :} The median number of positions  obtained relative to all the images opened.\\
+    \item[\textbullet] \textbf{TOTAL IMAGE VIEWING TIME (s) :} Total amount of time spent viewing images.\\
 
-    \item[\textbullet] AVG IMAGE VIEWING TIME (s) : Mean amount of time spent viewing images.\\
+    \item[\textbullet] \textbf{AVG IMAGE VIEWING TIME (s) :} Mean amount of time spent viewing images.\\
 
-    \item[\textbullet] MEDIAN IMAGE VIEWING TIME (S) : Median amount of time spent viewing images.\\
+    \item[\textbullet] \textbf{MEDIAN IMAGE VIEWING TIME (s) :} Median amount of time spent viewing images.\\
 
-    \item[\textbullet] NB POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position.
+    \item[\textbullet] \textbf{NB POSITIONS AT ZOOM <x> :} with <x> between 1 and 10, represents the zoom level of a position.
     1 variable per zoom value.
     It represents the total number of positions at zoom <x>.\\
-    \item[\textbullet] AVG ZOOM : The mean zoom level over all the positions collected.\\
-    \item[\textbullet] MEDIAN ZOOM : The median zoom level over all the positions collected.\\
-    \item[\textbullet] TOTAL NB ANNOTATION ACTIONS : The total number of times the user clicked on a reference annotation.\\
-    \item[\textbullet] AVG NB ANNOTATION ACTIONS : The mean number of times the user clicked on a reference annotation.\\
-    \item[\textbullet] MEDIAN NB ANNOTATION ACTIONS : The median number of times the user clicked on a reference annotation.\\
+    \item[\textbullet] \textbf{AVG ZOOM :} The mean zoom level over all the positions collected.\\
+    \item[\textbullet] \textbf{MEDIAN ZOOM :} The median zoom level over all the positions collected.\\
+    \item[\textbullet] \textbf{TOTAL NB ANNOTATION ACTIONS :} The total number of times the user clicked on a reference annotation.\\
+    \item[\textbullet] \textbf{AVG NB ANNOTATION ACTIONS :} The mean number of times the user clicked on a reference annotation.\\
+    \item[\textbullet] \textbf{MEDIAN NB ANNOTATION ACTIONS :} The median number of times the user clicked on a reference annotation.\\
     
-    \item[\textbullet] AVG NB POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position.
+    \item[\textbullet] \textbf{AVG NB POSITIONS AT ZOOM <x> :} with <x> between 1 and 10, represents the zoom level of a position.
     1 variable per zoom value.
     It represents the mean number of positions at zoom <x> relative to all images visited.\\
-    \item[\textbullet] MEDIAN POSITIONS AT ZOOM <x> : with <x> between 1 and 10, represents the zoom level of a position.
+    \item[\textbullet] \textbf{MEDIAN POSITIONS AT ZOOM <x> :} with <x> between 1 and 10, represents the zoom level of a position.
     1 variable per zoom value.
     It represents the median number of positions at zoom <x> relative to all images visited.\\
     %% TODO : Picture of a gaussian at highest zoom
-    \item[\textbullet] \label{enum:score} SCORE OF ANNOTATION <y> AT IMAGE <x> : with <y> being the annotation identifier and <x> being the image identifier.
+    \item[\textbullet] \label{enum:score} \textbf{SCORE OF ANNOTATION <y> AT IMAGE <x> :} with <y> being the annotation identifier and <x> being the image identifier.
     When images have annotations, students tend to focus on these points.
     For each position, the program generates a 2 Dimensional Gaussian function to represent the position.
     The size and values of this Gaussian relies on the zoom of the position.
@@ -800,7 +896,7 @@ This means that the highest value has a weight of 1, the second a weight of 0.95
 The value calculated is then used for the score.
 If a student actually observed in detail the annotation, they would usually get values above 10.\\
 
-    \item[\textbullet] USER SCORE AT IMAGE <x> : With <x> the image identifier on Cytomine.
+    \item[\textbullet] \textbf{USER SCORE AT IMAGE <x> :} With <x> the image identifier on Cytomine.
     The users are given scores between 0 and 1 (not opening an image gives the user a score of 0).
     The score represents how well the user observed the annotations in the given image.
     In short, if a user spends a good amount of time on top of an annotation or if the user clicks on the annotation, he/she will get points for that annotation.
@@ -808,88 +904,88 @@ If a student actually observed in detail the annotation, they would usually get 
     The score for an annotation is given by the previous variable (SCORE OF ANNOTATION <y> AT IMAGE <x>) and re dimensioned so this variable returns a score between 0 and 1.
     If the image does not have any annotation, the scores for are calculated for the entire image and the average is returned. \\
     
-    \item[\textbullet] AVERAGE USER SCORE : The average of all the scores defined previously for a user. \\
+    \item[\textbullet] \textbf{AVERAGE USER SCORE :} The average of all the scores defined previously for a user. \\
     
-    \item[\textbullet] NB POSITIONS AT IMAGE <x> : with <x> being the image Identifier, represents the number of positions recorded at that image for a user. \\
+    \item[\textbullet] \textbf{NB POSITIONS AT IMAGE <x> :} with <x> being the image Identifier, represents the number of positions recorded at that image for a user. \\
     
-   \item[\textbullet] TIME SPENT AT IMAGE <x> : With <x> being the image identifier, represents the total time spent on an image for a user. \\
+   \item[\textbullet] \textbf{TIME SPENT AT IMAGE <x> :} With <x> being the image identifier, represents the total time spent on an image for a user. \\
    
-   \item[\textbullet] NB OF ANNOTATION ACTIONS AT IMAGE <x> : With <x> being the image identifier, represents the number of annotation Actions at that image for a user. \\
+   \item[\textbullet] \textbf{NB OF ANNOTATION ACTIONS AT IMAGE <x> :} With <x> being the image identifier, represents the number of annotation Actions at that image for a user. \\
       
-    \item[\textbullet] NB OF POSITIONS WITH ZOOM <y> AT IMAGE <x> : With <x> being the image identifier and <y> being the zoom value [1-10].
+    \item[\textbullet] \textbf{NB OF POSITIONS WITH ZOOM <y> AT IMAGE <x> :} With <x> being the image identifier and <y> being the zoom value [1-10].
     It Represents the number of positions for a certain zoom  at that image for a user. \\
 
-    \item[\textbullet] NB IMAGES VISITED DURING MODULE <x>: The total number of different images that a user has opened that are associated to the module <x>.\\
+    \item[\textbullet] \textbf{NB IMAGES VISITED DURING MODULE <x> :} The total number of different images that a user has opened that are associated to the module <x>.\\
     
-    \item[\textbullet] AVG NB POSITIONS DURING MODULE <x>: The mean number of positions obtained relative to all the images opened that are associated to the module <x> during the corresponding time period.\\
+    \item[\textbullet] \textbf{AVG NB POSITIONS DURING MODULE <x> :} The mean number of positions obtained relative to all the images opened that are associated to the module <x> during the corresponding time period.\\
     
-    \item[\textbullet] MEDIAN NB POSITIONS DURING MODULE <x>: The median number of positions obtained relative to all the images opened that are associated to the module <x> during the corresponding time period.\\
+    \item[\textbullet] \textbf{MEDIAN NB POSITIONS DURING MODULE <x> :} The median number of positions obtained relative to all the images opened that are associated to the module <x> during the corresponding time period.\\
     
-    \item[\textbullet] TOTAL NB POSITIONS DURING MODULE <x>: The total number of positions obtained from all the images associated to the module <x> during the corresponding time period.\\
+    \item[\textbullet] \textbf{TOTAL NB POSITIONS DURING MODULE <x> :} The total number of positions obtained from all the images associated to the module <x> during the corresponding time period.\\
     
-    \item[\textbullet] TOTAL TIME SPENT DURING MODULE <x> (s) : Total amount of time spent viewing images associated to the module <x> during its given time period.\\    
+    \item[\textbullet] \textbf{TOTAL TIME SPENT DURING MODULE <x> (s) :} Total amount of time spent viewing images associated to the module <x> during its given time period.\\
     
-    \item[\textbullet] AVG TIME SPENT DURING MODULE <x> (s) : Mean amount of time spent viewing images associated to the module <x> during its given time period.\\    
+    \item[\textbullet] \textbf{AVG TIME SPENT DURING MODULE <x> (s) :} Mean amount of time spent viewing images associated to the module <x> during its given time period.\\
     
-    \item[\textbullet] MEDIAN TIME SPENT DURING MODULE <x> (s) : median amount of time spent viewing images associated to the module <x> during its given time period.\\
+    \item[\textbullet] \textbf{MEDIAN TIME SPENT DURING MODULE <x> (s) :} median amount of time spent viewing images associated to the module <x> during its given time period.\\
     
-    \item[\textbullet] NB POSITIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
+    \item[\textbullet] \textbf{NB POSITIONS DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
     This represents the number of positions recorded at that image for a user during the module's time period. \\
        
-    \item[\textbullet] TIME SPENT DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
+    \item[\textbullet] \textbf{TIME SPENT DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
     This represents the time spent at that image for a user during the module's time period. \\
     
-    \item[\textbullet] NB ANNOTATION ACTIONS DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
+    \item[\textbullet] \textbf{NB ANNOTATION ACTIONS DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
     This represents the number of annotation actions recorded at that image for a user during the module's time period. \\
      
      
-     \item[\textbullet] NB POSITIONS WITH ZOOM <z> DURING MODULE <y> AT IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
+     \item[\textbullet] \textbf{NB POSITIONS WITH ZOOM <z> DURING MODULE <y> AT IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
      This represents the number of positions recorded at that image for a user during the module's time period with zoom <z>.
      The zoom value <z> ranges from 1 to 10. \\
      
-     \item[\textbullet] AVERAGE ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
+     \item[\textbullet] \textbf{AVERAGE ZOOM DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
      This represents the average zoom level of all the positions recorded at that image for a user during the module's time period. \\
      
-     \item[\textbullet] MEDIAN ZOOM DURING MODULE <y> FOR IMAGE <x> : with <x> being the image Identifier of an image associated to the module <y>.
+     \item[\textbullet] \textbf{MEDIAN ZOOM DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
      This represents the median zoom level of all the positions recorded at that image for a user during the module's time period. \\
      
-     \item[\textbullet] NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>.
+     \item[\textbullet] \textbf{NB POSITIONS AT ZOOM <z> DURING MODULE <x> :} with <z> between 1 and 10, calculated for all the images associated to the module <x>.
      This represents the number of positions for a specific zoom for a user during the module's time period. \\
      
-	\item[\textbullet] AVERAGE NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>.
+	\item[\textbullet] \textbf{AVERAGE NB POSITIONS AT ZOOM <z> DURING MODULE <x> :} with <z> between 1 and 10, calculated for all the images associated to the module <x>.
 	This represents the mean number of positions for a specific zoom for a user during the module's time period. \\
 
-	\item[\textbullet] MEDIAN NB POSITIONS AT ZOOM <z> DURING MODULE <x> : with <z> between 1 and 10, calculated for all the images associated to the module <x>.
+	\item[\textbullet] \textbf{MEDIAN NB POSITIONS AT ZOOM <z> DURING MODULE <x> :} with <z> between 1 and 10, calculated for all the images associated to the module <x>.
 	This represents the median number of positions for a specific zoom for
 a user during the module's time period. \\ 
 	
-	\item[\textbullet] TOTAL NB ANNOTATION ACTIONS DURING MODULE <x> : With <x> being the module identifier, it represents the total number of annotation  actions for a user during the module's time period. \\ 
+	\item[\textbullet] \textbf{TOTAL NB ANNOTATION ACTIONS DURING MODULE <x> :} With <x> being the module identifier, it represents the total number of annotation  actions for a user during the module's time period. \\
 	
-	\item[\textbullet] AVG NB ANNOTATION ACTIONS DURING MODULE <x> : With <x> being the module identifier, it represents the mean number of annotation  actions for a user during the module's time period. \\ 
+	\item[\textbullet] \textbf{AVG NB ANNOTATION ACTIONS DURING MODULE <x> :} With <x> being the module identifier, it represents the mean number of annotation  actions for a user during the module's time period. \\
 		
-	\item[\textbullet] MEDIAN NB ANNOTATION ACTIONS DURING MODULE <x> : With <x> being the module identifier, it represents the median number of annotation  actions for a user during the module's time period. \\ 
+	\item[\textbullet] \textbf{MEDIAN NB ANNOTATION ACTIONS DURING MODULE <x> :} With <x> being the module identifier, it represents the median number of annotation  actions for a user during the module's time period. \\
 
-	\item[\textbullet] AVERAGE USER SCORE DURING MODULE <x> : With <x> being the module identifier, it represents the average predefined score for a user for the module's images during the respective time period. \\ 
+	\item[\textbullet] \textbf{AVERAGE USER SCORE DURING MODULE <x> :} With <x> being the module identifier, it represents the average predefined score for a user for the module's images during the respective time period. \\
     
-	\item[\textbullet] USER SCORE AT IMAGE <y> DURING MODULE <x> : With <x> being the module identifier and <y> the image identifier, it represents the predefined score at the image for a user during the module's time period. \\     
+	\item[\textbullet] \textbf{USER SCORE AT IMAGE <y> DURING MODULE <x> :} With <x> being the module identifier and <y> the image identifier, it represents the predefined score at the image for a user during the module's time period. \\
 	
-	\item[\textbullet] SCORE OF ANNOTATION <z> AT IMAGE <y> DURING MODULE <x> : With <x> being the module identifier and <y> the image identifier, it represents the predefined score of the annotation <z> at the image for a user during the module's time period. \\     
+	\item[\textbullet] \textbf{SCORE OF ANNOTATION <z> AT IMAGE <y> DURING MODULE <x> :} With <x> being the module identifier and <y> the image identifier, it represents the predefined score of the annotation <z> at the image for a user during the module's time period. \\
          
-    \item[\textbullet] PERCENT TIME WORKED AT NIGHT : Value from 0 to 1.
+    \item[\textbullet] \textbf{PERCENT TIME WORKED AT NIGHT :} Value from 0 to 1.
     This represents the ratio of the time spent working from 6pm to 6am.
     
-    \item[\textbullet] PERCENT TIME WORKED LATE : Value from 0 to 1.
+    \item[\textbullet] \textbf{PERCENT TIME WORKED LATE :} Value from 0 to 1.
     This represents the ratio of the time spent working from 1am to 6am.
         
-    \item[\textbullet] PERCENT TIME WORKED MORNING : Value from 0 to 1.
+    \item[\textbullet] \textbf{PERCENT TIME WORKED MORNING :} Value from 0 to 1.
     This represents the ratio of the time spent working from 6am to 12pm.
     
-    \item[\textbullet] NUMBER OF DAYS WORKED : The total number of days where a user opened at least one image.
+    \item[\textbullet] \textbf{NUMBER OF DAYS WORKED :} The total number of days where a user opened at least one image.
     
-    \item[\textbullet] PERCENT TIME WORKED DURING MODULE <x> : When working on Cytomine, the user can open images associated during a module during its time period or outside of it.
+    \item[\textbullet] \textbf{PERCENT TIME WORKED DURING MODULE <x> :} When working on Cytomine, the user can open images associated during a module during its time period or outside of it.
     This represents the ratio of the user activity during the time period.
     
-	\item[\textbullet] ANNOTATION <y> VISITED BEFORE ANNOTATION <y + 1> AT IMAGE <X> : This binary variable determines whether or not a student visited the annotation <y> before the annotation <y + 1> for an image <x>.
+	\item[\textbullet] \textbf{ANNOTATION <y> VISITED BEFORE ANNOTATION <y + 1> AT IMAGE <X> :} This binary variable determines whether or not a student visited the annotation <y> before the annotation <y + 1> for an image <x>.
 	The users are encouraged to study the reference annotation in a specific order.
     
     \end{itemize}
@@ -1031,9 +1127,9 @@ a user during the module's time period. \\
     But it's probable that some features from a specific image can be at the top for multiple model.
     Anyways, features are split into 3 categories:
     \begin{itemize}
-    \item[\textbullet] General Features : Features that describes the data on the set of images as a whole. (average, median, etc..)
-    \item[\textbullet] Regular Image Features : Features that describe the data on a specific image. (number of positions at image XXXX)
-    \item[\textbullet] Module Image Features : Features similar to the two previous but associated to a specific module period. (number of positions at image XXXX during module Y)
+    \item[\textbullet] \textbf{General Features :} Features that describes the data on the set of images as a whole. (average, median, etc..)
+    \item[\textbullet] \textbf{Regular Image Features :} Features that describe the data on a specific image. (number of positions at image XXXX)
+    \item[\textbullet] \textbf{Module Image Features :} Features similar to the two previous but associated to a specific module period. (number of positions at image XXXX during module Y)
     \end{itemize}
     
     Note that there are fewer general features, but many of those tend to have a high importance.
@@ -1128,7 +1224,7 @@ Since these exams are graded, students should have the motivation to study and a
 	The results vary heavily depending on the exams that were taken.
 	All the scores are significantly better than their respective median compared to the trial tests.
     \begin{itemize}
-    \item[\textbullet]  QCM practical : The best score, the boxplots show the most well rounded results.
+    \item[\textbullet]  \textbf{QCM practical :} The best score, the boxplots show the most well rounded results.
     The 75 percentile of grades estimated have an error of less than 3 and a 25 percentile of grades with an error of less than 1.
     Unfortunately, there are still some cases with a significantly high error.
     As for relation between the expected grade and the estimated grade, there is a clear pattern following the red line.
@@ -1136,17 +1232,17 @@ Since these exams are graded, students should have the motivation to study and a
     QCM exams are usually are straight to the point.
     Students need to know the answer to question but they don't have to explain it.
     All students by definition are graded equally because the exam is straightforward and easy to correct.
-    \item[\textbullet]  QROL practical : As opposed to the QCM, the score is significantly worse.
+    \item[\textbullet]  \textbf{QROL practical :} As opposed to the QCM, the score is significantly worse.
     This is also shown by the boxplot where the 75 percentile is at less than 4.5. By comparing the grades, it's apparent that there are more extreme grades and their estimations are off for the most part.
     This is normal because students write long and detailed responses to the questions.
     The teachers are more critical of the students.
     They look to see if students understand the contents of the course as opposed to learning by heart.
-    \item[\textbullet]  QCL identification Practical : With a score of 2.86, this QCL does not offer the best results.
+    \item[\textbullet]  \textbf{QCL identification Practical :} With a score of 2.86, this QCL does not offer the best results.
     It follows a somewhat lessened pattern of the QROL. As this portion of the exam gives the student an exhaustive list of possible answers, it's hard to a student to guess.
     It's critical that the students knows what they observe.
     Similarly to the QROL, lack of certainty lowers the grade.
     As opposed to the QCM where uncertainty is not much of an issue due to the lack of options.
-    \item[\textbullet]  QCL incidence Practical : the incidence score  is somewhat better.
+    \item[\textbullet]  \textbf{QCL incidence Practical :} the incidence score  is somewhat better.
     Apart from a couple exceptions most of the real grades have a small variance.
     This helps explain the very low 75 percentile of about 3 and the big number of erroneous cases above 6.
     Since this part of the exam is similar to a QCM but with only 3 options, it's relatively easy to answer the questions correctly.
