@@ -573,7 +573,7 @@ The goal is to see how much of an effect Cytomine has on students.
         \item[\textbullet] \textbf{Output a Feature File :} Students are analyzed individually in regards to the images they visited.
         A set of features is then extracted in regards to their behavior.
         (see \ref{Data_Set} for more information on the contents and structure of the file)
-        \item[\textbullet] \textbf{Output activity over time figures :} These figure represents the activity over time of a set of students or simply an individual in regards to different modules.
+        \item[\textbullet] \textbf{Output activity over time figures (Timeline) :} These figure represents the activity over time of a set of students or simply an individual in regards to different modules.
         It gives a good insight on habits and work consistency of the students.
         These figures depict the number of positions for every single day.
         The weekends are tinted in a light yellow.
@@ -583,7 +583,7 @@ The goal is to see how much of an effect Cytomine has on students.
         This allows the observation of the students' patterns as a whole or comparing the behavior of particular students.
         An interesting experiment would be to compare the figures for the very best student and the very worst students to get more insight.
         The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
-        \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represents the heatmaps of the student activity in regards to an image.
+        \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represents the Gazemaps of the student activity in regards to an image.
         Since an image is resized to a reasonable resolution, each pixel is assigned a weight based on the user's activity near that pixel.
         Therefore, operations are done pixel by pixel.
         The values assigned rely on the 2D Gaussians generated for the positions.
@@ -593,22 +593,22 @@ The goal is to see how much of an effect Cytomine has on students.
         Depending on the method, generating a heatmap can be a very costly operation.
         Methods include :
         \begin{itemize}
-            \item \textbf{Raw Heatmap :} For each position, the respective gaussian values are added into the heatmap at the right position.
+            \item \textbf{Raw Gazemap :} For each position, the respective gaussian values are added into the heatmap at the right position.
             There are some advantages including that it's the fastest and shows clear distinctions between parts of the images.
             Drawbacks include that it is really hard to quantify and compare between users and other images.
             An another issue is with extreme cases the distinctions between regions of the image that been visited are too strong.
             For extreme cases, the most visited region might have such a high heatmap value that the other regions are hard to compare with each other.
-            \item \textbf{Logarithmic Heatmap :} The heatmap is generated similarly but a $Log_{10}$ normalizer applied at the end for each pixel.
+            \item \textbf{Logarithmic Gazemap :} The heatmap is generated similarly but a $Log_{10}$ normalizer applied at the end for each pixel.
             The advantages of that is that it's easier to compare areas of an image since the distinctions are smoothed.
             But it's main drawback is that it's really hard to quantify because the normalizer can be too extreme.
             Similarly, it's not straightforward when comparing students and images with each other since the scales are different for each heatmap.
-            \item \textbf{Logarithmic Heatmap Relative to an image :} The idea would be to reimplement the previous heatmap for every user of a specific image and standardize the scale.
+            \item \textbf{Logarithmic Gazemap Relative to an image :} The idea would be to reimplement the previous heatmap for every user of a specific image and standardize the scale.
             Since the minimum heat value will always be 0, this method only looks for the maximum heat value between all the heatmaps for that image.
             This value is set for all the heatmaps and they are drawn. This method's goal was to compare different students for the same image.
             Unfortunately, it still shares most of the same drawbacks of the Logarithmic Heatmap.
-            \item \textbf{Logarithmic Heatmap Relative to a user :} This is the same concept as previously but the goal is to compare activity of the same student across multiple images.
+            \item \textbf{Logarithmic Gazemap Relative to a user :} This is the same concept as previously but the goal is to compare activity of the same student across multiple images.
             This has the same advantages and drawbacks as the previous heatmap.
-            \item \textbf{Reduced Heatmap :} A interesting observation is that it's hard to quantify user observations for long durations.
+            \item \textbf{Reduced Gazemap :} A interesting observation is that it's hard to quantify user observations for long durations.
             The longer a person looks at the same area the less important the positions become over time.
             This explains the attempt to normalize the heatmap using the logarithmic function.
             The problem is that there's no theoretical explanation to why the the logarithmic method should work.
@@ -627,7 +627,37 @@ The goal is to see how much of an effect Cytomine has on students.
             The main drawback is that it's much slower.
             Since for each pixel, the algorithm is given a list to sort a values to weight it takes much more time.
         \end{itemize}
-        %% todo : images of different heatmaps.
+        Figure \ref{fig:heatmaps} compares the Gazemaps of different methods for the same user and image pair.
+        In this example, the student focused a zone with a low zoom for a very long duration while also visiting annotations for a reasonable amount of time.
+        Observing these Gazemaps, they all have their flaws.
+        The logarithmic normalizer is too powerful.
+        Even though the colors for the reduced Gazemap is lighter, the colors are consistent with every other reduced heatmap that can be generated.
+        Unlike the two relative heatmaps who are only consistent between either users in the same image or images associated with the same user.
+
+        \begin{figure}[H]
+            \centering
+            \begin{subfigure}[b]{0.19\textwidth}
+            \includegraphics[width=\textwidth]{5501147_heatmap_basic.png}
+            \caption{Raw}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.19\textwidth}
+            \includegraphics[width=\textwidth]{5501147_heatmap_ln.png}
+            \caption{Logarithmic}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.19\textwidth}
+            \includegraphics[width=\textwidth]{5501147_heatmap_image.png}
+            \caption{Image Relative}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.19\textwidth}
+            \includegraphics[width=\textwidth]{5501147_heatmap_user.png}
+            \caption{User Relative}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.19\textwidth}
+            \includegraphics[width=\textwidth]{5501147_heatmap_reduced.png}
+            \caption{Reduced}
+            \end{subfigure}
+            \caption{Example Figure of different Gazemaps}\label{fig:heatmaps}
+        \end{figure}
         \item[\textbullet] \textbf{Output Scan Path Figures :} These figures represents the path taken by the students when they scan through an image.
         Another Idea that seems interesting is to observe a student's viewing order when looking at images.
         The idea is to draw arrow an plot that connects each position to the following position.
@@ -639,8 +669,20 @@ The goal is to see how much of an effect Cytomine has on students.
         These clusters are arranged by the average time of their positions.
         Each cluster is also given a weight based on the number of positions that belong to it.
         This makes the scan path complete in a sense that it shows most of the needed information relating to the user's viewing order.
+        The example in Figure \ref{fig:scanpath} shows the scan path associated to the same image and user pair as the Figure \ref{fig:heatmaps}.
+        This shows that the zone where the student focused for a long duration was during the begining of the scan.
+        The student may have been reading up on the course while keeping the image still.
+        Following that, the student started visiting the different annotations.
+        It's interesting to see that the student did not respect the order for the most part.
+        The scan order is annotations 7, 8, 3, 2, 4, 1, 6, 5, 10,and finally 9.
+          \begin{figure}[H]
+          \centering
+          \includegraphics[width=.3\linewidth]{5501147_scanpath.png}
+          \caption{Scan Path Example}
+          \label{fig:scanpath}
+    \end{figure}
     \end{itemize}
-    %todo add image examples
+
     \begin{figure}[H]
       \centering
       \includegraphics[width=.9\linewidth]{timelapse.png}
@@ -1620,6 +1662,44 @@ In the end, some images and some modules have more impact than others.  (Figures
     These results give an indication on what patterns can lead a student to pass.
     
     \subsubsection{Learning with additional Information}
+
+    A small experiment is to set the White Test grades as features and learn the Global grades.
+    This extra information can prove usefull.
+    The experiment is to see if those who did well on the white tests do well on the main exam.
+    The results are : (Figure \ref{fig:test1_1} \& \ref{fig:test1_2})
+    \begin{itemize}
+        \item[\textbullet] Score : 1.79
+        \item[\textbullet] Score from Median Model : 2.37
+        \item[\textbullet] Score Difference : 0.58
+        \item[\textbullet] P-value : 0.92
+        \item[\textbullet] P-Value of Median Model : 0.67
+    \end{itemize}
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.40\linewidth]{test1_cv_boxplot_GLOBAL_GRADE_2018-05-17_20_39_42.png}
+      \includegraphics[width=.40\linewidth]{test1_cv_comp_GLOBAL_GRADE_2018-05-17_20_39_42.png}\\
+      \includegraphics[width=.95\linewidth]{test1_var_correlation_GLOBAL_GRADE_2018-05-17_10_12_19.png}
+      \caption{White Test as features results - Statistics}
+      \label{fig:test1_1}
+      \end{figure}
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.40\linewidth]{test1_var_importance_GLOBAL_GRADE_2018-05-17_10_12_18.png}
+      \caption{White Test as features results - Feature Importance}
+      \label{fig:test1_2}
+      \end{figure}
+    As is clearly visible, The three white tests had an impact on the results.
+    They become by far the most important features according to Figure \ref{fig:test1_2}.
+    There's also a strong correlation between those features and the exam results.
+    It's hypothetically possible that in general, students who do better for the white tests do better on the final exam.
+    This extra information also helped predict better results as a whole.
+    This explains the reason why Teachers heavily encourage students to take the white tests.
+    It gives student an idea on how the exam will be like.
+    They can also get feedback if they had any question.
+    Of course, the cross validation results are still far from ideal so it's still dangerous to make too many assumptions.\\
+
+    The next experiment tries to learn practical results all while knowing the theoretical results.
+
     %todo guess theory with practical
     %todo guess practical with theory.
     
