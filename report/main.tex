@@ -11,7 +11,7 @@ top=1in,
 bottom=1in, 
 includefoot, 
 includehead]{geometry}
-
+\usepackage{subcaption}
 \usepackage{float}
 \usepackage{enumerate}
 \usepackage{algorithm}
@@ -216,10 +216,23 @@ Other sectors include Geology, Art, and in this case Medicine.
 
 \subsection{MOOC Server}
 
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{cytomine_home.png}
+      \caption{Cytomine MOOC home page}
+      \end{figure}
+
 The MOOC server is a Cytomine Web Application used for education by the Faculty of Medicine at the University of Liege.
 It is used for the HISL0541 (General histology and alternative experimentation methods that do not use animals) course.
 This course is organized for students enrolled for a Bachelor in Medicine.
-Students have to study tissue samples. \\
+Students have to study tissue samples. (Figure \ref{fig:lame_example})
+
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{lame_cytomine.png}
+      \caption{Cytomine MOOC Image example}
+      \label{fig:lame_example}
+      \end{figure}
 
 Cytomine is a great tool for this particular field because it can be used to store and display high quality images of tissue samples.
 It is also easily accessible for the students, they are not restricted to only using it during lab sessions.
@@ -232,8 +245,28 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 Their exams are often based on what they learned using the tool.
 The goal is to see how much of an effect Cytomine has on students.
 
-%todo subject to change
-\subsection{Teachers' Opinion of the Tool}
+\subsection{Teacher Input}
+
+    The development of new tools and methods have heavily influenced the ways teachers approach their courses.
+    This includes the sharing and consultation of resources from a distance.
+    Every year, over 500 students from the Faculty of Medicine at the University of Liege partake in this new learning approach.
+    The team working on the courses wanted to extend that knowledge and share it to a wider audience.
+    This is where the MOOC server becomes interesting.
+    MOOC stands for Massive Open Online Course.
+    The courses that use the MOOC encourage democratization of the sharing of knowledge.
+    The free access to high quality educational resources is now possible.
+    In fact, there are platforms (for example : https//www.fun-mooc.fr) that share multiple MOOCs to encourage this principle.
+    The MOOC is used in parallel with traditional courses.
+    With the HISL0541 course, the teachers divided the contents into 6 modules.
+    The first being a introduction to histology, and the rest a more concerns the vast family of tissue.
+    They invite students to explore and observe multiple images.
+    They offer two projects (GOLD and SILVER) that people can participate in (not only the students that follow the HISL0541 course).
+    At the end, these participants are offered to partake in activities that can give them certificates.
+    If the participants succeed with a score of 70\%, they are given a certificates.
+    Over 5000 participants that range from young to old, from students to employed workers, and from many different countries have participated in the MOOC.
+    Overall most participants seemed very motivated and satisfied with this approach.
+    This sharing of knowledge in a interactive and accessible way is great for anyone that have interests in this topic.
+
 
 \subsection{General Goals}
 
@@ -305,8 +338,14 @@ The goal is to see how much of an effect Cytomine has on students.
           Annotations from the same image have a different numbers.
           This represents the recommended order the user can traverse the image.
           In this study, only the geometrical center of the annotation is kept.
-          In most cases, this loss of information should have no impact because the size of the zones are usually a couple pixels wide when put in the resized image.\\
-          %%todo add image with annotations 
+          In most cases, this loss of information should have no impact because the size of the zones are usually a couple pixels wide when put in the resized image.
+          Reference annotations are drawn similarly to the example in Figure \ref{fig:annnn} that are indicated by numbers.\\
+            \begin{figure}[H]
+              \centering
+              \includegraphics[width=.4\linewidth]{annotations.png}
+              \caption{Example of Reference annotations}
+              \label{fig:annnn}
+            \end{figure}
 		\item[\textbullet]  \textbf{User Annotations :}\newline
         
         Teachers can set annotations as guidelines, but normal users can also create annotations.
@@ -335,9 +374,39 @@ The goal is to see how much of an effect Cytomine has on students.
          Unfortunately, it requires the setting of a threshold.
          This threshold would be arbitrary.
          After some attempts, this loss of information became a detriment to the Machine Learning and the results were worse.
-         Therefore, the idea has been put on hold.\\
+         Therefore, the idea has been put on hold.
+         A visualisation of the different zooms can be shown in Figure \ref{fig:zooms}.\\
 
-         %todo add image with boxes with each zoom 
+
+         \begin{figure}[H]
+            \centering
+            \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{zooms1.png}
+            \caption{Zooms 1 to 3}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{zooms2.png}
+            \caption{Zoom 2}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{zooms3.png}
+            \caption{Zoom 3}
+            \end{subfigure}
+
+            \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{zooms4.png}
+            \caption{Zoom 4}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{zooms5.png}
+            \caption{Zoom 5}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{zooms6.png}
+            \caption{Zooms 6 to 9}
+            \end{subfigure}
+            \caption{Figure of different zooms}\label{fig:zooms}
+        \end{figure}
 
         \item[\textbullet] \textbf{Annotations Actions :}\newline
         
@@ -372,8 +441,15 @@ The goal is to see how much of an effect Cytomine has on students.
         The project has a dedicated directory to store all this information, usually in a csv format.
         For each data type, image, and user triplet, there is a dedicated file containing this information.
         These files will be opened and read by the Data Manipulation Component for generating statistics and ways to represent data visually.
+        These files are organized in directories.
+        This component, builds an underlying structure that will be used and manipulated by the other components. (Figure \ref{fig:struct})
         
-        %todo add image of directory organisation 
+       \begin{figure}[H]
+        \centering
+         \includegraphics[width=.6\linewidth]{directories.png}
+         \caption{Directory and File Structure}
+         \label{fig:struct}
+       \end{figure}
         
 	\subsubsection{Data Manipulation}
     
@@ -558,7 +634,7 @@ The goal is to see how much of an effect Cytomine has on students.
         After doing so for all the positions, it's possible to analyze the viewing order.
         Unfortunately, in most cases there are too many positions.
         This is why clustering is used to group up close positions in regards to time and space.
-        K-Means clustering was implemented with K predetermined and ranging from 10 to 50.
+        K-Means clustering was implemented with K predetermined and ranging from 10 to 50 (K = 20 ideal).
         With this amount of clusters there may be a small loss in information but it allows the Scan Path to be observable.
         These clusters are arranged by the average time of their positions.
         Each cluster is also given a weight based on the number of positions that belong to it.
@@ -1643,4 +1719,14 @@ In the end, some images and some modules have more impact than others.  (Figures
 
 
 \section{Conclusion}
+
+    Overall, there were some interesting results. This tool provided the means to analyze and visualize user behavior on Cytomine.
+    Gazemaps and Scan paths provide some key information on the viewing pattern for a single image while timelines gave an overview on the project as a whole.
+    Machine Learning methods have been attempted and the results give much insight on groups of people but also individuals.
+    The results obtained were not the best due to the lack of individuals and the fact that this study has been carried out on people who each has there own way of thinking and doing things.
+    The goal was not to turn people into robots where there is only one good way of doing an activity, it's more to understand the reasoning behind decisions and why it was done.
+    Of course there still is much more information that can still be extracted and there may be even more complexity associated to it.
+    Without a background in Psychology, it's a complicated task to understand what's going on in a person's head when they use Cytomine.
+    Anyways this study proposes new tools that be used by Cytomine to draw statistics and even some minor adjustments to the MOOC.
+
 \end{document}
