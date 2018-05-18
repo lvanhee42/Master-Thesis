@@ -288,7 +288,15 @@ The goal is to see how much of an effect Cytomine has on students.
       \end{figure}
 
 \section{Tools and Methods}
-	
+
+    \subsection{Cytomine Databases}
+    % todo
+    {\color{red} TODO}
+
+    \subsection{Cytomine API}
+    % todo
+    {\color{red} TODO}
+
     \subsection{Three Separate Components}
     	Since there is a vast amount of data, most operations require some good amount of time to complete.
     	Therefore, the data analysis tool is divided into three components :
@@ -299,7 +307,9 @@ The goal is to see how much of an effect Cytomine has on students.
         \end{itemize}
 
 		\subsubsection{Data Acquisition}
-        
+        %todo UML diagrams and talk about it
+
+            %todo : move when Cytomine API part is written
 			During the 2016-2017 Academic year, Cytomine tracked and stored user information on the MOOC server.
 			To obtain all this information, Cytomine is accessible by a REST API. To ease the access to the server, Cytomine developed a Python Client that was used for the acquisition of relevant information.
 			With administrator rights, a user can get a hold of all if not most of the data stored on the SQL and MongoDB databases.
@@ -981,7 +991,6 @@ These variables are used in the machine learning model as output variables. In t
     \item[\textbullet] \textbf{MEDIAN POSITIONS AT ZOOM <x> :} with <x> between 1 and 10, represents the zoom level of a position.
     1 variable per zoom value.
     It represents the median number of positions at zoom <x> relative to all images visited.\\
-    %% TODO : Picture of a gaussian at highest zoom
     \item[\textbullet] \label{enum:score} \textbf{SCORE OF ANNOTATION <y> AT IMAGE <x> :} with <y> being the annotation identifier and <x> being the image identifier.
     When images have annotations, students tend to focus on these points.
     For each position, the program generates a 2 Dimensional Gaussian function to represent the position.
@@ -1109,7 +1118,8 @@ a user during the module's time period. \\
     \end{itemize}
     
 
-    %% todo add conclusion
+    All these features end up describing how users participated on Cytomine and their effects will be analyzed.
+    It will be evident that most of these features will have little impact in the learning process.
     
     \subsection{Results}
 
@@ -1212,8 +1222,8 @@ a user during the module's time period. \\
     This makes it so that high and low actual grades when predicted tend to be more erroneous.
     The sample also lacks a good amount of extreme grades which gives the algorithm less to work with for these cases.
     Furthermore, the fact that the exams are ungraded puts less pressure on the students to succeed.
-    Therefore, they might not take the tests as seriously as they could by not reviewing and studying the days before. \\
-    %%todo add reference to timeline    
+    Therefore, they might not take the tests as seriously as they could by not reviewing and studying the days before. (see Figure \ref{fig:timelapse}) \\
+
   
   Since the models are made using regression trees, it it possible to study the features that had an impact in determining the predicted grades.
   Even though the results were not ideal, it's interesting to observe what images and variables had a big impact on determining the grades.
@@ -1403,7 +1413,7 @@ Since these exams are graded, students should have the motivation to study and a
 The results are different from the trial tests.
 For one, the Module features are relatively less impactful than before.
 This shows that the total work done throughout the semester is more important than working more during specific modules.
-It also is shown that the students spent the most time on Cytomine the day before the exam.%%todo add reference to timeline
+It also is shown that the students spent the most time on Cytomine the day before the exam (see Figure \ref{fig:timelapse}).
 Similar to the white tests models, the Average Score feature always shows up as an important feature.
 This variable seems to be the closest variable into determining whether or not a student understands the course but it's still not perfect.
 In the end, some images and some modules have more impact than others.  (Figures \ref{fig:im_tp1}, \ref{fig:im_tp2}, \ref{fig:im_tp3},\ref{fig:im_tp4})
@@ -1436,11 +1446,12 @@ In the end, some images and some modules have more impact than others.  (Figures
       \label{fig:im_tp4}
       \end{figure}
 
-	It's hard to determine which modules were are more impactful as a whole.It seems that each module has at least one image that has a big impact on the result for each test.
+	It's hard to determine which modules were are more impactful as a whole.
+    It seems that each module has at least one image that has a big impact on the result for each test.
 	Like before, most these images are the ones dedicated to exercises.
 	This supports the hypothesis that doing the exercises has a positive impact on the grades.
 	But for example the image 1218120 does not appear at the top anymore.
-	This shows that even tough the models follow the same patterns, it's still varies based on the contents of the exam.\\
+	This shows that even though the models follow the same patterns, it's still varies based on the contents of the exam.\\
     
     Sometimes it's interesting  to look for correlations between the expected result and some features.
     This helps to see its direct impact in estimating a grade.
@@ -1696,11 +1707,12 @@ In the end, some images and some modules have more impact than others.  (Figures
     This extra information also helped predict better results as a whole.
     This explains the reason why Teachers heavily encourage students to take the white tests.
     It gives student an idea on how the exam will be like.
-    They can also get feedback if they had any question.
+    They can also get feedback if they had any questions.
     Of course, the cross validation results are still far from ideal so it's still dangerous to make too many assumptions.\\
 
     The next experiment tries to learn practical results all while knowing the theoretical results.
 
+    {\color{red} TODO}
     %todo guess theory with practical
     %todo guess practical with theory.
     
