@@ -1710,13 +1710,13 @@ In the end, some images and some modules have more impact than others.  (Figures
       \includegraphics[width=.40\linewidth]{plots/test1_cv_boxplot_GLOBAL_GRADE_2018-05-17_20_39_42.png}
       \includegraphics[width=.40\linewidth]{plots/test1_cv_comp_GLOBAL_GRADE_2018-05-17_20_39_42.png}\\
       \includegraphics[width=.95\linewidth]{plots/test1_var_correlation_GLOBAL_GRADE_2018-05-17_10_12_19.png}
-      \caption{White Test as features results - Statistics}
+      \caption{White Test as features : Results - Statistics}
       \label{fig:test1_1}
       \end{figure}
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/test1_var_importance_GLOBAL_GRADE_2018-05-17_10_12_18.png}
-      \caption{White Test as features results - Feature Importance}
+      \caption{White Test as features : Results - Feature Importance}
       \label{fig:test1_2}
       \end{figure}
     As is clearly visible, The three white tests had an impact on the results.
@@ -1730,11 +1730,38 @@ In the end, some images and some modules have more impact than others.  (Figures
     Of course, the cross validation results are still far from ideal so it's still dangerous to make too many assumptions.\\
 
     The next experiment tries to learn practical results all while knowing the theoretical results.
+    The goal the correlation between theory and practical.
+    This can also help determine an ideal prediction.
+    The figures \ref{fig:test2_1} and \ref{fig:test2_2} show these results.
+    \begin{itemize}
+        \item[\textbullet] Score : 1.56
+        \item[\textbullet] Score from Median Model : 2.59
+        \item[\textbullet] Score Difference : 1.03
+        \item[\textbullet] P-value : 0.91
+        \item[\textbullet] P-Value of Median Model : 0.84
+    \end{itemize}
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.40\linewidth]{plots/test2_cv_boxplot_TOTAL_TP_2018-05-18_14_11_28.png}
+      \includegraphics[width=.40\linewidth]{plots/test2_cv_comp_TOTAL_TP_2018-05-18_14_11_28.png}\\
+      \includegraphics[width=.95\linewidth]{plots/test2_var_correlation_TOTAL_TP_2018-05-18_02_51_44.png}
+      \caption{Theoretical results as features : Results - Statistics}
+      \label{fig:test2_1}
+      \end{figure}
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{plots/test2_var_importance_TOTAL_TP_2018-05-18_02_51_43.png}
+      \caption{Theoretical results as features : Results - Feature Importance}
+      \label{fig:test2_2}
+      \end{figure}
+    The scores are marginally better.
+    One average those who do well on the theoretical part of the course do better on the practical part.
+    It's shown with the strong correlations.
+    These features are also more impactful than any seen in the previous experiments.
+    But even with this extra information, the score is still somewhat lackluster.
+    This shows the individuality of each student.\\
 
-    {\color{red} TODO}
-    %todo guess theory with practical
-    %todo guess practical with theory.
-    
+    This same experiment could be done in reverse but the results would be extremely similar.
     
     
 \section{Discussion} \label{Discussion}
