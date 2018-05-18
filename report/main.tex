@@ -795,6 +795,16 @@ The goal is to see how much of an effect Cytomine has on students.
     \end{itemize}
     Since the ExtraTree regressor handles overfilling by itself, it's useful to have many estimators when handling a vast amount of features.
     Also, with many estimators the method will converge to output the best possible results where ExtraTrees are are concerned.
+    It is one of the more ideal choices for such a data set for many reasons :
+    \begin{itemize}
+        \item[\textbullet] The high number of features paired with a small number of individuals.
+        Ensemble methods are ideal in this scenario.
+        \item[\textbullet] Easy to interpret (variable importance for example).
+        \item[\textbullet] The data comes all at once, so the tree only needs to be fit once.
+        \item[\textbullet] Good for modeling linear interactions.
+        Most relations studied in this project are linear.
+        With the sample size, it's risky to try and infer more complex relations.
+    \end{itemize}
 
 \section{Data Analysis}
 
@@ -1813,7 +1823,8 @@ In the end, some images and some modules have more impact than others.  (Figures
 
 \section{Conclusion}
 
-    Overall, there were some interesting results. This tool provided the means to analyze and visualize user behavior on Cytomine.
+    Overall, there were some interesting results.
+    This tool provided the means to analyze and visualize user behavior on Cytomine.
     Gazemaps and Scan paths provide some key information on the viewing pattern for a single image while timelines gave an overview on the project as a whole.
     Machine Learning methods have been attempted and the results give much insight on groups of people but also individuals.
     The results obtained were not the best due to the lack of individuals and the fact that this study has been carried out on people who each has there own way of thinking and doing things.
