@@ -138,11 +138,11 @@ University of Li\`{e}ge - Faculty of Applied Sciences\\
 \rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
 \newpage
 \section{Abstract}
-In the medical field, doctors and researchers need to be able to observe and interpret cell samples.
+In the medical field, doctors and researchers should be able to observe and interpret cell samples.
 The
 most widely spread method is to observe samples with a microscope.
-New methods allow us to scan a
-sample into a very large and detailed image.
+New methods allow for scanning
+samples into very large and detailed image.
 These images can be uploaded to the Cytomine web
 application and doctors can go through the images with ease.
 The application includes many
@@ -155,16 +155,16 @@ Meanwhile, the Cytomine app
 has been collecting data on the students' time spent on the website.
 The bulk of the data collected
 consists of where the students decided to look in the images (Gaze data).
-With that, attempts  were made to find correlations between students' behavior and the results they obtain during exams.
+Consequently, attempts  were made to find correlations between students' behavior and the results they obtain during exams.
 Using Machine
 Learning techniques, the goal is to predict a student's grade based on how they used the application.
-Currently, the model contains 395 students with over 2000 features.
+Currently, the model contains 395 students' data with over 2000 features.
 Random Forest and Extra Trees
 learning techniques have been applied to attempt to predict grades.
 Otherwise, another goal is to
 visualize these patterns.
 The idea would be to generate Heatmaps of the students' gaze data (Gazemap).
-These Gazemaps would be included in the app and users can be given access to this information.
+These Gazemaps would be included in the application and users can be given access to this information.
 This
 could give teachers the ability to keep track of the students' work.
 
@@ -181,13 +181,13 @@ could give teachers the ability to keep track of the students' work.
     \includegraphics[scale=0.80]{images/logo_cytomine.jpg}
 \end{center}
 
-Open-source rich Internet application for collaborative analysis of multi-gigapixel images.
+Open-source rich internet application for collaborative analysis of multi-gigapixel images.
 Cytomine can be described by three main properties :
 \begin{itemize}
 \item[\textbullet] \textbf{Open Source} : The source code is available to the general public, in this case with Github.
 It has an Apache 2.0 License, which is very permissive for any third party.
 It is also accompanied by documentation that describes the different modules and how to use them.
-\item[\textbullet] \textbf{Open Company} : It's a non-profit company that contribute and promote the project.
+\item[\textbullet] \textbf{Open Company} : It's a non-profit company that contributes and promotes the project.
 \item[\textbullet] \textbf{Open Research} : Cytomine employs researchers at the Montefiore Institute of the University of Liege.
 They develop Machine Learning algorithms, image informatics, and Big Data modules.
 Cytomine also collaborates with other researchers.
@@ -202,7 +202,7 @@ Cytomine handles everything locally so that performance is not an issue for the 
 
 	Cytomine also comes with a comprehensive and robust API (Application Programing Interface).
 	This API allows clients to fetch and send data to and from a Cytomine Server.
-	This is very useful for data analysis, it's well organized so that researchers can find what they are looking for.
+	This is very useful for data analysis, it is well organized so that researchers can find what they are looking for.
 	There are also tools included that eases certain aspects of handling big data.
 	For examples image annotations allows the user to create zones of interest.
 	These zones can share characteristics and using learning algorithms, researchers can learn new zones of interest.
@@ -215,7 +215,7 @@ This can be done for many fields in computer sciences including Machine Learning
 
 This is not limited to the field of Computer Sciences.
 Fields that require the use of large high definition images can benefit from using Cytomine.
-This includes astrology where, people can learn about planets and stars using imagery.
+For instance, this includes astrology where people can learn about planets and stars using imagery.
 Other sectors include Geology, Art, and in this case Medicine.
 
 
@@ -240,11 +240,10 @@ Students have to study tissue samples. (Figure \ref{fig:lame_example})
       \end{figure}
 
 Cytomine is a great tool for this particular field because it can be used to store and display high quality images of tissue samples.
-It is also easily accessible for the students, they are not restricted to only using it during lab sessions.
-It's available 24 hours a day, therefore it gives students a good amount of liberty.
+It is also easily accessible for the students outside lab sessions as it is available 24 hours a day.
 The details of the assignments are given by Ecampus which is communication tool for students and teachers delivered by the University.
 The teachers can also use Cytomine to explain certain visual concepts in real-time.
-They can also use certain images for exercises by telling students to find patterns in those images.\\
+They can also use certain images for exercises by telling students to look for patterns in those images.\\
 
 Since the MOOC is completely integrated to the course, it directly impacts how students learn.
 Their exams are often based on what they learned using the tool.
@@ -253,7 +252,7 @@ The goal is to see how much of an effect Cytomine has on students.
 \subsection{Teacher Input}
 
     The development of new tools and methods have heavily influenced the ways teachers approach their courses.
-    This includes the sharing and consultation of resources from a distance.
+    This includes the sharing and consultation of resources online.
     Every year, over 500 students from the Faculty of Medicine at the University of Liege partake in this new learning approach.
     The team working on the courses wanted to extend that knowledge and share it to a wider audience.
     This is where the MOOC server becomes interesting.
@@ -283,7 +282,7 @@ The goal is to see how much of an effect Cytomine has on students.
     The teachers also provided some information on students that followed the course.
     This includes the grade obtained and all the tests that lead to that final grade.
     With this information, machine learning can be used to analyze these grades and what patterns lead to them.
-    This analysis returns statistics in many forms since there is such a wide range of variables. (Figure \ref{fig:highlevel})
+    This analysis returns statistics in many forms since there is a wide range of variables. (Figure \ref{fig:highlevel})
 
       \begin{figure}[H]
       \centering
@@ -307,7 +306,7 @@ The goal is to see how much of an effect Cytomine has on students.
     {\color{red} TODO}
 
     \subsection{Three Separate Components}
-    	Since there is a vast amount of data, most operations require some good amount of time to complete.
+    	Since there is a vast amount of data, most operations require a good amount of time to complete.
     	Therefore, the data analysis tool is divided into three components :
         \begin{itemize}
         \item[\textbullet] Data Acquisition.
@@ -329,7 +328,7 @@ The goal is to see how much of an effect Cytomine has on students.
           \begin{center}
           \begin{tabular}{| l | c | c |}
           \hline
-           & Number Of students & Number Of Images \\ \hline
+           & Number of students & Number of images \\ \hline
            GOLD & 395 & 78 \\ \hline
            SILVER & 85 & 75 \\
           \hline
@@ -370,15 +369,15 @@ The goal is to see how much of an effect Cytomine has on students.
         Teachers can set annotations as guidelines, but normal users can also create annotations.
         If a student user notices something interesting on a patch of an image, that student can annotate it.
         Later, that student could for example approach a teacher with a question and use the annotation as a reference.
-        Unfortunately, there are currently no User annotations.
+        Unfortunately, there are currently no user annotations.
         This will be discussed in section \ref{Discussion}.\\
         
         \item[\textbullet]  \textbf{User Positions :}\newline
         
-         The most important information.
-         A Positions is what the user sees at a current time stamp.
-         Positions are defined by its center, four corners, time recorded, and zoom.
-         Positions are saved on a regular basis when a user observes an image.
+         This is the most important information.
+         A position is what the user sees at a current time stamp.
+         positions are defined by its center, four corners, time recorded, and zoom.
+         positions are saved on a regular basis when a user observes an image.
          More precisely positions are saved :
          \begin{itemize}
          	\item[\textbullet] Every 5 seconds.
@@ -446,19 +445,73 @@ The goal is to see how much of an effect Cytomine has on students.
        \end{figure}
 
         
-		All this information needs to be downloaded.
-		Unfortunately, this can take up to 8 hours using the API while putting stress on the MOOC server.
-		After some interruptions to the service, it was decided that the MOOC needed to be installed locally with backups of the original. \newline
+		All this information needs to be downloaded which, unfortunately can take up to 8 hours using the API while putting stress on the MOOC server.
+		After some interruptions to the service, it was necessary to install the MOOC locally with backups of the original. \newline
+
         
         For both projects, an excel file containing user information not found on Cytomine was given.
         For the SILVER project, this only included basic information that were irrelevant to the analysis (names, emails, etc..).
         Meanwhile for the GOLD project, the University of Liege students had to partake in multiple graded assignments.
         The excel file given for the GOLD students therefore contained grades for numerous activities.
         These grades will be useful in order to understand some aspects of the user behavior on Cytomine. \newline
+
+        To use this component, one can call the \textit{download\_data} script.
+        This script comes with some needed parameters (the order must be respected):
+        \begin{itemize}
+            \item[\textbullet] \textbf{<project\_name>} : The name of the project (For example, gold or silver).
+            For this component, it is also the name of the root directory that will contain all the data that will be downloaded.
+            When running this component multiple times with the same name, the data will be overwritten each time.
+            \item[\textbullet] \textbf{<project\_id>} : The Cytomine identifier of the project to run the script on.
+            The reason to have both the name and identifier is to be able to have multiple versions of the same project stored in different directories.
+            \item[\textbullet] \textbf{<user\_data>} : Contains the address to a csv file containing a list of users with information that cannot be retrieved from Cytomine.
+            The file is structured similarly to the format described in section \ref{experiments}.
+            The column named 'CYTOMINE ID' is necessary.
+            It contains the user Cytomine identifiers that need to be valid.
+            Otherwise, the file contains data which includes grades and other basic user information.
+            \item[\textbullet] \textbf{<ref\_user\_id>} : This field contains the identifier of the user who set the reference annotations.
+        \end{itemize}
+        Otherwise, the next fields are optional and can be added in any order after the mandatory parameters.
+        \begin{itemize}
+            \item[\textbullet] \textbf{-H <host>} : The <host> field contains the Cytomine MOOC host address.
+            \item[\textbullet] \textbf{-PR <key>} : The <key> field contains the Cytomine user private key.
+            \item[\textbullet] \textbf{-PU <key>} : The <key> field contains the Cytomine user public key.
+            To successfully gain access to the Cytomine website, both the public and private key need to be correct.
+            These two parameters are optional because there is a public/private key pair pre-coded into the component.
+            \item[\textbullet] \textbf{-I <images>} : The <images> field contains the address to a csv file containing a list of Cytomine image identifiers.
+            Each row of the file contains one image identifier.
+            This parameter is optional since it is possible to fetch all the image identifiers belonging to a project with the API.
+            It is used if the user wants to use the component on a subset of images.
+            \item[\textbullet] \textbf{-U <users>} : The <users> field contains the address to a csv file containing a list of Cytomine user identifiers.
+            Each row of the file contains one user identifier.
+            This follows the same principles than the images.
+            \item[\textbullet] \textbf{-M <modules>} : The <modules> field contains the address to a csv file containing a list of modules associated to the course.
+            Each row of the file contains one module.
+            It's formatted as follows :\newline
+
+              \begin{tabular}{| c | c | c | c | c | c | c | c |}
+              \hline
+              \tiny{Module Id} & \tiny{Start Date} & \tiny{End Date} & \tiny{Image 1} & \tiny{Type 1} & \tiny{...} & \tiny{Image n} & \tiny{Type n}\\ \hline
+              \tiny{1} & \tiny{dd/mm/yyyy} & \tiny{dd/mm/yyyy} & \tiny{$id_1$} & \tiny{T} & \tiny{...} & \tiny{$id_{n1}$} & \tiny{L}\\ \hline
+              \tiny{...} & & & & & & & \\ \hline
+              \tiny{m} & \tiny{dd/mm/yyyy} & \tiny{dd/mm/yyyy} & \tiny{$id_1$} & \tiny{E} & \tiny{...} & \tiny{$id_{n2}$} & \tiny{B}\\ \hline
+              \end{tabular}\newline
+
+            For the types, T represents the tutorials, L represents learning images, E represents exercise images, and B represents supplements.
+            Each module does not necessarily have the same number of images associated to it.
+        \end{itemize}
         
         
         The project has a dedicated directory to store all this information, usually in a csv format.
         For each data type, image, and user triplet, there is a dedicated file containing this information.
+        In conclusion, the following diagram explains the role of this component :
+
+       \begin{figure}[H]
+        \centering
+         \includegraphics[width=.6\linewidth]{diagrams/module1.png}
+         \caption{Directory and File Structure}
+         \label{fig:struct}
+       \end{figure}
+
         These files will be opened and read by the Data Manipulation Component for generating statistics and ways to represent data visually.
         These files are organized in directories.
         This component, builds an underlying structure that will be used and manipulated by the other components. (Figure \ref{fig:struct})
@@ -517,8 +570,8 @@ The goal is to see how much of an effect Cytomine has on students.
     \begin{itemize}
         \item[\textbullet] \textbf{'x' :} Array of X coordinates for all the annotations.
         \item[\textbullet] \textbf{'y' :} Array of Y coordinates for all the annotations.
-        \item[\textbullet] \textbf{'id':} Array of the identifiers for all the annotations.
-        \item[\textbullet] \textbf{'localId':} Array of the local identifiers for all the annotations.
+        \item[\textbullet] \textbf{'id' :} Array of the identifiers for all the annotations.
+        \item[\textbullet] \textbf{'localId' :} Array of the local identifiers for all the annotations.
         Used for reference annotations.
         This property represents the annotation number shown on the images but also the recommended order of passage for these annotations
         \item[\textbullet] \textbf{'type' :} Array of the type for all annotations.
@@ -531,9 +584,9 @@ The goal is to see how much of an effect Cytomine has on students.
         \item[\textbullet] \textbf{'id' :} Array of the identifiers of the concerned annotations for all the annotation actions.
         \item[\textbullet] \textbf{'action' :} Array of the action carried out for all annotation actions.
         The value is always 'select'.
-        \item[\textbullet] \textbf{'timestamp':} Array of the time the annotation action was carried out.
+        \item[\textbullet] \textbf{'timestamp' :} Array of the time the annotation action was carried out.
     \end{itemize}
-    It is important to know that during the period of January 2017 to September 2017, annotation actions were collected but they did not specify which annotation the action was related to.
+    It is important to note that during the period of January 2017 to September 2017, annotation actions were collected but they did not specify which annotation the action was related to.
     To determine that the component guesses the annotation.
     The component finds the position with the closest timestamp and guesses the annotation closest to that position.
     It's not perfect but it guesses the most likely annotation since at most zooms the user can only see one annotation.\\
@@ -551,18 +604,18 @@ The goal is to see how much of an effect Cytomine has on students.
     When generating the gaussian with a height of $h$ and a width of $w$.
     The standard deviation set for the height and width are $s_h = \dfrac{h}{6}$ and $s_w = \dfrac{w}{6}$.
     $h_0 = \dfrac{h}{2}$ and $w_0 = \dfrac{w}{2}$ are the center coordinates of the surface.
-    $coeff$ is a coefficient based on the zoom.
-    The coefficient is a value from 0 to 1, the higher the zoom the higher the coefficient with $coeff = \dfrac{zoom}{max\_zoom}$.
+    $coef$ is a coefficient based on the zoom.
+    The coefficient is a value from 0 to 1, the higher the zoom the higher the coefficient with $coef = \dfrac{zoom}{max\_zoom}$.
     The equation is :
 
-        \[P(i,j) = \exp(\dfrac{-1}{2}*(\dfrac{(i - h_0)^2}{s_h^2} + \dfrac{(j - w_0)^2}{s_w^2})) * coeff \]
+        \[P(i,j) = \exp(\dfrac{-1}{2}*(\dfrac{(i - h_0)^2}{s_h^2} + \dfrac{(j - w_0)^2}{s_w^2})) * coef \]
 
     With $i \in [0, h]$ and $j \in [0, w]$.
 
     With the standard deviation set, 99 percent of the gaussian distribution is in the surface.
     Therefore when calculating the center point, there is an output close to 1.
     Likewise, when calculating a point near the edge, there is an output close to 0.
-    An interesting idea that was not implemented was to was to replace $coeff$ with $\dfrac{1}{2\pi*s_h*s_w}$.
+    An interesting idea that was not implemented was to replace $coef$ with $\dfrac{1}{2\pi*s_h*s_w}$.
     With that, the integral of all the Gaussian surfaces would be equal to 1.
     The problem with this method is with each zoom level, the height and the width halves in size.
     The surface would be four times as small.
@@ -817,7 +870,7 @@ The goal is to see how much of an effect Cytomine has on students.
 
 \section{Data Analysis}
 
-	\subsection{Experiments}
+	\subsection{Experiments} \label{experiments}
     
     
     Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project.
@@ -1762,7 +1815,6 @@ In the end, some images and some modules have more impact than others.  (Figures
     This shows the individualism of each student.\\
 
     This same experiment could be done in reverse but the results would be extremely similar.
-    
     
 \section{Discussion} \label{Discussion}
 
