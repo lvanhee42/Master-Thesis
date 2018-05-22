@@ -315,7 +315,6 @@ The goal is to see how much of an effect Cytomine has on students.
         \end{itemize}
 
 		\subsubsection{Data Acquisition}
-        %todo UML diagrams and talk about it
 
             %todo : move when Cytomine API part is written
 			During the 2016-2017 Academic year, Cytomine tracked and stored user information on the MOOC server.
@@ -503,13 +502,13 @@ The goal is to see how much of an effect Cytomine has on students.
         
         The project has a dedicated directory to store all this information, usually in a csv format.
         For each data type, image, and user triplet, there is a dedicated file containing this information.
-        In conclusion, the following diagram explains the role of this component :
+        In conclusion, the following diagram explains the role of this component (Figure \ref{fig:comp1}):
 
        \begin{figure}[H]
         \centering
          \includegraphics[width=.6\linewidth]{diagrams/module1.png}
-         \caption{Directory and File Structure}
-         \label{fig:struct}
+         \caption{Data Acquisition Component}
+         \label{fig:comp1}
        \end{figure}
 
         These files will be opened and read by the Data Manipulation Component for generating statistics and ways to represent data visually.
@@ -762,6 +761,51 @@ The goal is to see how much of an effect Cytomine has on students.
       \label{fig:timelapse}
     \end{figure}
 
+    There are multiple options when running this component.
+    When running the script it comes with one mandatory parameter \textbf{<project\_name>}.
+    This is similar to the previous component where it corresponds to a certain project.
+    Other optional prameters include :
+    \begin{itemize}
+        \item[\textbullet] \textbf{-I <images>} : The <images> field contains the address to a csv file containing a list of Cytomine image identifiers.
+        Each row of the file contains one image identifier.
+        This parameter is optional since it is possible to find image information from the disk.
+        It is used if the user wants to use the component on a subset of images.
+        \item[\textbullet] \textbf{-U <users>} : The <users> field contains the address to a csv file containing a list of Cytomine user identifiers.
+        Each row of the file contains one user identifier.
+        This follows the same principles than the images.
+        \item[\textbullet] \textbf{-i <image>} : The <image> field contains a Cytomine image identifier.
+        This is mutually exclusive with -I, where the component is ran on exactly one image.
+        \item[\textbullet] \textbf{-u <user>} : The <user> field contains a Cytomine user identifier.
+        This is mutually exclusive with -U, where the component is ran on exactly one user.
+        The last two options are ideal when drawing heatmaps on a specific user/image pair.
+        \item[\textbullet] \textbf{-M <output\_dir>} : This option allows the component to generate a CSV statistics file used for machine learning.
+        The <output\_dir> field designates the folder where output learning data file will be saved.
+        \item[\textbullet] \textbf{-m} : This option is mutually exclusive with the previous option.
+        This also generates the statistics file but it's saved as \textit{../root/<project\_name>/learning\_data.csv}.
+        \item[\textbullet] \textbf{-H} : This generates gazemaps (reduced) for all user/image pairs defined.
+        They are saved in their respective directories.
+        \item[\textbullet] \textbf{-S} : This generates scan paths for all user/image pairs defined.
+        They are saved in their respective directories.
+        \item[\textbullet] \textbf{-T} : This generates timelines for all users defined.
+        They are saved in their respective directories.
+        \item[\textbullet] \textbf{-R} :This generates raw point images for all user/image pairs defined.
+        They are saved in their respective directories.
+    \end{itemize}
+
+    Overall, the component can be explained with the following diagrams (Figures \ref{fig:comp2} \& \ref{fig:comp2uml}):
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=.9\linewidth]{diagrams/module2.png}
+      \caption{Data Manipulation Component}
+      \label{fig:comp2}
+    \end{figure}
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=.9\linewidth]{diagrams/module2uml.png}
+      \caption{Data Manipulation Component UML}
+      \label{fig:comp2uml}
+    \end{figure}
 
     \subsubsection{Data Learning}
 
@@ -1808,7 +1852,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \label{fig:test2_2}
       \end{figure}
     The scores are marginally better.
-    One average those who do well on the theoretical part of the course do better on the practical part.
+    On average those who do well on the theoretical part of the course do better on the practical part.
     It's shown with the strong correlations.
     These features are also more impactful than any seen in the previous experiments.
     But even with this extra information, the score is still somewhat lackluster.
