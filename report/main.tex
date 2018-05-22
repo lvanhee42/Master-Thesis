@@ -294,16 +294,94 @@ The goal is to see how much of an effect Cytomine has on students.
 \section{Tools and Methods}
 
     \subsection{Cytomine Databases}
-    % todo
-    {\color{red} TODO}
+    % todo ask if allowed to use figures from the Cytomine website
+    Data comes in different shapes and forms, therefore different methods are used to store this data.
+    The databases included are :
+    \begin{itemize}
+        \item[\textbullet] \textbf{PostgreSQL} : A object relational database that stores most of the Cytomine information.
+        Its functions are to store data and return this data queried by applications.
+        This information includes projects, software execution and many other forms of data.
+        The Postgis extension was used to store information like annotations and regions of interest.
+        \item[\textbullet] \textbf{MongoDB} : A document NoSQL database.
+        It's designed for storing and managing semi-structured data.
+        It follows the key-value store principle.
+        It's particularly useful for information that changes constantly because of its response time.
+        MongoDB uses JSON like documents to store this information.
+        For Cytomine it is used for user activity which includes user positions and user connections.
+        \item[\textbullet] \textbf{File Systems} : Information simply stored in directories and folders.
+        The previous database methods cannot handle Images.
+        These images that are store with file systems are often very high resolution images.
+    \end{itemize}
+
+    This data is retrieved locally by the Cytomine Core Application.
+    In order for a user to retrieve this information, a Application programming Interface (API) was implemented.
+
 
     \subsection{Cytomine API}
-    % todo
-    {\color{red} TODO}
 
-    \subsection{About ExtraTrees}
-    % todo
-    {\color{red} TODO}
+    The Cytomine API allows for a user to retrieve data from the server.
+    It is defined as a REST API.
+    It follows an architectural style that defines a set of constraints and properties based on HTTP.
+    It defines a predefined set of stateless operations.
+    All interactions with the Cytomine Core is done through the REST API.
+    This includes communication with the Cytomine Python Client.\\
+
+    The cytomine Python Client is a add-on to Cytomine for easy communication between the user and the server using the Python programming language.
+    It includes methods that returns the called information in a more structured like manner.
+    Methods to retrieve image and user information were used for this analysis.
+
+    \subsection{Machine Learning and ExtraTrees}
+
+    Machine learning was used throughout this project as a tool for analyzing user behavior.
+    Machine Learning in short are algorithms that make predictions based on previous observations.
+    There are many variations of machine learning methods but the two main families include :
+    \begin{itemize}
+        \item[\textbullet] \textbf{Supervised Learning} : The goal is to match an input with an output.
+        The algorithm is given a large amount of input/output pairs for the goal of learning.
+        When it's done learning it can be given a input variable that it tries to classify.
+        For example, a machine learning algorithm can be given a set of images that contain a dog and a set of images that contain no dog.
+        When the algorithm finished learning what rules determine whether or not a dog is in an image, it can be tested with new images.
+        The algorithm tries to guess which images contain dogs and which don't.
+        The algorithm needs to be tested in order to determine frequency of predictions are correct.
+        This methods often requires a large amount of data to work effectively.
+        Machine learning can support two types of outputs :
+        \begin{itemize}
+            \item Classification : Output data is split into different groups.
+            Very often data is classified into two groups (for example, whether or not a patient has cancer).
+            But data can also be classified into a larger number of groups (for example, classifying drawings of the letters in the alphabet).
+            \item Regression : Unlike classification, data cannot be separated into groups.
+            Instead the outputs belong in a certain range of values.
+            This is used for this analysis tool to predict grades that range from 0 to 20.
+        \end{itemize}
+        \item[\textbullet] \textbf{Unsupervised Learning} : Unlike supervised learning, unsupervised learning tries to find patterns and correlations in the data.
+        Also the data is not labelled therefore supervised learning is not permissible.
+        A form of unsupervised learning that is very popular is clustering.
+        The goal with clustering is to group different individuals that share similar characteristics.
+        A widely used technique used in this analysis is the K-means clustering.
+        It uses distances (often Euclidean) to compare individuals.
+        The number of distances is determined by K.
+        At the start, individuals are placed in random clusters.
+        At each step, individuals are moved to the closest cluster.
+        There are many ways to define the closest cluster, a common one is the closest center of the cluster to the individual.
+        The algorithm ends when the clusters barely change between iterations.
+        For this project, it is used to cluster many user positions to draw better scan paths.
+    \end{itemize}
+
+    There are many supervised learning techniques that can be used to learn labeled data.
+    Methods include K-NN, linear regression, neural networks, and many others.\\
+
+    The focus on this project was to work with regression trees.
+    Since the main goal is analysis and not machine learning, regression trees provides much insight into the roots of the results with the feature importance tools it provides.
+    When building a tree, the idea at each step is to look for the features that best split the remaining dataset based on the values of the features.
+    It uses an impurity measure to determine whether or not to branch further down the tree.
+    When the tree is built, an individual's target value is represented by a leaf of a tree.
+    It is important to build the tree properly to avoid overfitting and underfitting.\\
+
+    Trees are often not the most accurate of predictors but it is possible to use Ensemble Methods to obtain a better predictive performance.
+    Ensemble methods combine multiple different learning algorithms and often work better when working with small datasets.
+    The ensemble method subject for this project is the Extremely Randomized Trees (ExtraTrees).
+    %todo talk about extratrees
+    {\color{red} TODO extra trees}
 
     \subsection{Three Separate Components}
     	Since there is a vast amount of data, most operations require a good amount of time to complete.
@@ -870,7 +948,7 @@ The goal is to see how much of an effect Cytomine has on students.
     The ExtraTree (Extremely Randomized Tree) regressor is a class that fits a number of randomized decision trees on many sub samples of the population.
     This method uses averaging to to improve learning accuracy all while controlling over-fitting.
     It is therefore considered a Ensemble Method.
-    The Regressor has been implemented with sklearn (http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html).
+    The Regressor has been implemented with sklearn.
     It has been configured with the following parameters :
     \begin{itemize}
         \item[\textbullet] \textbf{Number of Estimators : 10 000}\\
@@ -1974,8 +2052,8 @@ In the end, some images and some modules have more impact than others.  (Figures
         \item[\textbullet] [\, http://scikit-learn.org/, https://arxiv.org/abs/1201.0490 ]\,
         \item[\textbullet] [\, Geurts et al. 2006 DOI: https://doi.org/10.1007/s10994-006-6226-1 ]\,
         \item[\textbullet] [\, Multon S, Weatherspoon A, Schaffer P, Quatresooz P, Defaweux V. ]\, Practical histology in tune with the times. Med Educ 2015, 49(11):1166-7.
-        \item[\textbullet] [\, Dmitriy Shin, Mikhail Kovalenko, Ilker Ersoy, Yu Li, Donald Doll, Chi-Ren Shyu, Richard Hammer ]\, PathEdEx \- Uncovering High‑explanatory Visual Diagnostics Heuristics Using Digital Pathology and Multiscale Gaze Data. J Pathol Inform 2017.
-        \item[\textbullet] [\, lawomir Walkowski1, Mikael Lundin, Janusz Szymas, Johan Lundin ]\, Exploring viewing behavior data from whole slide images to predict correctness of students’ answers during practical exams in oral pathology. J Pathol Inform 2015.
+        \item[\textbullet] [\, Dmitriy Shin, Mikhail Kovalenko, Ilker Ersoy, Yu Li, Donald Doll, Chi-Ren Shyu, Richard Hammer ]\, PathEdEx \- Uncovering High-explanatory Visual Diagnostics Heuristics Using Digital Pathology and Multiscale Gaze Data. J Pathol Inform 2017.
+        \item[\textbullet] [\, lawomir Walkowski1, Mikael Lundin, Janusz Szymas, Johan Lundin ]\, Exploring viewing behavior data from whole slide images to predict correctness of students' answers during practical exams in oral pathology. J Pathol Inform 2015.
         \item[\textbullet] [\, Daniel Santiago, Germ\'{a}n Corredor; Eduardo Romero]\, A sparse representation of the pathologist's interaction with whole slide images to improve the assigned relevance of regions of interest. 2017.
     \end{itemize}
 
