@@ -380,8 +380,18 @@ The goal is to see how much of an effect Cytomine has on students.
     Trees are often not the most accurate of predictors but it is possible to use Ensemble Methods to obtain a better predictive performance.
     Ensemble methods combine multiple different learning algorithms and often work better when working with small datasets.
     The ensemble method subject for this project is the Extremely Randomized Trees (ExtraTrees).
-    %todo talk about extratrees
-    {\color{red} TODO extra trees}
+
+
+    The problem with most tree based methods is the high error rate often due to the high bias and variance.
+    This often happens due to overfitting or underfitting.
+    Unlike previous tree based ensemble method, the ExtraTree method selects splits of both attribute and cut-point partially or totally at random.
+    For each node, it is combined with a random choice of a certain number of attributes, among which the best one is determined.
+    Using Ensemble techniques, many trees can be built in parallel.
+    Predictions can be made with the ExtraTree Regressor and and the final output becomes a average between the output of all the trees.
+    With this randomization, the ExtraTree should be able to reduce the variance more effectively than other weaker randomizing methods.
+    It also uses the full learning sample for each tree, thus minimizing bias.
+    Overall this handles overfitting very well for most learning samples.
+    To avoid underfitting, building the ExtraTree with enough estimators is enough.
 
     \subsection{Three Separate Components}
     	Since there is a vast amount of data, most operations require a good amount of time to complete.
