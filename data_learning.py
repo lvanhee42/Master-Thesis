@@ -152,7 +152,7 @@ def build_models(project, index=None, savedir=config.WORKING_DIRECTORY):
     :param index : the index of the Y variable used for learning
     :param savedir: the save directory where the statistics will be stored.
     :return: list of containers with a container :  A : type ('MD') for model
-                                                    B : container: 1) the built randomForest Regressor
+                                                    B : container: 1) the built ExtraTree Regressor
                                                                    2) names of all the features
                                                                    3) the save directory
                                                                    4) the 2D array of features
@@ -196,7 +196,7 @@ def build_models(project, index=None, savedir=config.WORKING_DIRECTORY):
 def model_graphs(data):
     """
     Takes the output of the learned data and models the graph
-    :param data: container with : 1) built RandomForest Regressor
+    :param data: container with : 1) built ExtraTree Regressor
                                   2) names of all the features
                                   3) the save directory
                                   4) the 2D array of features
