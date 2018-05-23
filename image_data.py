@@ -26,18 +26,20 @@ import csv
 import config
 import user_data
 from dictionary_data import parse_positions, parse_annotations, parse_annotation_actions
-from gazemap import cluster_points, score_user_on_image
+from gazemap import cluster_points, score_user_on_image, generate_reduced_heatmap
 from pygazeanalyser.gazeplotter import make_heatmap, save_heatmap, draw_raw, draw_scanpath
 from PIL import Image
 import numpy as np
 import gc
-
+import time
+import datetime
+from gazemap import annotation_order
 
 class Image_data:
     # class containg data related to 1 particular image
 
 
-    def __init__(self, project_name, image_dir, manager):
+    def __init__(self, project_name, image_dir, manager, user_list):
         """
         Creates an Image data object containing image info and position info
         for all the users that have positions in a dictionary. It loads
@@ -68,17 +70,20 @@ class Image_data:
         self.rescaled_width, self.rescaled_height = self.image.size
         self.user_data = {}
 
+        end = long(1000 * time.mktime(datetime.datetime.strptime(config.exam_time, "%Y-%m-%d %H:%M:%S").timetuple()))
+
         # load positions to memory
         u_positions_files = os.listdir(self.positions_dir)
         for pos in u_positions_files:
-            f = open(self.positions_dir + pos, 'rb')
-            pos_id = pos.split('_')[0]
-            csv_in = csv.reader(f)
-            data = list(csv_in)
-            data.pop(0)
-            f.close()
-            pos_data = parse_positions(data, self, calc_gauss=True)
-            self.user_positions[pos_id] = pos_data
+            if user_list is None or pos.split("_")[0] in user_list:
+                f = open(self.positions_dir + pos, 'rb')
+                pos_id = pos.split('_')[0]
+                csv_in = csv.reader(f)
+                data = list(csv_in)
+                data.pop(0)
+                f.close()
+                pos_data = parse_positions(data, self, calc_gauss=True, end_date=end)
+                self.user_positions[pos_id] = pos_data
 
         # loads ref annotations to memory
         try:
@@ -96,15 +101,17 @@ class Image_data:
         # loads annotation actions to memory
         u_action_files = os.listdir(self.annotation_actions_dir)
         for pos in u_action_files:
-            f = open(self.annotation_actions_dir + pos, 'rb')
-            pos_id = pos.split('_')[0]
-            csv_in = csv.reader(f)
-            data = list(csv_in)
-            data.pop(0)
-            f.close()
-            action_data = parse_annotation_actions(data, self.user_positions[pos_id], self.ref_annotations)
-            self.user_actions[pos_id] = action_data
+            if user_list is None or pos.split("_")[0] in user_list:
+                f = open(self.annotation_actions_dir + pos, 'rb')
+                pos_id = pos.split('_')[0]
+                csv_in = csv.reader(f)
+                data = list(csv_in)
+                data.pop(0)
+                f.close()
+                action_data = parse_annotation_actions(data, self.user_positions[pos_id], self.ref_annotations, end_date=end)
+                self.user_actions[pos_id] = action_data
 
+        self.zoom_max = self.max_zoom()
 
     def init_user_data_link(self, user_data):
         """
@@ -197,7 +204,7 @@ class Image_data:
             heatmap = heatmap + 1
             heatmap = np.log10(heatmap)
             heatmap[0][0] = max_val
-            save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5, avg=avg_val)
+            save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5, avg=avg_val, annotations=self.ref_annotations)
             del heatmap
         gc.collect()
         os.remove('converted_image.jpg')
@@ -219,7 +226,7 @@ class Image_data:
             heatmap = np.copy(pos['heatmap'])
             heatmap = heatmap + 1
             heatmap = np.log10(heatmap)
-            save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5)
+            save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5, annotations=self.ref_annotations)
             del heatmap
         gc.collect()
         os.remove('converted_image.jpg')
@@ -238,12 +245,12 @@ class Image_data:
             out = dir + u_id + "_heatmap.png"
             pos = self.user_positions[u_id]
             heatmap = np.copy(pos['heatmap'])
-            save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5)
+            save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5, annotations=self.ref_annotations)
             del heatmap
         gc.collect()
         os.remove('converted_image.jpg')
 
-    def save_all_raw(self):
+    def save_all_raw(self, bar):
         """
         Saves all positions in an image file, each position is represented by a dot on the image.
         :return: None
@@ -258,10 +265,11 @@ class Image_data:
             out = dir + u_id + "_points.png"
             pos = self.user_positions[u_id]
             draw_raw(pos, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out)
+            bar.next()
         #gc.collect()
         os.remove('converted_image.jpg')
 
-    def save_all_scanpath(self):
+    def save_all_scanpath(self, bar):
         """
         Saves all scanpaths, due to the number of positions, it applies clustering methods to have a better and more viewable image
         :return: None
@@ -276,8 +284,25 @@ class Image_data:
             pos = self.user_positions[u_id]
             tmp = cluster_points(pos)
             draw_scanpath(tmp, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg', savefilename=out)
+            bar.next()
         gc.collect()
         os.remove('converted_image.jpg')
+
+    def save_all_heatmaps_reduced(self, bar):
+        rgb_im = self.image.convert('RGB')
+        rgb_im.save('converted_image.jpg')
+        dir = self.image_dir + "gazemap_reduced/"
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        for u_id in self.user_positions:
+            out = dir + u_id + "_heatmap.png"
+            heatmap = generate_reduced_heatmap(self.user_positions[u_id],(self.rescaled_width, self.rescaled_height), self)
+            save_heatmap(heatmap, (self.rescaled_width, self.rescaled_height), imagefile='converted_image.jpg',
+                         savefilename=out, alpha=0.5, annotations=self.ref_annotations)
+            gc.collect()
+            bar.next()
+        os.remove('converted_image.jpg')
+
 
     def score_users(self, u_list):
         """
@@ -286,15 +311,43 @@ class Image_data:
         :return: list of user scores
         """
         ret = []
+        ann_ret = []
+        a_empty = None
+        if self.ref_annotations is not None:
+                a_empty = [0 for i in range(len(self.ref_annotations['x']))]
         for u in u_list:
             if u in self.user_positions and u in self.user_actions:
-                ret.append(score_user_on_image(self.user_positions[u], self.user_actions[u], self))
+                s, a = score_user_on_image(self.user_positions[u], self.user_actions[u], self)
+                ret.append(s)
+
             elif u in self.user_positions and u not in self.user_actions:
-                ret.append(score_user_on_image(self.user_positions[u], None, self))
+                s, a = score_user_on_image(self.user_positions[u], None, self)
+                ret.append(s)
             else:
-                ret.append(-1.0)
+                a = None
+                ret.append(0)
+
+            if self.ref_annotations is not None:
+                if a is not None:
+                    ann_ret.append(a)
+                else:
+                    ann_ret.append(a_empty)
+
+        return ret, ann_ret
+
+    def annotation_order(self, ann1, ann2, user_list):
+
+        ret = []
+        for user in user_list:
+            u_id = user.user_id
+            if u_id not in self.user_positions:
+                ret.append(0)
+            else:
+                val = annotation_order(self.user_positions[u_id], self.ref_annotations, ann1, ann2, self.gaussians, 10, self.zoom_max)
+                ret.append(val)
 
         return ret
+
 
     def max_zoom(self):
         """
@@ -307,6 +360,23 @@ class Image_data:
             if len(tmp) > 0:
                 max_z = max(max_z, np.max(tmp))
         return max_z
+
+    def nb_ref_annotations(self):
+        """
+        Returns the number of reference annotations
+        :return: nb
+        """
+        if self.ref_annotations is None:
+            return 0
+        else:
+            return len(self.ref_annotations['x'])
+
+    def nb_of_users(self):
+        """
+        Returns the number of users who visited this image
+        :return: nb
+        """
+        return len(self.user_data)
 
 
     def __repr__(self):

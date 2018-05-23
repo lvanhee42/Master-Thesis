@@ -28,12 +28,13 @@ import numpy as np
 import image_data
 from pygazeanalyser.gazeplotter import save_heatmap
 import gc
+import datetime
 
 class User_data:
     """
     Class containing data on a user
     """
-    def __init__(self, image_data_list, user_id, manager, y_vars, m_vars):
+    def __init__(self, image_data_list, user_id, manager, y_vars, m_vars, x_vars):
         """
         Constructor, inits the object
         :param image_data_list: list containing image_dat objects
@@ -52,6 +53,7 @@ class User_data:
         self.image_data = {}
         self.y_vars = y_vars
         self.m_vars = m_vars
+        self.x_vars = x_vars
 
         # fill positions dict
         for image in image_data_list:
@@ -328,7 +330,7 @@ class User_data:
             heatmap = heatmap + 1
             heatmap = np.log(heatmap)
             heatmap[0][0] = max_val
-            save_heatmap(heatmap, (self.image_data[im_id].rescaled_width, self.image_data[im_id].rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5, avg=avg_val)
+            save_heatmap(heatmap, (self.image_data[im_id].rescaled_width, self.image_data[im_id].rescaled_height), imagefile='converted_image.jpg', savefilename=out, alpha=0.5, avg=avg_val, annotations=self.image_data[im_id].ref_annotations)
             del heatmap
             os.remove('converted_image.jpg')
         gc.collect()
@@ -423,6 +425,58 @@ class User_data:
             return nb
         else:
             return 0
+
+    def relative_time_worked(self):
+        """
+        Calculates the relative time worked features for night, late and morning for this user
+        :return: night, late, morning
+        """
+        tot = 0
+        nb_night = 0
+        nb_late = 0
+        nb_morning = 0
+
+        for pos_id in self.positions:
+            pos = self.positions[pos_id]
+            tot += len(pos['timestamp'])
+            for i in range(len(pos['timestamp'])):
+                timestamp = pos['timestamp'][i]
+                dt = datetime.datetime.fromtimestamp(float(timestamp / 1000.0))
+                hour = dt.timetuple().tm_hour
+                if hour >= 18 or hour < 6: # night
+                    nb_night += 1
+                if hour >= 1 and hour < 6: #late
+                    nb_late += 1
+                if hour >= 6 and hour < 12: #morning
+                    nb_morning += 1
+
+        if tot == 0:
+            return 0, 0, 0
+
+        nb_night = float(nb_night)/tot
+        nb_late = float(nb_late)/tot
+        nb_morning = float(nb_morning)/tot
+
+        return nb_night, nb_late, nb_morning
+
+    def nb_of_different_days_worked(self):
+        """
+        calculates and returns the total number of days on cytomine for this user
+        :return: nb days
+        """
+        days = {}
+
+        for pos_id in self.positions:
+            pos = self.positions[pos_id]
+            for i in range(len(pos['timestamp'])):
+                timestamp = pos['timestamp'][i]
+                dt = datetime.datetime.fromtimestamp(float(timestamp / 1000.0))
+                day = dt.timetuple().tm_yday
+                if day not in days:
+                    days[day] = day
+
+        return len(days)
+
 
     def __repr__(self):
         return "user :" + str(self.user_id) + ", positions :" + str(len(self.positions)) + ", links :" + str(len(self.image_data)) + "\n"

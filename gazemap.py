@@ -33,9 +33,8 @@ from matplotlib import pyplot, image as matImage
 from sklearn import cluster
 from pygazeanalyser.gazeplotter import make_heatmap
 import config
+import matplotlib.pyplot as plt
 
-STD = 6
-RATIO = 1.0
 COLORS = {"green": ['#8ae234',
                       '#73d216',
                       '#4e9a06'],
@@ -46,49 +45,6 @@ COLORS = {"green": ['#8ae234',
                       '#555753',
                       '#2e3436'],
         }
-
-class ImageGaze:
-    # used for testing heatmap library
-    def __init__(self, image_dir):
-
-        self.image_dir = image_dir
-        self.image = Image.open(image_dir)
-
-    def user_gaze(self, csv_dir, output_dir):
-        radius = 10
-
-        file = open(csv_dir, 'rb')
-        csvin = csv.reader(file)
-        data = list(csvin)
-        data.pop(0)
-        file.close()
-
-        file = open("tmp.csv", 'wb')
-        csvout = csv.writer(file)
-        for row in data:
-            data = literal_eval(row[1])
-            x,y = data
-            csvout.writerow([round(y),round(x),row[2]])
-
-        file.close()
-
-        rescaled_width, rescaled_height = self.image.size
-
-        # Create output heatmap file
-        # Set range to constrained heatmap coordinates (resized image size)
-        range = "0,0," + str(rescaled_height) + "," + str(rescaled_width)
-        # print range
-            # We use heatmap.py (AGPL) to be downloaded from https://github.com/sethoscope/heatmap
-        # Create command line from arguments and launch heatmap code for image (and video)
-        # e.g. python heatmap.py -b white -I cytomine-thumb.png -e 0,0,853,1024 -r 20 -P equirectangular -a --frequency 1 -o output.mpeg cytomine-positions.csv
-        # gradient file geenrated e.g. using convert -size 256x256 gradient:DarkGreen-yellow PNG32:linear_gradient.png
-        command_line = "heatmap.py" + " -v -b " + "white" + " -I " + self.image_dir + " -e " + range + " -r " + str(
-            radius) + " -P " + "equirectangular " + " -G linear_gradient.png "
-        command_line_img = command_line + "-o " + output_dir + " " + "tmp.csv"
-        print command_line_img
-        os.system('python ' + command_line_img)
-
-        os.remove("tmp.csv")
 
 
 def get_dimensions(corners):
@@ -164,28 +120,54 @@ def cluster_points(points, duration=20):
 
     return ret
 
-# todo finish, atm threshold is set at 100
-def score_user_on_image(user_positions, annotation_actions, image_data):
+def score_user_on_image(user_positions, annotation_actions, image_data, start_pos=0, end_pos=None, start_action=0, end_action=None):
     """
     Guesses a score for each user when it comes to viewing an image (from 0 to 1, or -1 if image not opened).
     The guessing is based on whether or not the user has clicked on annotations and heatmap values at the annotations' postions
     :param user_positions: dictionary of user positions
     :param annotation_actions: dictionary of annotation actions
     :param image_data: Image_Data object for particular image
+    :param start_pos : the index of the first position
+    :param end_pos : the index of the last position
+    :param start_action : index of the first annotation action
+    :param end_action : index of the last annotation action
     :return: user score
     """
 
     # unopened image
     if user_positions is None or len(user_positions['x']) == 0:
-        return -1
+        return 0, None
 
-    THRESHOLD = 100
+    # check values of indexes if it's in our array
+    if end_pos is None:
+        end_pos = len(user_positions['x'])
+    else:
+        end_pos += 1
+
+    if end_pos > len(user_positions['x']):
+        end_pos = len(user_positions['x'])
+    if start_pos < 0:
+        start_pos = 0
+
+    if annotation_actions is not None and end_action is None:
+        end_action = len(annotation_actions['id'])
+    elif annotation_actions is not None:
+        end_action += 1
+
+    if annotation_actions is not None and end_action > len(annotation_actions['id']):
+        end_action = len(annotation_actions['id'])
+    elif annotation_actions is not None and start_action < 0:
+        start_action = 0
+
+    THRESHOLD = 0.9*1/(1 - config.REDUCE_WEIGHT)
 
     annotations = image_data.ref_annotations
     score = 0.0
     gazemap = None
     # If there are annotations in the image
     if annotations is not None:
+        k = 0
+        gazemap = generate_reduced_heatmap_ann_scores(user_positions, image_data, annotations, start_pos, end_pos)
         #for each annotation, check if there is an action
         for i in range(len(annotations['x'])):
             id = annotations['id'][i]
@@ -193,7 +175,7 @@ def score_user_on_image(user_positions, annotation_actions, image_data):
             y = annotations['y'][i]
             visited = False
             if annotation_actions is not None:
-                for j in range(len(annotation_actions['id'])):
+                for j in range(start_action, end_action):
                     if annotation_actions['id'][j] == id:
                         visited = True
                         break
@@ -202,42 +184,216 @@ def score_user_on_image(user_positions, annotation_actions, image_data):
                 score += 1.0
             # otherwise check heatmap
             else:
-                if gazemap is None:
-                    gazemap = make_heatmap(user_positions, (image_data.rescaled_width, image_data.rescaled_height), image_data)
-
-                heat = gazemap[int(y)][int(x)]
+                heat = gazemap[k]
                 if heat > THRESHOLD:
                     score += 1.0
                 else:
                     score += heat/float(THRESHOLD) # it's regressive, maybe better results if we don't add to score if under threshold
-        return score / float(len(annotations['x']))
+            k += 1
 
+        return score / float(len(annotations['x'])), gazemap
     # If there are no annotations, just score based on the viewing of the entire image
     else:
-        gazemap = make_heatmap(user_positions, (image_data.rescaled_width, image_data.rescaled_height), image_data)
+        gazemap = generate_reduced_heatmap(user_positions, (image_data.rescaled_width, image_data.rescaled_height), image_data,
+                                           start_pos=start_pos, end_pos=end_pos)
         avg = np.mean(gazemap)
         if avg > THRESHOLD:
             score += 1.0
         else:
             score += avg/THRESHOLD
-        return score
+        return score, None
+
+
+def normalize(values, ratio=0.95):
+    """
+    calculates a normalized sum of a list of values
+    uses a geometric sequence with a ratio of less than 1.
+    :param values: unsorted list of values
+    :param ratio: ratio of the normalizer
+    :return: value
+    """
+    values.sort(reverse=True)
+    weight = 1
+    heat = 0
+    for i in range(len(values)):
+        heat += values[i]*weight
+        weight *= ratio
+    return heat
+
+
+def generate_reduced_heatmap(fix, dispsize, image_data, start_pos=0, end_pos=None):
+    """
+    Generates a reduced heatmap
+    :param fix: positions
+    :param dispsize: size of the display
+    :param image_data: Image_data object
+    :param start_pos: index of the 1st position
+    :param end_pos: index of the last position
+    :return: 2D reduced heatmap array
+    """
+    three_def_vect = []
+    zoom = float(image_data.zoom_max)
+    for i in range(dispsize[1]):
+        three_def_vect.append([])
+        for j in range(dispsize[0]):
+            three_def_vect[i].append([])
+
+    if end_pos is None:
+        end_pos = len(fix['dur'])
+
+    for i in range(start_pos, end_pos):
+        # get x and y coordinates
+        if fix['zoom'][i] > 3:
+            gaus, zoom_x, zoom_y = image_data.gaussians['zoom_' + str(fix['zoom'][i])]
+            x = fix['x'][i] - np.int(zoom_x / 2)
+            y = fix['y'][i] - np.int(zoom_y / 2)
+            for k in range(np.int(zoom_y)):
+                for l in range(np.int(zoom_x)):
+                    coord_x = x + l
+                    coord_y = y + k
+                    if 0 <= coord_x < dispsize[0] and 0 <= coord_y < dispsize[1]:
+                        three_def_vect[int(coord_y)][int(coord_x)].append(gaus[k][l]*(fix['zoom'][i]/zoom)) # * (fix['zoom'][i]/2.0))
+
+    heatmap = np.zeros((dispsize[1], dispsize[0]), dtype=float)
+    ratio = config.REDUCE_WEIGHT
+    for i in range(dispsize[1]):
+        for j in range(dispsize[0]):
+            heatmap[i][j] = normalize(three_def_vect[i][j], ratio=ratio)
+
+
+    heatmap[0][0] = 1 / (1 - ratio)
+    return heatmap
+
+
+def generate_reduced_heatmap_ann_scores(fix, image_data, annotations, start_pos, end_pos):
+    """
+    Similar to generating a reduced heatmap but only for specific pixels (IE locations of annotations)
+    :param fix: positions
+    :param image_data: Image_Data object
+    :param annotations: reference annotations
+    :param start_pos: index of the first position
+    :param end_pos: index of the last position
+    :return: list of scores for each annotation
+    """
+    scores = []
+    zoom = float(image_data.zoom_max)
+    for i in range(len(annotations['x'])):
+        scores.append([])
+
+    for i in range(start_pos, end_pos):
+        # get x and y coordinates
+        if fix['zoom'][i] > 3:
+            gaus, zoom_x, zoom_y = image_data.gaussians['zoom_' + str(fix['zoom'][i])]
+            x = fix['x'][i] - np.int(zoom_x / 2)
+            y = fix['y'][i] - np.int(zoom_y / 2)
+
+            for j in range(len(annotations['x'])):
+                coord_x = annotations['x'][j] - x
+                coord_y = annotations['y'][j] - y
+                if 0 <= coord_x < zoom_x and 0 <= coord_y < zoom_y:
+                    scores[j].append(gaus[int(coord_y)][int(coord_x)]*(fix['zoom'][i]/zoom))
+
+
+    ret = []
+    ratio = config.REDUCE_WEIGHT
+    for i in range(len(scores)):
+        ret.append(normalize(scores[i], ratio=ratio))
+
+    return ret
+
+def annotation_order(positions, annotations, id1, id2, gaussians, nb_pos, max_zoom):
+    """
+    Returns whether or not annotation 1 is visited before annotation 2
+    :param positions: positions
+    :param annotations: reference annotations
+    :param id1: index of 1st annotation
+    :param id2: index of 2nd annotation
+    :param gaussians: dictionary of Gaussian 2D vectors
+    :param nb_pos: Number of positions minimum to consider a annotation visited
+    :param max_zoom: max zoom of an image
+    :return:
+    """
+
+    idx2 = []
+    ann2_x = annotations['x'][id2]
+    ann2_y = annotations['y'][id2]
+
+    idx1 = []
+    ann1_x = annotations['x'][id1]
+    ann1_y = annotations['y'][id1]
+
+    # get 1st nb_pos positions for the first and second annotations
+    for i in range(len(positions['x'])):
+
+        zoom = positions['zoom'][i]
+        x = positions['x'][i]
+        y = positions['y'][i]
+        if zoom > 3 and zoom > max_zoom - 5:
+            gaus, zoom_x, zoom_y = gaussians['zoom_' + str(int(zoom))]
+
+            if abs(x - ann2_x) <= zoom_x/2 and abs(y - ann2_y) <= zoom_y/2:
+                idx2.append(i)
+
+            if abs(x - ann1_x) <= zoom_x/2 and abs(y - ann1_y) <= zoom_y/2:
+                idx1.append(i)
+
+        if len(idx2) >= nb_pos and len(idx1) >= nb_pos:
+            break
+
+    # both were never visited, return 0 = false
+    if len(idx1) == 0 and len(idx2) == 0:
+            return 0
+    # 1st was never visited, return 0 = false
+    if len(idx1) == 0:
+            return 0
+    # 2nd was never visited, return 1 = true
+    if len(idx2) == 0:
+            return 1
+
+
+    # get the average index for both vectors.
+    avg1 = float(sum(idx1))/len(idx1)
+    avg2 = float(sum(idx2))/len(idx2)
+
+
+    if avg1 < avg2:
+        return 1
+    else:
+        return 0
+
+
+
+
+
+def study_heatmap(image_data):
+    """
+    Draws plots to compare different gaussians and their values.
+    :param image_data:
+    :return:
+    """
+    c = 330
+    h = (np.arange(10) + 1)/10.0
+    h = np.matrix(h)
+    print h
+    for i in range(6):
+        c += 1
+        plt.subplot(c)
+        heatmap, _, _ = image_data.gaussians['zoom_' + str(i + 4)]
+        heatmap = ((i+1)/6.0)*heatmap
+        #heatmap[0][0] = 1
+        plt.title("Gaussian for Zoom " + str(i + 4))
+        plt.imshow(heatmap, cmap='jet', interpolation='nearest', vmax=1, vmin=0)
+    plt.subplot(c + 2)
+    #plt.axis('off')
+    plt.yticks([])
+    x_t = np.arange(10)
+    x_tt = (np.arange(10) + 1)/10.0
+    plt.xticks(x_t, x_tt)
+    plt.imshow(h, cmap='jet', interpolation='nearest', vmax=1, vmin=0)
+    plt.show()
 
 
 ## test
 if __name__ == '__main__':
-    i = ImageGaze(config.WORKING_DIRECTORY + "gold/images/image_1217722/image.png")
 
-    #i.user_gaze(config.WORKING_DIRECTORY + "gold/images/image_1217722/user_positions/1756092_s155297_cytomine_positions.csv",
-    #            config.WORKING_DIRECTORY + "gold/images/image_1217722/test.png")
-
-    #i.user_gaze(config.WORKING_DIRECTORY + "gold/images/image_1217722/user_positions/5861452_kZit_cytomine_positions.csv",
-    #            config.WORKING_DIRECTORY + "gold/images/image_1217722/test2.png")
-
-    result = 0.0
-    t = 0.95
-    temp = 1
-    for i in range(0, 100):
-        result += temp
-        temp = temp*t
-    print result
-    print t
+    generate_reduced_heatmap(None, [1024, 768], None)

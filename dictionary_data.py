@@ -23,9 +23,8 @@ __copyright__       = "Copyright 2010-2017 University of Liège, Belgium, http:/
 
 from ast import literal_eval
 import numpy as np
-
-from gazemap import RATIO, STD
 from pygazeanalyser.gazeplotter import gaussian
+import config
 
 
 def get_dimensions(corners):
@@ -100,22 +99,58 @@ def dist(a, b):
     return np.abs(b - a)
 
 
-def parse_positions(data, image_data, duration=20, calc_gauss=True):
+def parse_positions(data, image_data, duration=20, calc_gauss=True, end_date=None):
     """
     parse positions of a user in an image to a dictionary based on data read from file
     :param data: data directly read from position file
     :param image_data: ImageData object to store eventual gaussians
     :param duration: base duration for each position (updated later)
     :param calc_gauss: Whether or not gaussians are calculated for zoom levels
+    :param end_date: remove positions after this date
     :return: dictionary of positions
     """
+    """
+    # problem with users staying too much at the same spot for too long (AFK)
+    time_fixed = 0.0
+    i = 1
+    test1 = len(data)
+    while i < len(data):
+        row_data = data[i]
+        x, y = literal_eval(row_data[1])
+        zoom = int(row_data[2])
+
+        prev_row_data = data[i-1]
+        timespent = np.double(row_data[3]) - np.double(prev_row_data[3])
+        p_x, p_y = literal_eval(prev_row_data[1])
+        p_zoom = int(prev_row_data[2])
+
+        if int(x) == int(p_x) and int(y) == int(p_y) and int(zoom) == int(p_zoom):
+            time_fixed += timespent
+            if time_fixed > config.AFK_TIME and timespent < 6000 and int(zoom) < 6:
+                # at higher zoom, with our precision we cannot detect a change in coordinates easily
+                del data[i]
+            else:
+                i += 1
+        else:
+            i += 1
+            time_fixed = 0.0
+    """
+    if end_date:
+        i = 0
+        while i < len(data):
+            row_data = data[i]
+            timestamp = np.double(row_data[3])
+            if timestamp > end_date:
+                del data[i]
+            else:
+                i +=1
 
     # dict template
     ret = {'x': np.zeros(len(data)),
            'y': np.zeros(len(data)),
            'dur': np.zeros(len(data)),
            'timestamp': np.zeros(len(data), dtype=np.double),
-           'zoom': np.zeros(len(data),dtype=np.int64),
+           'zoom': np.zeros(len(data), dtype=np.int64),
            'corners': [],
            'heatmap': None}
 
@@ -135,27 +170,37 @@ def parse_positions(data, image_data, duration=20, calc_gauss=True):
         if calc_gauss and ret['zoom'][row] > 3:
             if image_data.gaussians['zoom_' + str(row_data[2])] is None:
                 x_l, y_l = get_dimensions(corners)
-                zoom_x = max(1, RATIO * x_l)
-                zoom_y = max(1, RATIO * y_l)
-                sx = max(1, np.int(zoom_x / STD))
-                sy = max(1, np.int(zoom_y / STD))
+                zoom_x = max(1, x_l)
+                zoom_y = max(1, y_l)
+                sx = zoom_x / 6
+                sy = zoom_y / 6
                 d = (gaussian(np.int(zoom_x), sx, np.int(zoom_y), sy), zoom_x, zoom_y)
                 image_data.gaussians['zoom_' + str(row_data[2])] = d
     return ret
 
 
-def parse_annotations(data):
+def parse_annotations(data, end_date=None):
     """
     parse annotations of a user in an image to a dictionary based on data read from file
     :param data: data directly read from annotation files
+    :param end_date: remove annotations after this date
     :return: dictionary of annotations
     """
-
+    if end_date:
+        i = 0
+        while i < len(data):
+            row_data = data[i]
+            timestamp = np.double(row_data[3])
+            if timestamp > end_date:
+                del data[i]
+            else:
+                i +=1
     # dict template
     ret = {'x': np.zeros(len(data)),
            'y': np.zeros(len(data)),
            'id': np.zeros(len(data)),
-           'type': []}
+           'type': [],
+           'localId': np.zeros(len(data))}
 
     # fills dictionary
     for row in range(len(data)):
@@ -163,20 +208,30 @@ def parse_annotations(data):
         ret['x'][row] = row_data[1]
         ret['y'][row] = row_data[2]
         ret['id'][row] = row_data[3]
+        ret['localId'][row] = row_data[4]
         ret['type'].append(row_data[0])
 
     return ret
 
 
-def parse_annotation_actions(data, positions, annotations):
+def parse_annotation_actions(data, positions, annotations, end_date=None):
     """
     parse annotationActions of a user in an image to a dictionary based on data read from file
     :param data: data directly read from annotationActions files
     :param positions: dictionary of positions (associated to user/image pair)
     :param annotations: annotations associated to image
+    :param end_date: remove actions after this date
     :return: dictionary of AnnotationActions
     """
-
+    if end_date:
+        i = 0
+        while i < len(data):
+            row_data = data[i]
+            timestamp = np.double(row_data[1])
+            if timestamp > end_date:
+                del data[i]
+            else:
+                i +=1
     # dict template
     ret = {'id' : np.zeros(len(data)),  # annotation id = 0 if it cannot be guessed
            'action' : [],
