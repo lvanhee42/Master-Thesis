@@ -36,6 +36,7 @@ includehead]{geometry}
 \usepackage{svg}
 \usepackage[draft]{todonotes}
 \usepackage{lastpage}
+\usepackage{cite}
 %\usepackage{hyperref}
 \usetikzlibrary{positioning, fit, calc, shapes, arrows, shadows}
 
@@ -106,6 +107,9 @@ type,var},
 \rfoot{}
 \cfoot{Page \thepage}
 
+\usepackage{etoolbox}
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+
 % First Page
 \title{
 \LARGE
@@ -130,14 +134,14 @@ University of Li\`{e}ge - Faculty of Applied Sciences\\
 \begin{document}
 \pagestyle{empty}
 \maketitle
-
-\tableofcontents
-
 \pagestyle{fancy}
 \fancyhf{}
 \rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+\tableofcontents
+
+
 \newpage
-\section{Abstract}
+\chapter{Abstract}
 In the medical field, doctors and researchers should be able to observe and interpret cell samples.
 The
 most widely spread method is to observe samples with a microscope.
@@ -168,13 +172,13 @@ These Gazemaps would be included in the application and users can be given acces
 This
 could give teachers the ability to keep track of the students' work.
 
-\section{Acknowledgments}
+\chapter*{Acknowledgments}
     % todo
     {\color{red} TODO}
 
-\section{Introduction}
+\chapter{Introduction}
 
-\subsection{Cytomine}
+\section{Cytomine}
 
 
 \begin{center}
@@ -207,7 +211,7 @@ Cytomine handles everything locally so that performance is not an issue for the 
 	For examples image annotations allows the user to create zones of interest.
 	These zones can share characteristics and using learning algorithms, researchers can learn new zones of interest.
 
-\subsection{Cytomine for education}
+\section{Cytomine for education}
 
 Cytomine can be used as a tool of education for many subjects.
 Since it's open source and well documented, it is possible to fork it and develop new methods and modules.
@@ -219,7 +223,7 @@ For instance, this includes astrology where people can learn about planets and s
 Other sectors include Geology, Art, and in this case Medicine.
 
 
-\subsection{MOOC Server}
+\section{MOOC Server}
 
       \begin{figure}[H]
       \centering
@@ -249,8 +253,11 @@ Since the MOOC is completely integrated to the course, it directly impacts how s
 Their exams are often based on what they learned using the tool.
 The goal is to see how much of an effect Cytomine has on students.
 
-\subsection{Teacher Input}
 
+\section{Teacher Input}
+
+    Opinions on professionals that had the opportunity to work with Cytomine is very important if development were to continue.
+    This input seen in ~\cite{hist} comes from the teachers who use Cytomine in the field of Medicine.
     The development of new tools and methods have heavily influenced the ways teachers approach their courses.
     This includes the sharing and consultation of resources online.
     Every year, over 500 students from the Faculty of Medicine at the University of Liege partake in this new learning approach.
@@ -272,7 +279,7 @@ The goal is to see how much of an effect Cytomine has on students.
     This sharing of knowledge in a interactive and accessible way is great for anyone that have interests in this topic.
 
 
-\subsection{General Goals}
+\section{General Goals}
 
 
     The Main objective is to observe how the students use Cytomine.
@@ -291,9 +298,22 @@ The goal is to see how much of an effect Cytomine has on students.
       \label{fig:highlevel}
       \end{figure}
 
-\section{Tools and Methods}
+\section{Previous Studies}
 
-    \subsection{Cytomine Databases}
+This is not the first attempt to analyze a person's behavior when scanning through cellular images.
+~\cite{pathedex}, ~\cite{pathexams}, and ~\cite{pathinterations} all tackle this problem.
+These studies are similar in a sense that they analyze user scanning of images and compare it with a performance criteria (E.G rate of detecting cancer).
+They also often analyze a set of students and how they behave will scanning images.
+The main difference is that in this study, students go through more than one image.
+Since they are assessed from their performance as a whole, this analysis cannot be donne image by image.
+Since images are often vastly different, information retrieved and studied need to be more general.
+
+
+\chapter{Tools and Methods}
+
+    Cytomine developed with many tools that makes it user friendly ~\cite{cyt}.
+
+    \section{Cytomine Databases}
     % todo ask if allowed to use figures from the Cytomine website
     Data comes in different shapes and forms, therefore different methods are used to store this data.
     The databases included are :
@@ -317,7 +337,7 @@ The goal is to see how much of an effect Cytomine has on students.
     In order for a user to retrieve this information, a Application programming Interface (API) was implemented.
 
 
-    \subsection{Cytomine API}
+    \section{Cytomine API}
 
     The Cytomine API allows for a user to retrieve data from the server.
     It is defined as a REST API.
@@ -330,7 +350,7 @@ The goal is to see how much of an effect Cytomine has on students.
     It includes methods that returns the called information in a more structured like manner.
     Methods to retrieve image and user information were used for this analysis.
 
-    \subsection{Machine Learning and ExtraTrees}
+    \section{Machine Learning and ExtraTrees}
 
     Machine learning was used throughout this project as a tool for analyzing user behavior.
     Machine Learning in short are algorithms that make predictions based on previous observations.
@@ -379,9 +399,9 @@ The goal is to see how much of an effect Cytomine has on students.
 
     Trees are often not the most accurate of predictors but it is possible to use Ensemble Methods to obtain a better predictive performance.
     Ensemble methods combine multiple different learning algorithms and often work better when working with small datasets.
-    The ensemble method subject for this project is the Extremely Randomized Trees (ExtraTrees).
+    The ensemble method subject for this project is the Extremely Randomized Trees (ExtraTrees) as described in ~\cite{extratree}.
 
-
+    %todo extra tree algo
     The problem with most tree based methods is the high error rate often due to the high bias and variance.
     This often happens due to overfitting or underfitting.
     Unlike previous tree based ensemble method, the ExtraTree method selects splits of both attribute and cut-point partially or totally at random.
@@ -393,25 +413,27 @@ The goal is to see how much of an effect Cytomine has on students.
     Overall this handles overfitting very well for most learning samples.
     To avoid underfitting, building the ExtraTree with enough estimators is enough.
 
-    \subsection{Three Separate Components}
+    \section{Three Separate Components}
     	Since there is a vast amount of data, most operations require a good amount of time to complete.
     	Therefore, the data analysis tool is divided into three components :
         \begin{itemize}
-        \item[\textbullet] Data Acquisition.
-        \item[\textbullet] Data Manipulation.
-        \item[\textbullet] Data Learning.
+        \item[\textbullet] Data Acquisition (download\_data.py).
+        \item[\textbullet] Data Manipulation (data\_manager.py).
+        \item[\textbullet] Data Learning (data\_learning.py).
         \end{itemize}
 
-		\subsubsection{Data Acquisition}
+        The code is available at Github (https://github.com/lvanhee42/Master-Thesis).
+
+		\subsection{Data Acquisition}
 
             %todo : move when Cytomine API part is written
 			During the 2016-2017 Academic year, Cytomine tracked and stored user information on the MOOC server.
 			To obtain all this information, Cytomine is accessible by a REST API. To ease the access to the server, Cytomine developed a Python Client that was used for the acquisition of relevant information.
 			With administrator rights, a user can get a hold of all if not most of the data stored on the SQL and MongoDB databases.
-            
+
           There are currently a total of two projects called GOLD and SILVER that students could participate in.
           To start of, each project contains a set of images and a set of students that have signed up.
-          
+
           \begin{center}
           \begin{tabular}{| l | c | c |}
           \hline
@@ -424,19 +446,19 @@ The goal is to see how much of an effect Cytomine has on students.
 
 		  Both projects have their own objectives but GOLD is more complete and thorough.
 		  unlike the SILVER project, the students were tested and graded on the course that was given to them but also the content of the project.
-         
+
           To analyze user behavior, it is necessary to fetch data that is relevant, this includes (as shown in Figure \ref{fig:data}):
-          
+
           \begin{itemize}
           \item[\textbullet] \textbf{Resized images :}\newline
-          
+
           The images stored on Cytomine are in fact very large.
           For the analysis, a copy of the images will be useful.
           Many operations in the Data Manipulation component rely on the image resolution when it comes to complexity.
           It is important that the image is big enough to be viewable while small enough so that the operations done in a reasonable amount of time.
           The image downloaded is therefore rescaled to a maximum width and height of 1024 pixels.\\
           \item[\textbullet] \textbf{Reference Annotations :}\newline
-          
+
           When observing images, students are usually given guidelines in forms of image annotations.
           These annotations are zones in the image that contain information that students can learn from.
           These annotations are given a number.
@@ -452,18 +474,19 @@ The goal is to see how much of an effect Cytomine has on students.
               \label{fig:annnn}
             \end{figure}
 		\item[\textbullet]  \textbf{User Annotations :}\newline
-        
+
         Teachers can set annotations as guidelines, but normal users can also create annotations.
         If a student user notices something interesting on a patch of an image, that student can annotate it.
         Later, that student could for example approach a teacher with a question and use the annotation as a reference.
         Unfortunately, there are currently no user annotations.
         This will be discussed in section \ref{Discussion}.\\
-        
+
         \item[\textbullet]  \textbf{User Positions :}\newline
-        
+
          This is the most important information.
          A position is what the user sees at a current time stamp.
          positions are defined by its center, four corners, time recorded, and zoom.
+         Unlike common gaze data, positions here are not collected from the tracking of eye movements, they are based on what the user sees on the screen.
          positions are saved on a regular basis when a user observes an image.
          More precisely positions are saved :
          \begin{itemize}
@@ -514,14 +537,14 @@ The goal is to see how much of an effect Cytomine has on students.
         \end{figure}
 
         \item[\textbullet] \textbf{Annotations Actions :}\newline
-        
+
         Annotations are clickable.
         When clicked, a toolbox appears giving more information on the annotation.
         This action is also stored on the server.
         For the data recorded in 2017, an annotation action only contains a time stamp.
         It is only in later versions of Cytomine that the reference annotation identifiers were tracked with the annotation actions.
         In the case where the referenced annotation is unknown, it will be guessed based on positions that appear at the same time.
-        
+
          \end{itemize}
 
        \begin{figure}[H]
@@ -531,11 +554,11 @@ The goal is to see how much of an effect Cytomine has on students.
          \label{fig:data}
        \end{figure}
 
-        
+
 		All this information needs to be downloaded which, unfortunately can take up to 8 hours using the API while putting stress on the MOOC server.
 		After some interruptions to the service, it was necessary to install the MOOC locally with backups of the original. \newline
 
-        
+
         For both projects, an excel file containing user information not found on Cytomine was given.
         For the SILVER project, this only included basic information that were irrelevant to the analysis (names, emails, etc..).
         Meanwhile for the GOLD project, the University of Liege students had to partake in multiple graded assignments.
@@ -586,8 +609,8 @@ The goal is to see how much of an effect Cytomine has on students.
             For the types, T represents the tutorials, L represents learning images, E represents exercise images, and B represents supplements.
             Each module does not necessarily have the same number of images associated to it.
         \end{itemize}
-        
-        
+
+
         The project has a dedicated directory to store all this information, usually in a csv format.
         For each data type, image, and user triplet, there is a dedicated file containing this information.
         In conclusion, the following diagram explains the role of this component (Figure \ref{fig:comp1}):
@@ -602,16 +625,16 @@ The goal is to see how much of an effect Cytomine has on students.
         These files will be opened and read by the Data Manipulation Component for generating statistics and ways to represent data visually.
         These files are organized in directories.
         This component, builds an underlying structure that will be used and manipulated by the other components. (Figure \ref{fig:struct})
-        
+
        \begin{figure}[H]
         \centering
          \includegraphics[width=.6\linewidth]{diagrams/directories.png}
          \caption{Directory and File Structure}
          \label{fig:struct}
        \end{figure}
-        
-	\subsubsection{Data Manipulation}
-    
+
+	\subsection{Data Manipulation}
+
     This component is used to interpret the data that's in its most basic form.
     It has multiple outputs based on the parameters set.
     Since it's important to obtain information as a whole on the data set, the component is divided into two main parts:
@@ -726,7 +749,21 @@ The goal is to see how much of an effect Cytomine has on students.
 
     Once all all this information is stored in memory.
     it is possible to call numerous tasks to analyze the data and draw statistics.
-    This includes :
+    This component used two libraries :
+    \begin{itemize}
+        \item[\textbullet] \textbf{PyGazeAnalyser} ~\cite{pygaze} : This open-source library implemented by PyGaze draws statistics about Gaze data.
+        This data is often in form of figures.
+        In this implementation, it calculates the Gaussian arrays for each zoom and draws the visualisation figures (Gazemap, scan paths, raw points).
+        Unfortunately, PyGazeAnalyzer in its current state was not perfectly suitable with the data retrieved from Cytomine.
+        It generated heatmaps but did not allow the regularisation for example.
+        It also was not compatible with different levels of zoom.
+        In fact, this library is more suitable for gaze data that comes directly from capturing eye movements.
+        The code was forked and tweaked to handle these changes.
+        \item[\textbullet] \textbf{scikit-learn} ~\cite{scikit-learn} : This library implements many learning techniques.
+        For this component, the K-Fold clustering method has been implemented in order to group up positions that are close in regards to space and time.
+    \end{itemize}
+
+    With these libraries the all the outputs possible include :
 
     \begin{itemize}
         \item[\textbullet] \textbf{Output a Feature File :} Students are analyzed individually in regards to the images they visited.
@@ -742,6 +779,9 @@ The goal is to see how much of an effect Cytomine has on students.
         This allows the observation of the students' patterns as a whole or comparing the behavior of particular students.
         An interesting experiment would be to compare the figures for the very best student and the very worst students to get more insight.
         The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
+        \item[\textbullet] \textbf{Output Raw points figures :} These figures are represented by the image and the center of each position is drawn.
+        This can give a good visualisation of the number of positions and where they are most concentrated.
+        %todo raw points image
         \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represents the Gazemaps of the student activity in regards to an image.
         Since an image is resized to a reasonable resolution, each pixel is assigned a weight based on the user's activity near that pixel.
         Therefore, operations are done pixel by pixel.
@@ -895,7 +935,7 @@ The goal is to see how much of an effect Cytomine has on students.
       \label{fig:comp2uml}
     \end{figure}
 
-    \subsubsection{Data Learning}
+    \subsection{Data Learning}
 
     This component has the objective of working with the output Feature file from the Data Manipulation component.
     As there many output variables, a Graphical Unit Interface (GUI) was implemented.
@@ -955,10 +995,10 @@ The goal is to see how much of an effect Cytomine has on students.
         \end{itemize}
     \end{itemize}
 
-    The ExtraTree (Extremely Randomized Tree) regressor is a class that fits a number of randomized decision trees on many sub samples of the population.
+    The ExtraTree (Extremely Randomized Tree) regressor is a class that fits a number of randomized decision trees on many sub samples of the population (see ~\cite{extratree}).
     This method uses averaging to to improve learning accuracy all while controlling over-fitting.
     It is therefore considered a Ensemble Method.
-    The Regressor has been implemented with sklearn.
+    The Regressor has been implemented with scikit-learn ~\cite{scikit-learn}.
     It has been configured with the following parameters :
     \begin{itemize}
         \item[\textbullet] \textbf{Number of Estimators : 10 000}\\
@@ -1000,23 +1040,23 @@ The goal is to see how much of an effect Cytomine has on students.
         With the sample size, it's risky to try and infer more complex relations.
     \end{itemize}
 
-\section{Data Analysis}
+\chapter{Data Analysis}
 
-	\subsection{Experiments} \label{experiments}
-    
-    
+	\section{Experiments} \label{experiments}
+
+
     Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project.
     This is due to the many constraints given by the SILVER project including the sample size and the lack of results (student grades).
     The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation component.
     There were over 2000 features generated, where each one can weigh in on the prediction.
     These features were used to learn over 13 grades including the final grade obtained by these students (first session).\newline
-    
-    
+
+
     Due to the nature of the dataset, regression trees were the most ideal.
     The somewhat small dataset paired with a large amount of features is a big constraint to work with.
     Therefore, Ensemble methods were used and tested.
     This includes Random Forest regression and Extra Trees regression using sklearn.\newline
-    
+
     The Learning component is given a statistics file containing rows of students paired with their features.
     The features are split into three categories :
     \begin{itemize}
@@ -1028,16 +1068,16 @@ These variables are used in the machine learning model as input variables.\\
 \item[\textbullet] \textbf{Y} : Result variables, these variables is what the algorithm is attempting to guess using the  \textbf{X} variables.
 These variables are used in the machine learning model as output variables. In this case, they are the students' grades.\\
 \end{itemize}
-    
+
     With this, a couple experiments have been ran.
     For each Y variable (that will be described in the next sections), the model was built fully for the first analysis.
     The second analysis, a leave-one-out cross validation was ran.
     The goal is to give insight on different user behaviors.
     Hopefully, these experiments will prove to be useful.
-    
-    \subsection{Data Set} \label{Data_Set}
-    
-    	\subsubsection{Students}
+
+    \section{Data Set} \label{Data_Set}
+
+    	\subsection{Students}
     Like mentioned earlier, there are a total of 395 students in the data set.
     Students are defined by their features and the grades obtained.
     These student followed the course HISL054, "General histology and alternative experimentation methods that do not use animals" at the University of Liege during the academic year 2016-2017.
@@ -1046,20 +1086,20 @@ These variables are used in the machine learning model as output variables. In t
     In fact all of the assignments for this course are explained on Ecampus.
     The issue with this is that it's a different entity from the MOOC and therefore is not ideal for fetching information.
     But it's not much of a problem because there's nothing to retrieve about students on Ecampus that is not already known.\newline
-    
+
     When applying machine learning techniques, students with a 0/20 were taken out of the sample.
     This is due to the fact those students defaulted to signing the exam.
     Since there are too few that do so, there's not enough information to find correlations between people who sign and the features.
     Keeping students who sign also increases the error rate because they are extreme cases.
     The goal is to guess how well the exam would have went for the students.
     If the student decides not to bother with taking the exam, it's a lost sample.\newline
-    
-    	\subsubsection{Teacher Input : Grades}
-    
+
+    	\subsection{Teacher Input : Grades}
+
     %% QROL - Question a Reponse Ouverte Longue
     %% QCM - Question a choix multiples
     %% QCL - incidence de coupe et identification
-    
+
 	The students are evaluated by multiple exams and quizzes, these take the form of:
     \begin{itemize}
     \item[\textbullet]  \textbf{QCM : Multiple choice question test.}
@@ -1100,9 +1140,9 @@ These variables are used in the machine learning model as output variables. In t
      \label{fig:qrol}
     \end{figure}
     \end{itemize}
-    
+
     These variables will be denoted as \textbf{Y} variables for output.
-    Out of the 13 results associated to the students, 3 were white tests given as a practice tool : 
+    Out of the 13 results associated to the students, 3 were white tests given as a practice tool :
     \begin{itemize}
     \item[\textbullet]  QCL identification white test.
 	\item[\textbullet]  QCL incidence white test.
@@ -1126,7 +1166,7 @@ These variables are used in the machine learning model as output variables. In t
     \item[\textbullet] Total Practical (50\%)
     \item[\textbullet] global Grade (100\%)
     \end{itemize}
-    
+
     Most of the experiments are done using one of these grades as Y variables.
     In later experiments, some variables will be set as features.
     The learning of final grades using white test results as bonus features (\textbf{X} variable) could yield better results.
@@ -1158,21 +1198,21 @@ These variables are used in the machine learning model as output variables. In t
     \item[\textbullet] \textbf{FIRST NAME :} User's First name (forename).
     \item[\textbullet] \textbf{GROUP :} group user belongs in (GOLDULiege, GOLD, or SILVER).
     GOLDULIEGE is a subset of GOLD containing the set of students following the course.
-    This will be used for the analysis.
+    This will be used for the analysis and will be referred to as GOLD.
     \item[\textbullet] \textbf{USERNAME CYTOMINE :} user's Cytomine username.
    	\end{itemize}
-    
-    
-    \subsubsection{Features pre-Calculated}
-    
+
+
+    \subsection{Features pre-Calculated}
+
     There are over two thousand features calculated and generated by the Data Manipulation component.
     These variables belong to the \textbf{X} category and are listed:
-   
+
    \begin{itemize}
     \item[\textbullet] \textbf{NB IMAGES VISITED :} The total number of different images that a user has opened over the course of the year.\\
     \item[\textbullet] \textbf{TOTAL NB POSITIONS :} The total number of positions obtained from all the images opened.\\
     \item[\textbullet] \textbf{AVG NB POSITIONS :} The mean number of positions obtained relative to all the images opened.\\
-    
+
     \item[\textbullet] \textbf{MEDIAN NB POSITIONS :} The median number of positions  obtained relative to all the images opened.\\
     \item[\textbullet] \textbf{TOTAL IMAGE VIEWING TIME (s) :} Total amount of time spent viewing images.\\
 
@@ -1188,7 +1228,7 @@ These variables are used in the machine learning model as output variables. In t
     \item[\textbullet] \textbf{TOTAL NB ANNOTATION ACTIONS :} The total number of times the user clicked on a reference annotation.\\
     \item[\textbullet] \textbf{AVG NB ANNOTATION ACTIONS :} The mean number of times the user clicked on a reference annotation.\\
     \item[\textbullet] \textbf{MEDIAN NB ANNOTATION ACTIONS :} The median number of times the user clicked on a reference annotation.\\
-    
+
     \item[\textbullet] \textbf{AVG NB POSITIONS AT ZOOM <x> :} with <x> between 1 and 10, represents the zoom level of a position.
     1 variable per zoom value.
     It represents the mean number of positions at zoom <x> relative to all images visited.\\
@@ -1206,14 +1246,14 @@ These variables are used in the machine learning model as output variables. In t
 \includegraphics[scale=0.35]{plots/gaussian.png}
 \caption{Example Gaussian Grids for an Image that has a zoom up to 9}
 \end{center}
-\end{figure} 
-   
+\end{figure}
+
    So each annotation has a center coordinate.
    For this coordinate, a list of Gaussian values is generated based on all the positions near the annotation.
    This vector is sorted inversely.
    It's important to note that it does not take much time for the student to assimilate all the information on a part of an image.
    So the idea is to weight these positions to the point that after enough positions, the next ones would have a weight of close to 0.
-To do so, a geometrical sequence was used:  
+To do so, a geometrical sequence was used:
 	\[\sum\limits_{i=0}^N w^i\]
 
 N is the number of positions.
@@ -1234,100 +1274,100 @@ If a student actually observed in detail the annotation, they would usually get 
     Doing so for all annotations gives a final score.
     The score for an annotation is given by the previous variable (SCORE OF ANNOTATION <y> AT IMAGE <x>) and re dimensioned so this variable returns a score between 0 and 1.
     If the image does not have any annotation, the scores for are calculated for the entire image and the average is returned. \\
-    
+
     \item[\textbullet] \textbf{AVERAGE USER SCORE :} The average of all the scores defined previously for a user. \\
-    
+
     \item[\textbullet] \textbf{NB POSITIONS AT IMAGE <x> :} with <x> being the image Identifier, represents the number of positions recorded at that image for a user. \\
-    
+
    \item[\textbullet] \textbf{TIME SPENT AT IMAGE <x> :} With <x> being the image identifier, represents the total time spent on an image for a user. \\
-   
+
    \item[\textbullet] \textbf{NB OF ANNOTATION ACTIONS AT IMAGE <x> :} With <x> being the image identifier, represents the number of annotation Actions at that image for a user. \\
-      
+
     \item[\textbullet] \textbf{NB OF POSITIONS WITH ZOOM <y> AT IMAGE <x> :} With <x> being the image identifier and <y> being the zoom value [1-10].
     It Represents the number of positions for a certain zoom  at that image for a user. \\
 
     \item[\textbullet] \textbf{NB IMAGES VISITED DURING MODULE <x> :} The total number of different images that a user has opened that are associated to the module <x>.\\
-    
+
     \item[\textbullet] \textbf{AVG NB POSITIONS DURING MODULE <x> :} The mean number of positions obtained relative to all the images opened that are associated to the module <x> during the corresponding time period.\\
-    
+
     \item[\textbullet] \textbf{MEDIAN NB POSITIONS DURING MODULE <x> :} The median number of positions obtained relative to all the images opened that are associated to the module <x> during the corresponding time period.\\
-    
+
     \item[\textbullet] \textbf{TOTAL NB POSITIONS DURING MODULE <x> :} The total number of positions obtained from all the images associated to the module <x> during the corresponding time period.\\
-    
+
     \item[\textbullet] \textbf{TOTAL TIME SPENT DURING MODULE <x> (s) :} Total amount of time spent viewing images associated to the module <x> during its given time period.\\
-    
+
     \item[\textbullet] \textbf{AVG TIME SPENT DURING MODULE <x> (s) :} Mean amount of time spent viewing images associated to the module <x> during its given time period.\\
-    
+
     \item[\textbullet] \textbf{MEDIAN TIME SPENT DURING MODULE <x> (s) :} median amount of time spent viewing images associated to the module <x> during its given time period.\\
-    
+
     \item[\textbullet] \textbf{NB POSITIONS DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
     This represents the number of positions recorded at that image for a user during the module's time period. \\
-       
+
     \item[\textbullet] \textbf{TIME SPENT DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
     This represents the time spent at that image for a user during the module's time period. \\
-    
+
     \item[\textbullet] \textbf{NB ANNOTATION ACTIONS DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
     This represents the number of annotation actions recorded at that image for a user during the module's time period. \\
-     
-     
+
+
      \item[\textbullet] \textbf{NB POSITIONS WITH ZOOM <z> DURING MODULE <y> AT IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
      This represents the number of positions recorded at that image for a user during the module's time period with zoom <z>.
      The zoom value <z> ranges from 1 to 10. \\
-     
+
      \item[\textbullet] \textbf{AVERAGE ZOOM DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
      This represents the average zoom level of all the positions recorded at that image for a user during the module's time period. \\
-     
+
      \item[\textbullet] \textbf{MEDIAN ZOOM DURING MODULE <y> FOR IMAGE <x> :} with <x> being the image Identifier of an image associated to the module <y>.
      This represents the median zoom level of all the positions recorded at that image for a user during the module's time period. \\
-     
+
      \item[\textbullet] \textbf{NB POSITIONS AT ZOOM <z> DURING MODULE <x> :} with <z> between 1 and 10, calculated for all the images associated to the module <x>.
      This represents the number of positions for a specific zoom for a user during the module's time period. \\
-     
+
 	\item[\textbullet] \textbf{AVERAGE NB POSITIONS AT ZOOM <z> DURING MODULE <x> :} with <z> between 1 and 10, calculated for all the images associated to the module <x>.
 	This represents the mean number of positions for a specific zoom for a user during the module's time period. \\
 
 	\item[\textbullet] \textbf{MEDIAN NB POSITIONS AT ZOOM <z> DURING MODULE <x> :} with <z> between 1 and 10, calculated for all the images associated to the module <x>.
 	This represents the median number of positions for a specific zoom for
-a user during the module's time period. \\ 
-	
+a user during the module's time period. \\
+
 	\item[\textbullet] \textbf{TOTAL NB ANNOTATION ACTIONS DURING MODULE <x> :} With <x> being the module identifier, it represents the total number of annotation  actions for a user during the module's time period. \\
-	
+
 	\item[\textbullet] \textbf{AVG NB ANNOTATION ACTIONS DURING MODULE <x> :} With <x> being the module identifier, it represents the mean number of annotation  actions for a user during the module's time period. \\
-		
+
 	\item[\textbullet] \textbf{MEDIAN NB ANNOTATION ACTIONS DURING MODULE <x> :} With <x> being the module identifier, it represents the median number of annotation  actions for a user during the module's time period. \\
 
 	\item[\textbullet] \textbf{AVERAGE USER SCORE DURING MODULE <x> :} With <x> being the module identifier, it represents the average predefined score for a user for the module's images during the respective time period. \\
-    
+
 	\item[\textbullet] \textbf{USER SCORE AT IMAGE <y> DURING MODULE <x> :} With <x> being the module identifier and <y> the image identifier, it represents the predefined score at the image for a user during the module's time period. \\
-	
+
 	\item[\textbullet] \textbf{SCORE OF ANNOTATION <z> AT IMAGE <y> DURING MODULE <x> :} With <x> being the module identifier and <y> the image identifier, it represents the predefined score of the annotation <z> at the image for a user during the module's time period. \\
-         
+
     \item[\textbullet] \textbf{PERCENT TIME WORKED AT NIGHT :} Value from 0 to 1.
     This represents the ratio of the time spent working from 6pm to 6am.
-    
+
     \item[\textbullet] \textbf{PERCENT TIME WORKED LATE :} Value from 0 to 1.
     This represents the ratio of the time spent working from 1am to 6am.
-        
+
     \item[\textbullet] \textbf{PERCENT TIME WORKED MORNING :} Value from 0 to 1.
     This represents the ratio of the time spent working from 6am to 12pm.
-    
+
     \item[\textbullet] \textbf{NUMBER OF DAYS WORKED :} The total number of days where a user opened at least one image.
-    
+
     \item[\textbullet] \textbf{PERCENT TIME WORKED DURING MODULE <x> :} When working on Cytomine, the user can open images associated during a module during its time period or outside of it.
     This represents the ratio of the user activity during the time period.
-    
+
 	\item[\textbullet] \textbf{ANNOTATION <y> VISITED BEFORE ANNOTATION <y + 1> AT IMAGE <X> :} This binary variable determines whether or not a student visited the annotation <y> before the annotation <y + 1> for an image <x>.
 	The users are encouraged to study the reference annotation in a specific order.
-    
+
     \end{itemize}
-    
+
 
     All these features end up describing how users participated on Cytomine and their effects will be analyzed.
     It will be evident that most of these features will have little impact in the learning process.
-    
-    \subsection{Results}
 
-    \subsubsection{Comparing Timelines}
+    \section{Results}
+
+    \subsection{Comparing Timelines}
 
         In this small experiment, there were a total of 8 timelines geneated.
         Four of those belonging to the students with the highest grades and four belonging to the students with the lowest grades.
@@ -1374,8 +1414,8 @@ a user during the module's time period. \\
 
 
 
-    \subsubsection{White Test Grades}
-    
+    \subsection{White Test Grades}
+
     These 3 ungraded exam were taken halfway during the semester (24th of April 2017).
     They reflect what a student has learned and remembered up until that day.
     At that point, students should have finished modules 1 through 4 and at least looked at modules 5 and 6.
@@ -1413,7 +1453,7 @@ a user during the module's time period. \\
       \caption{Results from cross-validation of the White Tests}
       \label{fig:results_white}
     \end{figure}
-    
+
     Unfortunately, the results are not great.
     The boxplots show very high median and quartiles.
     There are also a high number of extreme errors with some above 10.
@@ -1428,7 +1468,7 @@ a user during the module's time period. \\
     Furthermore, the fact that the exams are ungraded puts less pressure on the students to succeed.
     Therefore, they might not take the tests as seriously as they could by not reviewing and studying the days before. (see Figure \ref{fig:timelapse}) \\
 
-  
+
   Since the models are made using regression trees, it it possible to study the features that had an impact in determining the predicted grades.
   Even though the results were not ideal, it's interesting to observe what images and variables had a big impact on determining the grades.
   These images can very well be the subject of a question on the exam. (Figures \ref{fig:var_white1}, \ref{fig:var_white2}, \ref{fig:var_white3})
@@ -1439,21 +1479,21 @@ a user during the module's time period. \\
       \caption{Feature Importance for QCL the Incidence}
       \label{fig:var_white1}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_TRIAL_TEST_TP_QCL_IDENTIFICATION_2018-04-29_14_28_02.png}
       \caption{Feature Importance for QCL the Identification}
       \label{fig:var_white2}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_TRIAL_TEST_TP_QCM_2018-04-29_14_34_16.png}
       \caption{Feature Importance for the QCM}
       \label{fig:var_white3}
       \end{figure}
-    
+
     These figures show the top 80 features (or \textbf{X} variable) for their respective model.
     Even though each model shares the same features, their importance varies model to model.
     But it's probable that some features from a specific image can be at the top for multiple model.
@@ -1463,7 +1503,7 @@ a user during the module's time period. \\
     \item[\textbullet] \textbf{Regular Image Features :} Features that describe the data on a specific image. (number of positions at image XXXX)
     \item[\textbullet] \textbf{Module Image Features :} Features similar to the two previous but associated to a specific module period. (number of positions at image XXXX during module Y)
     \end{itemize}
-    
+
     Note that there are fewer general features, but many of those tend to have a high importance.
     Apart from the incidence test, it's appropriate to say that the module variables are the most impactful.
     This is because the white exam is taken in April instead of June.
@@ -1471,28 +1511,28 @@ a user during the module's time period. \\
     Also, for the  identification test, the most impactful variable has a much higher importance than the rest.
     Even though this may look random, this variable may well be a good splitting factor.
     Unfortunately, this does not show the overall impact of certain images. (Figures \ref{fig:im_white1}, \ref{fig:im_white2}, \ref{fig:im_white3})
-    
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_TRIAL_TEST_TP_QCL_IC_2018-04-29_14_31_20.png}
       \caption{Image Importance for QCL the Incidence}
       \label{fig:im_white1}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_TRIAL_TEST_TP_QCL_IDENTIFICATION_2018-04-29_14_28_06.png}
       \caption{Image Importance for the QCL Identification}
       \label{fig:im_white2}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_TRIAL_TEST_TP_QCM_2018-04-29_14_34_19.png}
       \caption{Image Importance for the QCM}
       \label{fig:im_white3}
       \end{figure}
-    
+
     As a reminder, out of all the images in the GOLD project, about a third of the images were not even visited.
     Also, some of the images don't belong to any module.
     It seems that as a general consensus that the most impactful images do not belong to the last module.
@@ -1508,8 +1548,8 @@ a user during the module's time period. \\
     Those who follow the tutorial may have an easier time understanding the course from the start and may perform better for the QCM. As for the incidence test, the module 3 variables seem to be the most impactful.
     This module may contain examples that allow the student to better differentiate different incidence angles for specific objects in the images.
     OF course the cross validation results are not the best, so these assumption are not necessary correct. This leads to the actual practical exam.
-    
-    \subsubsection{Practical Exam Grades}
+
+    \subsection{Practical Exam Grades}
 
 	There are a total of 5 practical exam results including the total.
 	These \textbf{Y} variables tested similarly to the white tests.
@@ -1580,7 +1620,7 @@ Since these exams are graded, students should have the motivation to study and a
     Since this part of the exam is similar to a QCM but with only 3 options, it's relatively easy to answer the questions correctly.
     This explains the higher grades for most students.
     \end{itemize}
-    
+
     When taking practical exams the students have images to look at.
     Certain aspects of the images need to be identified before answering the questions.
     Unfortunately with the data fetched from Cytomine, it's hard to determine whether or not the students were able to identify certain concepts when using Cytomine.
@@ -1592,21 +1632,21 @@ Since these exams are graded, students should have the motivation to study and a
       \caption{Feature Importance for the QCM Practical}
       \label{fig:var_tp1}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_QROL_PRACTICAL_2018-04-29_14_37_04.png}
       \caption{Feature Importance for the QROL Practical}
       \label{fig:var_tp2}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_PRACTICAL_QCL_IDENTIFICATION_2018-04-29_14_34_11.png}
       \caption{Feature Importance for the QCL Identification}
       \label{fig:var_tp3}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_PRACTICAL_QCL_2018-04-29_14_33_44.png}
@@ -1628,21 +1668,21 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Image Importance for the QCM Practical}
       \label{fig:im_tp1}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_QROL_PRACTICAL_2018-04-29_14_37_07.png}
       \caption{Image Importance for the QROL Practical}
       \label{fig:im_tp2}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_PRACTICAL_QCL_IDENTIFICATION_2018-04-29_14_34_14.png}
       \caption{Image Importance for the QCL Identification}
       \label{fig:im_tp3}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_PRACTICAL_QCL_2018-04-29_14_33_48.png}
@@ -1656,7 +1696,7 @@ In the end, some images and some modules have more impact than others.  (Figures
 	This supports the hypothesis that doing the exercises has a positive impact on the grades.
 	But for example the image 1218120 does not appear at the top anymore.
 	This shows that even though the models follow the same patterns, it's still varies based on the contents of the exam.\\
-    
+
     Sometimes it's interesting  to look for correlations between the expected result and some features.
     This helps to see its direct impact in estimating a grade.
     In fact, with most of the the features, a higher value should mean a better score.
@@ -1667,22 +1707,22 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Pearson Correlation}
       \label{fig:corr_tp}
       \end{figure}
-    
+
    Most of these features are score features which in short tells the model how well the user viewed the image in regards to the annotations.
    Therefore a higher value means a better observation of all the annotations.
    This correlation means that the more time the student is focused on annotations, the more likely that student is to get a better grade.
    This could explain the somewhat good Pearson Correlation for these variables.\\
-   
+
    After studying the results for the practical exams, a question that can be asked is whether or not this analysis can work on Theoretical Exam grades.
-    
-    \subsubsection{Theoretical Exam Grades}
-        
+
+    \subsection{Theoretical Exam Grades}
+
         The same tests were launched for the theoretical grade results.
         The main difference for the theory portion is that there are no QCL tests and two QROL tests.
         The learning done on the QROL test results of the practical showed the worst results.
         Meanwhile the QCM provided the best results.
         This trend is likely to continue. (Figure \ref{fig:results_theo})
-        
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.30\linewidth]{plots/cv_boxplot_QCM_THEORY_2018-04-30_13_57_05.png}
@@ -1712,7 +1752,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Results from cross-validation of the practical tests}
       \label{fig:results_theo}
     \end{figure}
-    
+
     As predicted, the QCM yielded the best scores while the QROL provided sub par scores.
     The assumptions made based off of the practical exams were correct.
     The Extra Trees has an easier time predicting QCM exams.
@@ -1727,20 +1767,20 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Feature Importance for the QCM Theory}
       \label{fig:var_th1}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_QROL1_THEORY_2018-05-02_20_54_23.png}
       \caption{Feature Importance for the QROL1 Theory}
       \label{fig:var_th2}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_QROL2_THEORY_2018-05-02_20_53_44.png}
       \caption{Feature Importance for the QROL2 Theory}
       \label{fig:var_th3}
-      \end{figure}    
+      \end{figure}
 
     As usual, the scores are the most prominent features for all the theoretical exercises.
     It's interesting to note some differences with the practical exercices.
@@ -1757,20 +1797,20 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Image Importance for the QCM Theory}
       \label{fig:im_th1}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_QROL1_THEORY_2018-05-02_20_54_25.png}
       \caption{Image Importance for the QROL1 Theory}
       \label{fig:im_th2}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_QROL2_THEORY_2018-05-02_20_53_48.png}
       \caption{Image Importance for the QROL2 Theory}
       \label{fig:im_th3}
-      \end{figure}    
+      \end{figure}
 
     As predicted, some images and modules are more relevant then others.
     For the QROL1, it seems that the question was associated information that the students learned from the modules 5 and 6.
@@ -1781,12 +1821,12 @@ In the end, some images and some modules have more impact than others.  (Figures
     As for the QCM, the image 1208906 also stood out.
     It's possible that, there's more educational interest behind this image.
 
-    \subsubsection{Global Grades}
+    \subsection{Global Grades}
 
     The next objective is to study these grades as a whole.
     This includes the total theoretical grades, the total practical grade, and the exam as a whole. (Figure \ref{fig:results_tot})
 
-    
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.30\linewidth]{plots/cv_boxplot_TOTAL_TP_2018-04-27_19_24_46.png}
@@ -1816,7 +1856,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Results from cross-validation of the exam results}
       \label{fig:results_tot}
     \end{figure}
-    
+
     As a whole, there's a mean absolute error of about 2.
     Overall, still not the best results.
     An interesting observation is that the learning algorithm has a easier time predicting theoretical grades over practical grades.
@@ -1830,27 +1870,27 @@ In the end, some images and some modules have more impact than others.  (Figures
       \caption{Feature Importance for the total Practical}
       \label{fig:var_tot1}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_TOTAL_THEORY_2018-05-02_23_31_54.png}
       \caption{Feature Importance for the total Theory}
       \label{fig:var_tot2}
       \end{figure}
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/var_importance_GLOBAL_GRADE_2018-05-02_20_56_11.png}
       \caption{Feature Importance for the global Grade}
       \label{fig:var_tot3}
-      \end{figure}   
+      \end{figure}
 
     Overall, the most impactful features are often associated to the students' performance scores for all the models.
     This indicator that the student followed the instructions has a notable impact on the results.
     Also, module features are also much less impactful than their regular counterparts.\\
 
     As for the images themselves the results are : (Figures \ref{fig:im_tot1}, \ref{fig:im_tot2}, and \ref{fig:im_tot3})
-      
+
       \begin{figure}[H]
       \centering
       \includegraphics[width=.95\linewidth]{plots/im_importance_TOTAL_TP_2018-04-29_14_37_40.png}
@@ -1875,8 +1915,8 @@ In the end, some images and some modules have more impact than others.  (Figures
     For the most part, the important images are similar to those of all the individual tests put together.
     So as a whole, there's a sizable set of images that have a high impact on the grades predicted.
     These results give an indication on what patterns can lead a student to pass.
-    
-    \subsubsection{Learning with additional Information}
+
+    \subsection{Learning with additional Information}
 
     A small experiment is to set the White Test grades as features and learn the Global grades.
     This extra information can prove usefull.
@@ -1948,9 +1988,9 @@ In the end, some images and some modules have more impact than others.  (Figures
 
     This same experiment could be done in reverse but the results would be extremely similar.
     
-\section{Discussion} \label{Discussion}
+\chapter{Discussion} \label{Discussion}
 
-    \subsection{Negatives}
+    \section{Negatives}
 
         First of all, the results obtained from the Machine Learning were subpar.
         A mean Absolute error of around 2.0 out of 20 is 10\% of the range which is not great.
@@ -2010,7 +2050,7 @@ In the end, some images and some modules have more impact than others.  (Figures
         \end{itemize}
         This option for students can help improve the course in the long run.
 
-    \subsection{Positives}
+    \section{Positives}
 
         This tool was able to generate many ways to visually observe user behavior on Cytomine. This includes :
         \begin{itemize}
@@ -2041,8 +2081,13 @@ In the end, some images and some modules have more impact than others.  (Figures
 
 
 
-\section{Conclusion}
+\chapter{Conclusion}
 
+    The goal with this study was to analyze user behavior using the new tools that Cytomine offered.
+    By studying user behavior, one can learn much about the varying ways that users use the application.
+    In some cases it may be possible to analyze their reasoning.
+    Comparing a set of students based on the grades they obtained for their exams could give more insight on what can differentiate students.
+    This could also give insight on what works well with Cytomine and what needs improvements.
     Overall, there were some interesting results.
     This tool provided the means to analyze and visualize user behavior on Cytomine.
     Gazemaps and Scan paths provide some key information on the viewing pattern for a single image while timelines gave an overview on the project as a whole.
@@ -2052,19 +2097,10 @@ In the end, some images and some modules have more impact than others.  (Figures
     Of course there still is much more information that can still be extracted and there may be even more complexity associated to it.
     Without a background in Psychology, it's a complicated task to understand what's going on in a person's head when they use Cytomine.
     Anyways this study proposes new tools that be used by Cytomine to draw statistics and even some minor adjustments to the MOOC.
+    An abstract of this study has been accepted at the  ECDP (European Congress on Digital Pathology) 2018 conference and an extended abstract has been submitted.
 
 
-\section{References}
-
-    \begin{itemize}
-        \item[\textbullet] [\, Maree R, Rollus L, Stevens B, Hoyoux R, Louppe G, Vandaele R, Begon JM, Kainz P, Geurts P, Wehenkel L.]\, Collaborative analysis of multi-gigapixel imaging data using cytomine. Bioinformatics (2016) 32 (9): 1395-1401.
-        \item[\textbullet] [\, Dalmaijer, E.S., Math\^{o}t, S., \& Van der Stigchel, S. ]\, PyGaze: an open-source, cross-platform toolbox for minimal-effort programming of eye tracking experiments. Behaviour Research Methods, http://www.pygaze.org/2015/06/pygaze-analyser/,\\ https://github.com/esdalmaijer/PyGazeAnalyser, doi:10.3758/s13428-013-0422-2.
-        \item[\textbullet] [\, http://scikit-learn.org/, https://arxiv.org/abs/1201.0490 ]\,
-        \item[\textbullet] [\, Geurts et al. 2006 DOI: https://doi.org/10.1007/s10994-006-6226-1 ]\,
-        \item[\textbullet] [\, Multon S, Weatherspoon A, Schaffer P, Quatresooz P, Defaweux V. ]\, Practical histology in tune with the times. Med Educ 2015, 49(11):1166-7.
-        \item[\textbullet] [\, Dmitriy Shin, Mikhail Kovalenko, Ilker Ersoy, Yu Li, Donald Doll, Chi-Ren Shyu, Richard Hammer ]\, PathEdEx \- Uncovering High-explanatory Visual Diagnostics Heuristics Using Digital Pathology and Multiscale Gaze Data. J Pathol Inform 2017.
-        \item[\textbullet] [\, lawomir Walkowski1, Mikael Lundin, Janusz Szymas, Johan Lundin ]\, Exploring viewing behavior data from whole slide images to predict correctness of students' answers during practical exams in oral pathology. J Pathol Inform 2015.
-        \item[\textbullet] [\, Daniel Santiago, Germ\'{a}n Corredor; Eduardo Romero]\, A sparse representation of the pathologist's interaction with whole slide images to improve the assigned relevance of regions of interest. 2017.
-    \end{itemize}
+\bibliography{main}{}
+\bibliographystyle{plain}
 
 \end{document}
