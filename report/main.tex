@@ -14,7 +14,6 @@ includehead]{geometry}
 \usepackage{subcaption}
 \usepackage{float}
 \usepackage{enumerate}
-\usepackage{algorithm}
 \usepackage{tabularx}
 \usepackage{algorithmic}
 \usepackage{array}
@@ -22,7 +21,7 @@ includehead]{geometry}
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage{fancyhdr}
-%\usepackage{fontspec}
+\usepackage[]{algorithm2e}
 \usepackage{graphicx}
 \usepackage{placeins}
 \usepackage{listings}
@@ -411,7 +410,47 @@ Since images are often vastly different, information retrieved and studied need 
     With this randomization, the ExtraTree should be able to reduce the variance more effectively than other weaker randomizing methods.
     It also uses the full learning sample for each tree, thus minimizing bias.
     Overall this handles overfitting very well for most learning samples.
-    To avoid underfitting, building the ExtraTree with enough estimators is enough.
+    To avoid underfitting, building the ExtraTree with enough estimators is enough.\\
+
+
+    The following algorithm described in ~\cite{extratree} explains how the splitting is done at a tree node:
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        \KwIn{the local learning subset $S$ corresponding to the node needed to be split}
+        \KwOut{a split $[ \, a < a_c ] \, $ or nothing}
+        \eIf{\textbf{Stop\_split($S$)} == True}
+            {Return nothing\;}
+            {--Select $K$ attributes $ \{ a_1, ..., a_K  \} $ among non constant candidate attributes in $S$\;
+             --Draw $K$ splits $ \{ s_1, ..., s_K  \} $ with $s_i$ = \textbf{Pick\_a\_random\_split($S$, $a_i$)}, $\forall i \in [ \, 1 , K ] \, $\;
+             --Return a split $s_*$ such that Score($s_*$, $S$) = $max_{i = 1,...,k}$Score($s_i$, $S$)\;}
+        \caption{Split\_a\_node(S)}
+    \end{algorithm}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        \KwIn{a subset $S$ and a attribute $a$}
+        \KwOut{a split}
+        --$a^S_{max}$ and $a^S_{min}$ the maximal and minimal values of a in $S$ \;
+        --Draw random cut-point $a_c$ uniformly in $[ \, a^S_{min}, a^S_{max} ] \, $\;
+        --Return a split $[ \, a < a_c ] \, $\;
+    \caption{Pick\_a\_random\_split($S$, $a$)}
+    \end{algorithm}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        \KwIn{a subset $S$}
+        \KwOut{a boolean}
+        \If{$|S| < n_{min}$}
+           {Return True\;}
+        \If{all attributes constant}
+           {Return True\;}
+        \eIf{Output constant}
+            {Return True\;}
+            {return False\;}
+        \caption{Stop\_split(S)}
+    \end{algorithm}
+
+    %%todo explain algorithm
 
     \section{Three Separate Components}
     	Since there is a vast amount of data, most operations require a good amount of time to complete.
