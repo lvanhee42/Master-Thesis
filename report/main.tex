@@ -21,7 +21,7 @@ includehead]{geometry}
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage{fancyhdr}
-\usepackage[]{algorithm2e}
+\usepackage{algorithm2e}
 \usepackage{graphicx}
 \usepackage{placeins}
 \usepackage{listings}
@@ -213,7 +213,7 @@ Cytomine handles everything locally so that performance is not an issue for the 
 \section{Cytomine for education}
 
 Cytomine can be used as a tool of education for many subjects.
-Since it's open source and well documented, it is possible to fork it and develop new methods and modules.
+Since it is open source and well documented, it is possible to fork it and develop new methods and modules.
 This can be done for many fields in computer sciences including Machine Learning, Vision, Big Data, or even front-end programing.\\
 
 This is not limited to the field of Computer Sciences.
@@ -357,7 +357,7 @@ Since images are often vastly different, information retrieved and studied need 
     \begin{itemize}
         \item[\textbullet] \textbf{Supervised Learning} : The goal is to match an input with an output.
         The algorithm is given a large amount of input/output pairs for the goal of learning.
-        When it's done learning it can be given a input variable that it tries to classify.
+        When it is done learning it can be given a input variable that it tries to classify.
         For example, a machine learning algorithm can be given a set of images that contain a dog and a set of images that contain no dog.
         When the algorithm finished learning what rules determine whether or not a dog is in an image, it can be tested with new images.
         The algorithm tries to guess which images contain dogs and which don't.
@@ -400,7 +400,6 @@ Since images are often vastly different, information retrieved and studied need 
     Ensemble methods combine multiple different learning algorithms and often work better when working with small datasets.
     The ensemble method subject for this project is the Extremely Randomized Trees (ExtraTrees) as described in ~\cite{extratree}.
 
-    %todo extra tree algo
     The problem with most tree based methods is the high error rate often due to the high bias and variance.
     This often happens due to overfitting or underfitting.
     Unlike previous tree based ensemble method, the ExtraTree method selects splits of both attribute and cut-point partially or totally at random.
@@ -414,8 +413,11 @@ Since images are often vastly different, information retrieved and studied need 
 
 
     The following algorithm described in ~\cite{extratree} explains how the splitting is done at a tree node:
+\noindent\fbox{%
     \begin{algorithm}[H]
+        \caption{Split\_a\_node(S)}
         \SetAlgoLined
+        \RestyleAlgo{boxruled}
         \KwIn{the local learning subset $S$ corresponding to the node needed to be split}
         \KwOut{a split $[ \, a < a_c ] \, $ or nothing}
         \eIf{\textbf{Stop\_split($S$)} == True}
@@ -423,21 +425,26 @@ Since images are often vastly different, information retrieved and studied need 
             {--Select $K$ attributes $ \{ a_1, ..., a_K  \} $ among non constant candidate attributes in $S$\;
              --Draw $K$ splits $ \{ s_1, ..., s_K  \} $ with $s_i$ = \textbf{Pick\_a\_random\_split($S$, $a_i$)}, $\forall i \in [ \, 1 , K ] \, $\;
              --Return a split $s_*$ such that Score($s_*$, $S$) = $max_{i = 1,...,k}$Score($s_i$, $S$)\;}
-        \caption{Split\_a\_node(S)}
-    \end{algorithm}
 
+    \end{algorithm}
+} \\
+\noindent\fbox{
     \begin{algorithm}[H]
+        \caption{Pick\_a\_random\_split($S$, $a$)}
         \SetAlgoLined
+        \RestyleAlgo{boxruled}
         \KwIn{a subset $S$ and a attribute $a$}
         \KwOut{a split}
         --$a^S_{max}$ and $a^S_{min}$ the maximal and minimal values of a in $S$ \;
         --Draw random cut-point $a_c$ uniformly in $[ \, a^S_{min}, a^S_{max} ] \, $\;
         --Return a split $[ \, a < a_c ] \, $\;
-    \caption{Pick\_a\_random\_split($S$, $a$)}
     \end{algorithm}
-
+} \\
+\noindent\fbox{
     \begin{algorithm}[H]
+        \caption{Stop\_split(S)}
         \SetAlgoLined
+        \RestyleAlgo{boxruled}
         \KwIn{a subset $S$}
         \KwOut{a boolean}
         \If{$|S| < n_{min}$}
@@ -447,10 +454,16 @@ Since images are often vastly different, information retrieved and studied need 
         \eIf{Output constant}
             {Return True\;}
             {return False\;}
-        \caption{Stop\_split(S)}
     \end{algorithm}
-
-    %%todo explain algorithm
+}
+    When picking a ranodm split, an attribute $a$ is a feature with values ranging from $a_{min}^S$ to $a_{max}^S$.
+    A split belonging to this range is then chosen at random.
+    This is done $K$ times and the best split is chosen for this node based on the scores of the splits.
+    In regression, a score is measured by calculating the amount of output variance reduction.
+    With $S_l$ and $S_r$ the two subsets of from $S$ corresponding to the two outcomes of a split $s$.
+    The score is defined as :
+    $$Score_R(s,S) = \dfrac{var \{ y | S \}   - \dfrac{|S_l|}{|S|} var \{  y | S_l \}  - \dfrac{|S_r|}{|S|} var \{  y | S_r \} }{var \{  y | S \} } $$
+    with $var \{  y | S \} $ the variance of the output $y$ in the sample $S$.
 
     \section{Three Separate Components}
     	Since there is a vast amount of data, most operations require a good amount of time to complete.
@@ -465,7 +478,6 @@ Since images are often vastly different, information retrieved and studied need 
 
 		\subsection{Data Acquisition}
 
-            %todo : move when Cytomine API part is written
 			During the 2016-2017 Academic year, Cytomine tracked and stored user information on the MOOC server.
 			To obtain all this information, Cytomine is accessible by a REST API. To ease the access to the server, Cytomine developed a Python Client that was used for the acquisition of relevant information.
 			With administrator rights, a user can get a hold of all if not most of the data stored on the SQL and MongoDB databases.
@@ -536,7 +548,7 @@ Since images are often vastly different, information retrieved and studied need 
          Due to how frequently positions are recorded, this information comes in large quantity.
          Unfortunately, with all browsers (E.G. Google Chrome and Firefox) positions are still recorded when the page is minimized or tabbed out.
          This means that users can browse some unrelated website or even read course's Syllabus while positions are still recorded on Cytomine.
-         The issue is that it's hard to determine whether or not a position is considered invalid because the user was not focused on it during the time.
+         The issue is that it is hard to determine whether or not a position is considered invalid because the user was not focused on it during the time.
          An idea that was attempted was after a certain amount of positions with the same coordinates, is to remove the following positions with that coordinate.
          Unfortunately, it requires the setting of a threshold.
          This threshold would be arbitrary.
@@ -676,7 +688,7 @@ Since images are often vastly different, information retrieved and studied need 
 
     This component is used to interpret the data that's in its most basic form.
     It has multiple outputs based on the parameters set.
-    Since it's important to obtain information as a whole on the data set, the component is divided into two main parts:
+    Since it is important to obtain information as a whole on the data set, the component is divided into two main parts:
     \begin{itemize}
         \item[\textbullet] \textbf{Loading data to Memory:} The positions, the annotations, the actions, and the image information data are all loaded to memory.
         \item[\textbullet] \textbf{Data Handling :} Calling numerous methods that extracts important information.
@@ -832,24 +844,24 @@ Since images are often vastly different, information retrieved and studied need 
         Methods include :
         \begin{itemize}
             \item \textbf{Raw Gazemap :} For each position, the respective gaussian values are added into the heatmap at the right position.
-            There are some advantages including that it's the fastest and shows clear distinctions between parts of the images.
+            There are some advantages including that it is the fastest and shows clear distinctions between parts of the images.
             Drawbacks include that it is really hard to quantify and compare between users and other images.
             An another issue is with extreme cases the distinctions between regions of the image that been visited are too strong.
             For extreme cases, the most visited region might have such a high heatmap value that the other regions are hard to compare with each other.
             \item \textbf{Logarithmic Gazemap :} The heatmap is generated similarly but a $Log_{10}$ normalizer applied at the end for each pixel.
-            The advantages of that is that it's easier to compare areas of an image since the distinctions are smoothed.
-            But it's main drawback is that it's really hard to quantify because the normalizer can be too extreme.
-            Similarly, it's not straightforward when comparing students and images with each other since the scales are different for each heatmap.
+            The advantages of that is that it is easier to compare areas of an image since the distinctions are smoothed.
+            But it is main drawback is that it is really hard to quantify because the normalizer can be too extreme.
+            Similarly, it is not straightforward when comparing students and images with each other since the scales are different for each heatmap.
             \item \textbf{Logarithmic Gazemap Relative to an image :} The idea would be to reimplement the previous heatmap for every user of a specific image and standardize the scale.
             Since the minimum heat value will always be 0, this method only looks for the maximum heat value between all the heatmaps for that image.
             This value is set for all the heatmaps and they are drawn. This method's goal was to compare different students for the same image.
             Unfortunately, it still shares most of the same drawbacks of the Logarithmic Heatmap.
             \item \textbf{Logarithmic Gazemap Relative to a user :} This is the same concept as previously but the goal is to compare activity of the same student across multiple images.
             This has the same advantages and drawbacks as the previous heatmap.
-            \item \textbf{Reduced Gazemap :} A interesting observation is that it's hard to quantify user observations for long durations.
+            \item \textbf{Reduced Gazemap :} A interesting observation is that it is hard to quantify user observations for long durations.
             The longer a person looks at the same area the less important the positions become over time.
             This explains the attempt to normalize the heatmap using the logarithmic function.
-            The problem is that there's no theoretical explanation to why the the logarithmic method should work.
+            The problem is that there is no theoretical explanation to why the the logarithmic method should work.
             In this case a pixel is represented by vector instead of a value.
             The vector contains a list of all the respective Gaussian value for each position that is close enough.
             The value is always in the range of $[0,1]$.
@@ -862,7 +874,7 @@ Since images are often vastly different, information retrieved and studied need 
             Therefore, the heat values from each pixel belong in the range $[0,20]$.
             The maximum value for all heatmaps can easily be set to 20.
             This method has a more relaxed normalization and it is much easier to compare different heatmaps and infer heat values by looking at the image.
-            The main drawback is that it's much slower.
+            The main drawback is that it is much slower.
             Since for each pixel, the algorithm is given a list to sort a values to weight it takes much more time.
         \end{itemize}
         Figure \ref{fig:heatmaps} compares the Gazemaps of different methods for the same user and image pair.
@@ -899,7 +911,7 @@ Since images are often vastly different, information retrieved and studied need 
         \item[\textbullet] \textbf{Output Scan Path Figures :} These figures represents the path taken by the students when they scan through an image.
         Another Idea that seems interesting is to observe a student's viewing order when looking at images.
         The idea is to draw arrow an plot that connects each position to the following position.
-        After doing so for all the positions, it's possible to analyze the viewing order.
+        After doing so for all the positions, it is possible to analyze the viewing order.
         Unfortunately, in most cases there are too many positions.
         This is why clustering is used to group up close positions in regards to time and space.
         K-Means clustering was implemented with K predetermined and ranging from 10 to 50 (K = 20 ideal).
@@ -948,7 +960,7 @@ Since images are often vastly different, information retrieved and studied need 
         \item[\textbullet] \textbf{-M <output\_dir>} : This option allows the component to generate a CSV statistics file used for machine learning.
         The <output\_dir> field designates the folder where output learning data file will be saved.
         \item[\textbullet] \textbf{-m} : This option is mutually exclusive with the previous option.
-        This also generates the statistics file but it's saved as \textit{../root/<project\_name>/learning\_data.csv}.
+        This also generates the statistics file but it is saved as \textit{../root/<project\_name>/learning\_data.csv}.
         \item[\textbullet] \textbf{-H} : This generates gazemaps (reduced) for all user/image pairs defined.
         They are saved in their respective directories.
         \item[\textbullet] \textbf{-S} : This generates scan paths for all user/image pairs defined.
@@ -1066,7 +1078,7 @@ Since images are often vastly different, information retrieved and studied need 
         \item[\textbullet] \textbf{Out-of-bag Score : False}\\
         Whether out-of-baf samples are used to estimate how well unseen data is fitted to a regression line.
     \end{itemize}
-    Since the ExtraTree regressor handles overfilling by itself, it's useful to have many estimators when handling a vast amount of features.
+    Since the ExtraTree regressor handles overfilling by itself, it is useful to have many estimators when handling a vast amount of features.
     Also, with many estimators the method will converge to output the best possible results where ExtraTrees are are concerned.
     It is one of the more ideal choices for such a data set for many reasons :
     \begin{itemize}
@@ -1076,7 +1088,7 @@ Since images are often vastly different, information retrieved and studied need 
         \item[\textbullet] The data comes all at once, so the tree only needs to be fit once.
         \item[\textbullet] Good for modeling linear interactions.
         Most relations studied in this project are linear.
-        With the sample size, it's risky to try and infer more complex relations.
+        With the sample size, it is risky to try and infer more complex relations.
     \end{itemize}
 
 \chapter{Data Analysis}
@@ -1123,15 +1135,14 @@ These variables are used in the machine learning model as output variables. In t
     Most of the work done by the students is done online using the MOOC and Ecampus.
     Ecampus is a website used by students and teachers of the University of Liege to exchange information used for courses.
     In fact all of the assignments for this course are explained on Ecampus.
-    The issue with this is that it's a different entity from the MOOC and therefore is not ideal for fetching information.
-    But it's not much of a problem because there's nothing to retrieve about students on Ecampus that is not already known.\newline
+    The issue with this is that it is a different entity from the MOOC and therefore is not ideal for fetching information.
+    But it is not much of a problem because there is nothing to retrieve about students on Ecampus that is not already known.\newline
 
-    When applying machine learning techniques, students with a 0/20 were taken out of the sample.
-    This is due to the fact those students defaulted to signing the exam.
-    Since there are too few that do so, there's not enough information to find correlations between people who sign and the features.
-    Keeping students who sign also increases the error rate because they are extreme cases.
+    When applying machine learning techniques, students with a 0/20 were taken out of the sample because they default to signing the exam.
+    Since there are too few that do so, there is not enough information to find correlations between people who sign and the features.
+    Keeping students who sign also increases the error rate because they are outliers.
     The goal is to guess how well the exam would have went for the students.
-    If the student decides not to bother with taking the exam, it's a lost sample.\newline
+    If the student decides not to bother with taking the exam, it is a lost sample.\newline
 
     	\subsection{Teacher Input : Grades}
 
@@ -1291,7 +1302,7 @@ These variables are used in the machine learning model as output variables. In t
    So each annotation has a center coordinate.
    For this coordinate, a list of Gaussian values is generated based on all the positions near the annotation.
    This vector is sorted inversely.
-   It's important to note that it does not take much time for the student to assimilate all the information on a part of an image.
+   It is important to note that it does not take much time for the student to assimilate all the information on a part of an image.
    So the idea is to weight these positions to the point that after enough positions, the next ones would have a weight of close to 0.
 To do so, a geometrical sequence was used:
 	\[\sum\limits_{i=0}^N w^i\]
@@ -1409,7 +1420,7 @@ a user during the module's time period. \\
 
     \subsection{Comparing Timelines}
 
-        In this small experiment, there were a total of 8 timelines geneated.
+        In this small experiment, there were a total of 8 timelines generated.
         Four of those belonging to the students with the highest grades and four belonging to the students with the lowest grades.
         The simple objective is to compare the results from the two sets and also compare results within a set. (Figures \ref{fig:tm1} and \ref{fig:tm2})
 
@@ -1436,7 +1447,7 @@ a user during the module's time period. \\
       \label{fig:tm2}
       \end{figure}
 
-    For the timelines of students with the lowest grades, for the mostpart it's pretty straightforward.
+    For the timelines of students with the lowest grades, for the most part it is pretty straightforward.
     There are are a small number of positions and some modules were not even visited.
     There is one student who followed different patterns with a respectable activity.
     Unfortunately, the student still failed the exam.\\
@@ -1447,7 +1458,7 @@ a user during the module's time period. \\
     But in the set of students with the highest grades, there are many different patterns.
     Some students have a significant higher activity than others.
     One worked on modules ahead of time, and some didn't even log onto Cytomine the weeks before the exam.
-    This shows that it's hard to judge a student's performance and comprehension of the course.
+    This shows that it is hard to judge a student's performance and comprehension of the course.
     Students follow different habbits and exhibit different patterns.
     There is no "best" method for studying according to this small study.
     The Machine Learning can give more insight on this question.
@@ -1456,7 +1467,7 @@ a user during the module's time period. \\
 
     \subsection{White Test Grades}
 
-    These 3 ungraded exam were taken halfway during the semester (24th of April 2017).
+    These 3 ungraded exams were taken halfway during the semester (24th of April 2017).
     They reflect what a student has learned and remembered up until that day.
     At that point, students should have finished modules 1 through 4 and at least looked at modules 5 and 6.
     These tests could be a great indicator on how well students can perform during the real exam.
@@ -1498,11 +1509,11 @@ a user during the module's time period. \\
     The boxplots show very high median and quartiles.
     There are also a high number of extreme errors with some above 10.
     The scores represent the average error of the cross validation.
-    With scores nearing nearing 3, in some cases, it's better to try and guess using the median value.
+    With scores nearing nearing 3, in some cases, it is better to try and guess using the median value.
     For the incidence test, it seems that the scores are underestimated, this seems to be the case because there is a significantly high grades compared to low grades.
     There are many reasons why results are the way they are.
     This includes the fact that these grades do not rely on activity that occur after the exam date.
-    When comparing grade the learned grades against the original grades, it's noticeable that the estimated grades tend to predict values close to the average of the actual grades.
+    When comparing grade the learned grades against the original grades, it is noticeable that the estimated grades tend to predict values close to the average of the actual grades.
     This makes it so that high and low actual grades when predicted tend to be more erroneous.
     The sample also lacks a good amount of extreme grades which gives the algorithm less to work with for these cases.
     Furthermore, the fact that the exams are ungraded puts less pressure on the students to succeed.
@@ -1510,7 +1521,7 @@ a user during the module's time period. \\
 
 
   Since the models are made using regression trees, it it possible to study the features that had an impact in determining the predicted grades.
-  Even though the results were not ideal, it's interesting to observe what images and variables had a big impact on determining the grades.
+  Even though the results were not ideal, it is interesting to observe what images and variables had a big impact on determining the grades.
   These images can very well be the subject of a question on the exam. (Figures \ref{fig:var_white1}, \ref{fig:var_white2}, \ref{fig:var_white3})
 
      \begin{figure}[H]
@@ -1536,7 +1547,7 @@ a user during the module's time period. \\
 
     These figures show the top 80 features (or \textbf{X} variable) for their respective model.
     Even though each model shares the same features, their importance varies model to model.
-    But it's probable that some features from a specific image can be at the top for multiple model.
+    But it is probable that some features from a specific image can be at the top for multiple model.
     Anyways, features are split into 3 categories:
     \begin{itemize}
     \item[\textbullet] \textbf{General Features :} Features that describes the data on the set of images as a whole. (average, median, etc..)
@@ -1545,7 +1556,7 @@ a user during the module's time period. \\
     \end{itemize}
 
     Note that there are fewer general features, but many of those tend to have a high importance.
-    Apart from the incidence test, it's appropriate to say that the module variables are the most impactful.
+    Apart from the incidence test, it is appropriate to say that the module variables are the most impactful.
     This is because the white exam is taken in April instead of June.
     Therefore, user performance during specific modules are better indications on the performance during the white test.
     Also, for the  identification test, the most impactful variable has a much higher importance than the rest.
@@ -1576,8 +1587,8 @@ a user during the module's time period. \\
     As a reminder, out of all the images in the GOLD project, about a third of the images were not even visited.
     Also, some of the images don't belong to any module.
     It seems that as a general consensus that the most impactful images do not belong to the last module.
-    This is due to the fact that the module 6 is not included in the trial exam.
-    It's also worth noting that the module 1 is not included in the exam either.
+    This is because that the module 6 is not included in the trial exam.
+    It is also worth noting that the module 1 is not included in the exam either.
     But since the module 1 is considered a tutorial, it can be useful.
     An image that appears often at the top is the image 1218120.
     This image was used for a preparation identification exercise.
@@ -1645,25 +1656,25 @@ Since these exams are graded, students should have the motivation to study and a
     Students need to know the answer to question but they don't have to explain it.
     All students by definition are graded equally because the exam is straightforward and easy to correct.
     \item[\textbullet]  \textbf{QROL practical :} As opposed to the QCM, the score is significantly worse.
-    This is also shown by the boxplot where the 75 percentile is at less than 4.5. By comparing the grades, it's apparent that there are more extreme grades and their estimations are off for the most part.
+    This is also shown by the boxplot where the 75 percentile is at less than 4.5. By comparing the grades, it is apparent that there are more extreme grades and their estimations are off for the most part.
     This is normal because students write long and detailed responses to the questions.
     The teachers are more critical of the students.
     They look to see if students understand the contents of the course as opposed to learning by heart.
     \item[\textbullet]  \textbf{QCL identification Practical :} With a score of 2.86, this QCL does not offer the best results.
-    It follows a somewhat lessened pattern of the QROL. As this portion of the exam gives the student an exhaustive list of possible answers, it's hard to a student to guess.
-    It's critical that the students knows what they observe.
+    It follows a somewhat lessened pattern of the QROL. As this portion of the exam gives the student an exhaustive list of possible answers, it is hard to a student to guess.
+    It is critical that the students knows what they observe.
     Similarly to the QROL, lack of certainty lowers the grade.
     As opposed to the QCM where uncertainty is not much of an issue due to the lack of options.
     \item[\textbullet]  \textbf{QCL incidence Practical :} the incidence score  is somewhat better.
     Apart from a couple exceptions most of the real grades have a small variance.
     This helps explain the very low 75 percentile of about 3 and the big number of erroneous cases above 6.
-    Since this part of the exam is similar to a QCM but with only 3 options, it's relatively easy to answer the questions correctly.
+    Since this part of the exam is similar to a QCM but with only 3 options, it is relatively easy to answer the questions correctly.
     This explains the higher grades for most students.
     \end{itemize}
 
     When taking practical exams the students have images to look at.
     Certain aspects of the images need to be identified before answering the questions.
-    Unfortunately with the data fetched from Cytomine, it's hard to determine whether or not the students were able to identify certain concepts when using Cytomine.
+    Unfortunately with the data fetched from Cytomine, it is hard to determine whether or not the students were able to identify certain concepts when using Cytomine.
     But attempting to identify the features that are close to determining whether or not a student understood the course is a start. (Figures \ref{fig:var_tp1}, \ref{fig:var_tp2}, \ref{fig:var_tp3},\ref{fig:var_tp4})
 
      \begin{figure}[H]
@@ -1699,7 +1710,7 @@ For one, the Module features are relatively less impactful than before.
 This shows that the total work done throughout the semester is more important than working more during specific modules.
 It also is shown that the students spent the most time on Cytomine the day before the exam (see Figure \ref{fig:timelapse}).
 Similar to the white tests models, the Average Score feature always shows up as an important feature.
-This variable seems to be the closest variable into determining whether or not a student understands the course but it's still not perfect.
+This variable seems to be the closest variable into determining whether or not a student understands the course but it is still not perfect.
 In the end, some images and some modules have more impact than others.  (Figures \ref{fig:im_tp1}, \ref{fig:im_tp2}, \ref{fig:im_tp3},\ref{fig:im_tp4})
 
      \begin{figure}[H]
@@ -1730,14 +1741,14 @@ In the end, some images and some modules have more impact than others.  (Figures
       \label{fig:im_tp4}
       \end{figure}
 
-	It's hard to determine which modules were are more impactful as a whole.
+	It is hard to determine which modules were are more impactful as a whole.
     It seems that each module has at least one image that has a big impact on the result for each test.
 	Like before, most these images are the ones dedicated to exercises.
 	This supports the hypothesis that doing the exercises has a positive impact on the grades.
 	But for example the image 1218120 does not appear at the top anymore.
-	This shows that even though the models follow the same patterns, it's still varies based on the contents of the exam.\\
+	This shows that even though the models follow the same patterns, it is still varies based on the contents of the exam.\\
 
-    Sometimes it's interesting  to look for correlations between the expected result and some features.
+    Sometimes it is interesting  to look for correlations between the expected result and some features.
     This helps to see its direct impact in estimating a grade.
     In fact, with most of the the features, a higher value should mean a better score.
     To test this, the Pearson Correlation was calculated for the top 6 features of the Practical QCM. (Figure \ref{fig:corr_tp})
@@ -1823,7 +1834,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \end{figure}
 
     As usual, the scores are the most prominent features for all the theoretical exercises.
-    It's interesting to note some differences with the practical exercices.
+    It is interesting to note some differences with the practical exercices.
     This includes features that are associated to the time worked.
     It would not be too much of a stretch to theorize that studying with Cytomine during certain time periods, the student would assimilate more information.
     For example, when working after 2AM, the students may be more tired and they might retain less information.\\
@@ -1859,7 +1870,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     In this case, the image 1218727 was the most impactful.
     This image was given more as an exercise image as opposed to the previous one.
     As for the QCM, the image 1208906 also stood out.
-    It's possible that, there's more educational interest behind this image.
+    It is possible that, there is more educational interest behind this image.
 
     \subsection{Global Grades}
 
@@ -1897,7 +1908,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \label{fig:results_tot}
     \end{figure}
 
-    As a whole, there's a mean absolute error of about 2.
+    As a whole, there is a mean absolute error of about 2.
     Overall, still not the best results.
     An interesting observation is that the learning algorithm has a easier time predicting theoretical grades over practical grades.
     As using Cytomine is overall a practical activity, the fact predicting theoretical grades works just as well can possibly imply that students can retain theoretical concepts with Cytomine.\\
@@ -1953,7 +1964,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \end{figure}
 
     For the most part, the important images are similar to those of all the individual tests put together.
-    So as a whole, there's a sizable set of images that have a high impact on the grades predicted.
+    So as a whole, there is a sizable set of images that have a high impact on the grades predicted.
     These results give an indication on what patterns can lead a student to pass.
 
     \subsection{Learning with additional Information}
@@ -1986,13 +1997,13 @@ In the end, some images and some modules have more impact than others.  (Figures
       \end{figure}
     As is clearly visible, The three white tests had an impact on the results.
     They became by far the most important features according to Figure \ref{fig:test1_2}.
-    There's also a strong correlation between those features and the exam results.
-    It's hypothetically possible that in general, students who do better for the white tests do better on the final exam.
+    There is also a strong correlation between those features and the exam results.
+    It is hypothetically possible that in general, students who do better for the white tests do better on the final exam.
     This extra information also helped predict better results as a whole.
     This explains the reason why Teachers heavily encourage students to take the white tests.
     It gives student an idea on how the exam will be like.
     They can also get feedback if they had any questions.
-    Of course, the cross validation results are still far from ideal so it's still dangerous to make too many assumptions.\\
+    Of course, the cross validation results are still far from ideal so it is still dangerous to make too many assumptions.\\
 
     The next experiment tries to learn practical results all while knowing the theoretical results.
     The goal the correlation between theory and practical.
@@ -2021,7 +2032,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \end{figure}
     The scores are marginally better.
     On average those who do well on the theoretical part of the course do better on the practical part.
-    It's shown with the strong correlations.
+    It is shown with the strong correlations.
     These features are also more impactful than any seen in the previous experiments.
     But even with this extra information, the score is still somewhat lackluster.
     This shows the individualism of each student.\\
@@ -2030,13 +2041,13 @@ In the end, some images and some modules have more impact than others.  (Figures
     
 \chapter{Discussion} \label{Discussion}
 
-    \section{Negatives}
+    \section{Limitations}
 
         First of all, the results obtained from the Machine Learning were subpar.
         A mean Absolute error of around 2.0 out of 20 is 10\% of the range which is not great.
         The main cause of which is the small data set of 395 students.
         If it was possible to group people up based on habits and patterns, 395 students would not be enough for such study.
-        It's still important to stay skeptical because every person is unique.
+        It is still important to stay skeptical because every person is unique.
         Some people have a much easier time learning than others.
         In such cases, the student may not need much time to understand the concepts provided by Cytomine.
         Therefore, there there are less recorded positions and actions.
@@ -2044,30 +2055,30 @@ In the end, some images and some modules have more impact than others.  (Figures
         When on Cytomine, the analyst can't be in the person's head when using the application.
         The student can go on the website and retain nothing.
         Also, the Gaze data may not be perfectly accurate.
-        Without sensors that observe the user's eye movements, it's very impractical to track Gaze data.
+        Without sensors that observe the user's eye movements, it is very impractical to track Gaze data.
         In most cases, a person is usually focused on or near the center of the screen.
-        It's possible that they can focus more towards a corner.
-        In it's current state, corners have a lower value from the calculated Gaussian distribution.
-        It's also worth to mention again that positions are still recorded even when the window is not active.
+        It is possible that they can focus more towards a corner.
+        In it is current state, corners have a lower value from the calculated Gaussian distribution.
+        It is also worth to mention again that positions are still recorded even when the window is not active.
         Since this issue is not easy to resolve without losing information, it also may lead to some inaccuracies.
-        It's also important to note that much information is contained in the course itself.
+        It is also important to note that much information is contained in the course itself.
         The course contains numerous examples of cells and tissues that is also found on Cytomine.
-        It's entirely possible that students can ignore Cytomine for the most part and just learn from the course's Syllabus.\\
+        It is entirely possible that students can ignore Cytomine for the most part and just learn from the course's Syllabus.\\
 
 
         But overall it may be a good thing that the results were not so great.
         It is important to keep in mind that this study is not used to encourage students to follow the directions to the letter.
         The students should be free to work on their course the way they see fit.
         If they were to fail, it is their own problem.
-        It's also important to encourage different styles and methods, and not force a particular way of thinking.
+        It is also important to encourage different styles and methods, and not force a particular way of thinking.
         This is why the Annotation visit order features were not very impactful.
         If those variables were more impactful and the results were better, it could have implied that visiting annotations in a specific order would be important to passing the exam.
         Overall the goal is not to try and dictate how the students work.\\
 
 
-        Secondly, even with sizable number of features it still feels like it's still possible to infer new features.
+        Secondly, even with sizable number of features it still feels like it is still possible to infer new features.
         The problem is to find features that can have a real impact on the results.
-        For example, it's possible to generate the same features but for each day of the semester.
+        For example, it is possible to generate the same features but for each day of the semester.
         This would end up adding tens of thousands of features.
         Due to the small number of individuals, it would be hard to draw conclusion for many of these features.
         It would also be just as hard to determine whether or not students understand the course.\\
@@ -2082,7 +2093,7 @@ In the end, some images and some modules have more impact than others.  (Figures
             These annotations can be seen by the teachers.
             After a certain deadline, teachers can correct and give advice to students.
             \item[\textbullet] For the images used for teaching, students can annotate and describe certain objects similarly to before.
-            But this time, it's used to ask questions to the teachers.
+            But this time, it is used to ask questions to the teachers.
             For example on Cytomine, teachers can be notified.
             Afterwards, they can reply to these questions.
             This can be a interactive way fo students to communicate with teachers.
@@ -2090,7 +2101,7 @@ In the end, some images and some modules have more impact than others.  (Figures
         \end{itemize}
         This option for students can help improve the course in the long run.
 
-    \section{Positives}
+    \section{Assets}
 
         This tool was able to generate many ways to visually observe user behavior on Cytomine. This includes :
         \begin{itemize}
@@ -2105,8 +2116,8 @@ In the end, some images and some modules have more impact than others.  (Figures
         \end{itemize}
 
         These tools can give indication on what the students are doing and when they are doing it.
-        It's unfortunate that generating some of the figures may take some time.
-        But with this tool, it's possible to generate Scan Paths or Gazemaps for specific image and user pairs on demand.
+        It is unfortunate that generating some of the figures may take some time.
+        But with this tool, it is possible to generate Scan Paths or Gazemaps for specific image and user pairs on demand.
         This can be directly implemented on a Cytomine website and not necessarly only for the MOOC.\\
 
 
@@ -2133,9 +2144,9 @@ In the end, some images and some modules have more impact than others.  (Figures
     Gazemaps and Scan paths provide some key information on the viewing pattern for a single image while timelines gave an overview on the project as a whole.
     Machine Learning methods have been attempted and the results give much insight on groups of people but also individuals.
     The results obtained were not the best due to the lack of individuals and the fact that this study has been carried out on people who each has there own way of thinking and doing things.
-    The goal was not to turn people into robots where there is only one good way of doing an activity, it's more to understand the reasoning behind decisions and why it was done.
+    The goal was not to turn people into robots where there is only one good way of doing an activity, it is more to understand the reasoning behind decisions and why it was done.
     Of course there still is much more information that can still be extracted and there may be even more complexity associated to it.
-    Without a background in Psychology, it's a complicated task to understand what's going on in a person's head when they use Cytomine.
+    A background in psychology would complement the analysis in understanding the behavioral component when using Cytomine.
     Anyways this study proposes new tools that be used by Cytomine to draw statistics and even some minor adjustments to the MOOC.
     An abstract of this study has been accepted at the  ECDP (European Congress on Digital Pathology) 2018 conference and an extended abstract has been submitted.
 
