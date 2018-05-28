@@ -161,8 +161,9 @@ consists of where the students decided to look in the images (Gaze data).
 Consequently, attempts  were made to find correlations between students' behavior and the results they obtain during exams.
 Using Machine
 Learning techniques, the goal is to predict a student's grade based on how they used the application.
+This allows for the analysis of specific viewing patterns that can give more insight on how the student used Cytomine.
 Currently, the model contains 395 students' data with over 2000 features.
-Random Forest and Extra Trees
+Extra Trees and Random Forest
 learning techniques have been applied to attempt to predict grades.
 Otherwise, another goal is to
 visualize these patterns.
@@ -831,8 +832,7 @@ Since images are often vastly different, information retrieved and studied need 
         An interesting experiment would be to compare the figures for the very best student and the very worst students to get more insight.
         The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
         \item[\textbullet] \textbf{Output Raw points figures :} These figures are represented by the image and the center of each position is drawn.
-        This can give a good visualisation of the number of positions and where they are most concentrated.
-        %todo raw points image
+        This can give a good visualisation of the number of positions and where they are most concentrated. (Example in Figure \ref{fig:scanpath})
         \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represents the Gazemaps of the student activity in regards to an image.
         Since an image is resized to a reasonable resolution, each pixel is assigned a weight based on the user's activity near that pixel.
         Therefore, operations are done pixel by pixel.
@@ -865,11 +865,11 @@ Since images are often vastly different, information retrieved and studied need 
             In this case a pixel is represented by vector instead of a value.
             The vector contains a list of all the respective Gaussian value for each position that is close enough.
             The value is always in the range of $[0,1]$.
-            For each pixel, the list is sorted inversely.
+            For each pixel, the respective list is sorted inversely.
             Finally, the value of the pixel is given by a weighted sum of the values of this list.
             The weights follow a geometrical sequence that converges.
             Therefore, after numerous positions, the weights are near 0.
-            This normalization method is further explained in the section \ref{enum:score}.
+            This normalization method is further explained in the section \ref{enum:score} for calculating a score of an annotation.
             In this case, $w$ is set to 0.95 and the sequence converges at a value of 20.
             Therefore, the heat values from each pixel belong in the range $[0,20]$.
             The maximum value for all heatmaps can easily be set to 20.
@@ -927,8 +927,8 @@ Since images are often vastly different, information retrieved and studied need 
         The scan order is annotations 7, 8, 3, 2, 4, 1, 6, 5, 10,and finally 9.
           \begin{figure}[H]
           \centering
-          \includegraphics[width=.3\linewidth]{images/5501147_scanpath.png}
-          \caption{Scan Path Example}
+          \includegraphics[width=.3\linewidth]{images/5501147_scanpath.png} \includegraphics[width=.3\linewidth]{images/5501147_points.png}
+          \caption{Scan Path and Raw Points Example}
           \label{fig:scanpath}
     \end{figure}
     \end{itemize}
@@ -1090,6 +1090,57 @@ Since images are often vastly different, information retrieved and studied need 
         Most relations studied in this project are linear.
         With the sample size, it is risky to try and infer more complex relations.
     \end{itemize}
+
+    \section{Performance}
+
+    Like mentioned before, the tool as a whole can take a while to executed depending on the parameters set.
+    The device used for running and testing this tool has the following properties:
+    \begin{itemize}
+        \item[\textbullet] \textbf{Processor} : Intel Core i7-6700M/PCIe/SSE2
+        \item[\textbullet] \textbf{RAM} : 16 GB
+        \item[\textbullet] \textbf{Disk} : 1 TB (For storing data, about 48 GB used for this tool)
+    \end{itemize}
+
+    The data acquisition component is hard to measure.
+    Since the Cytomine server ran locally and that there are no other users using the application, the download time measured may be quicker than it should be.
+    For the project GOLD with 78 images and 395 users, it takes about 6 hours to acquire all the data.
+    Conversely, for the SILVER project with 75 images and 85 users, it only takes about 16 minutes.
+    Overall most operations on the SILVER project are much quicker.
+    Overall, users are more active in the GOLD project.
+    They have more positions, it influences directly the complexity of most operations.\\
+
+
+    For the data manipulation component, most operations done on a image/user pair scale linearly with the number of positions.
+    Outputs measured include :
+    \begin{itemize}
+        \item[\textbullet] \textbf{Generating a reduced Gazemap}  : With $N$ positions and an image with a height and width of $h$ and $w$ respectively, heat values need to be calculated for each pixel.
+        How a heat value is calculated for a pixel is shown in section \ref{enum:score} when calculating a score of an annotation.
+        For a pixel the complexity is $O(N*log(N))$.
+        The most costly operation is sorting the list.
+        This is donne for each pixel, therefore the final complexity is $O(h*w*N*log(N))$.
+        With an image that has a resolution of about 1024x1024, it heavily relies on the number of positions.
+        Overall it can take from 5 seconds up to about 2 minutes for users that do not have an absurd amount of positions.
+        \item[\textbullet] \textbf{Generating a scan Path} : $N$ positions need to be clustered into about 20 areas.
+        Using K-means clustering with scikit-learn, the average complexity is $O(K*N**T)$ where $T$ is the number of iterations.
+        In this case, $T$ is set at 300.
+        When drawing the scan path itself, it's much quicker because positions are reduced to 20 zones.
+        Overall operations are done almost instantly, the biggest burden is saving the image to the disk.
+        \item[\textbullet] \textbf{Generating a raw Point image} : Drawing $N$ raw points with no prior manipulation has a complexity of $O(N)$.
+        Overall operations are also done instantly.
+        \item[\textbullet] \textbf{Generating Statistics File} : Generating this file requires the calculation of many features.
+        Most features are calculated instantly, however the score variables shown in section \ref{enum:score} can take significantly more time.
+        For an image/user pair, if there are no reference annotations, scores are calculated as the average score of each pixel.
+        Unfortunately, it's the same complexity as generating a Gazemap in this case.
+        However, there are not many images with no reference annotation.
+        Overall for the GOLD project, it can take 4 hours to generate this file as a whole.
+        However, without those score features it takes less than 20 minutes.
+    \end{itemize}
+
+    As for the data learning component, building a full model takes about 30 minutes while the cross-validation takes about 8 to 14 hours to run.
+    This depends on the variable that is learned. \\
+
+    Overall, most operations cannot be done in real time.
+    If this were to be added to the Cytomine Application, a user requesting a Gazemap may need to wait.
 
 \chapter{Data Analysis}
 
