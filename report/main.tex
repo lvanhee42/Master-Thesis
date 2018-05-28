@@ -1127,6 +1127,8 @@ Since images are often vastly different, information retrieved and studied need 
         Overall operations are done almost instantly, the biggest burden is saving the image to the disk.
         \item[\textbullet] \textbf{Generating a raw Point image} : Drawing $N$ raw points with no prior manipulation has a complexity of $O(N)$.
         Overall operations are also done instantly.
+        \item[\textbullet] \textbf{Generating Timelines} : The total number of positions (from all the images) for each day needs to be calculated for each user, therefore it has a complexity of $O(N)$.
+        This is slightly slower than the previous two methods because as a whole, users can have many positions.
         \item[\textbullet] \textbf{Generating Statistics File} : Generating this file requires the calculation of many features.
         Most features are calculated instantly, however the score variables shown in section \ref{enum:score} can take significantly more time.
         For an image/user pair, if there are no reference annotations, scores are calculated as the average score of each pixel.
