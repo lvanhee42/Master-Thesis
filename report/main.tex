@@ -172,9 +172,27 @@ These Gazemaps would be included in the application and users can be given acces
 This
 could give teachers the ability to keep track of the students' work.
 
-\chapter{Acknowledgments}
-    % todo
-    {\color{red} TODO}
+\chapter{Acknowledgment}
+I would first like to thank my thesis advisor Mar\'{e}e, Rapha\"{e}l of the Faculty of Applied Sciences at the University of Li\`{e}ge.
+The door to Mr. Mar\'{e}e office was always open whenever I ran into a trouble spot or had a question about my research or writing.
+He consistently allowed this paper to be my own work, but steered me in the right the direction whenever he thought I needed it.\\
+
+
+I would also like to thank the experts who were involved in the validation survey for this research project: Geurts, Pierre and Defaweux, Val\'{e}rie and Wehenkel, Louis and Louppe, Gilles.
+Without their passionate participation and input, the validation survey could not have been successfully conducted.\\
+
+
+Finally, I must express my very profound gratitude to my parents and to my other close friends and relatives for providing me with unfailing support and continuous encouragement throughout my years of study and through the process of researching and writing this thesis.
+This accomplishment would not have been possible without them.\\
+Thank you.
+
+\vspace{1cm}
+
+\noindent Author
+
+\vspace{1cm}
+
+\noindent Vanhee Laurent
 
 \chapter{Introduction}
 
@@ -665,7 +683,7 @@ Since images are often vastly different, information retrieved and studied need 
 
         The project has a dedicated directory to store all this information, usually in a csv format.
         For each data type, image, and user triplet, there is a dedicated file containing this information.
-        In conclusion, the following diagram explains the role of this component (Figure \ref{fig:comp1}):
+        In conclusion, the following diagram explains the role of this component (Figure \ref{fig:comp1}).
 
        \begin{figure}[H]
         \centering
@@ -971,7 +989,7 @@ Since images are often vastly different, information retrieved and studied need 
         They are saved in their respective directories.
     \end{itemize}
 
-    Overall, the component can be explained with the following diagrams (Figures \ref{fig:comp2} \& \ref{fig:comp2uml}):
+    Overall, the component can be explained with the following diagrams (Figures \ref{fig:comp2} \& \ref{fig:comp2uml}).
     \begin{figure}[H]
       \centering
       \includegraphics[width=.9\linewidth]{diagrams/module2.png}
@@ -1039,7 +1057,7 @@ Since images are often vastly different, information retrieved and studied need 
             The last (in blue) represents the slope of the relation between the two variables.
             It includes a Pearson Correlation to better understand the slope of the line.
             \item \textbf{Box Plot :} This visualizes the error between the learned results with the output variables.
-            In this case, it draws the median error, the two quartiles Q1 (seperating the 25 \% with the lowest error with the rest) and Q3 (seperating the 75 \% with the lowest error with the rest), and the two whiskers.
+            In this case, it draws the median error, the two quartiles Q1 (separating the 25 \% with the lowest error with the rest) and Q3 (seperating the 75 \% with the lowest error with the rest), and the two whiskers.
             The whiskers have a reach that are 1.5 times the inter-quartile range.
             This means that any error outside the reach of the whiskers would be deemed extreme cases.
             These cases are related to really high error values.
@@ -1076,7 +1094,7 @@ Since images are often vastly different, information retrieved and studied need 
         \item[\textbullet] \textbf{Criterion : msq - Mean Square Error (mae is too slow)}\\
         The method to measure the quality of a split.
         \item[\textbullet] \textbf{Out-of-bag Score : False}\\
-        Whether out-of-baf samples are used to estimate how well unseen data is fitted to a regression line.
+        Whether out-of-bag samples are used to estimate how well unseen data is fitted to a regression line.
     \end{itemize}
     Since the ExtraTree regressor handles overfilling by itself, it is useful to have many estimators when handling a vast amount of features.
     Also, with many estimators the method will converge to output the best possible results where ExtraTrees are are concerned.
@@ -1924,6 +1942,69 @@ In the end, some images and some modules have more impact than others.  (Figures
     This image was given more as an exercise image as opposed to the previous one.
     As for the QCM, the image 1208906 also stood out.
     It is possible that, there is more educational interest behind this image.
+    Visually analyzing some students' performance of this image may prove interesting.
+    Out of the 10 students that obtained less than a 5 out of 20 on the QROL1 theory and less than 6 out of 20 in the QCM, 6 did not even open image 1208906 with one of them signing both portions of the exam.
+    The other 4 did scan through the image and it is shown in figure \ref{fig:students1}.
+
+    \begin{figure}[H]
+      \centering
+
+      \includegraphics[width=.30\linewidth]{images/2244448_heatmap.png}
+      \includegraphics[width=.30\linewidth]{images/2244448_scanpath.png}
+      \includegraphics[width=.30\linewidth]{images/2244448_points.png} \\
+
+      \includegraphics[width=.30\linewidth]{images/2456991_heatmap.png}
+      \includegraphics[width=.30\linewidth]{images/2456991_scanpath.png}
+      \includegraphics[width=.30\linewidth]{images/2456991_points.png} \\
+
+      \includegraphics[width=.30\linewidth]{images/2645248_heatmap.png}
+      \includegraphics[width=.30\linewidth]{images/2645248_scanpath.png}
+      \includegraphics[width=.30\linewidth]{images/2645248_points.png} \\
+
+      \includegraphics[width=.30\linewidth]{images/6420595_heatmap.png}
+      \includegraphics[width=.30\linewidth]{images/6420595_scanpath.png}
+      \includegraphics[width=.30\linewidth]{images/6420595_points.png} \\
+
+      \caption{Low graded student performance at Image 1208906}
+      \label{fig:students1}
+    \end{figure}
+
+    As for the best graded students, there are 3 students who obtained a grade higher than 18 out of 20 for the QROL1 and higher than 15 out of 20 for the QCM.
+    They all opened and scanned the image 1208906, figure \ref{fig:students2} shows their behavior.
+
+
+    \begin{figure}[H]
+      \centering
+
+      \includegraphics[width=.30\linewidth]{images/1747564_heatmap.png}
+      \includegraphics[width=.30\linewidth]{images/1747564_scanpath.png}
+      \includegraphics[width=.30\linewidth]{images/1747564_points.png} \\
+
+      \includegraphics[width=.30\linewidth]{images/1793969_heatmap.png}
+      \includegraphics[width=.30\linewidth]{images/1793969_scanpath.png}
+      \includegraphics[width=.30\linewidth]{images/1793969_points.png} \\
+
+      \includegraphics[width=.30\linewidth]{images/1942114_heatmap.png}
+      \includegraphics[width=.30\linewidth]{images/1942114_scanpath.png}
+      \includegraphics[width=.30\linewidth]{images/1942114_points.png} \\
+
+
+      \caption{High graded student performance at Image 1208906}
+      \label{fig:students2}
+    \end{figure}
+
+    For some students, the scan paths do a poor job showing the pattern since the students go back and forth through annotations.
+    Otherwise, there does not seem to be some specific pattern that differentiates the students with low grades to the students with high grades by looking at these images.
+    The main observation that could be made is that for the high grade students is that they are either more efficient or curious.
+    By efficient, it means that they do not have many positions and they are mostly located near annotations.
+    They probably understood the concepts directly after opening the image once and they never opened it again.
+    As for curious, the student would often visit regions  that are not annotated.
+    They would spend more time viewing to see if they can learn more than just what's described by the annotations.
+    Some low graded students follow this efficient pattern but to a lesser degree.
+    It's hard to determine if the student understood the theory behind the image by just looking at these figures.
+    However for the one low graded student (the 3rd),  it seems that the person struggled.
+    The back and forth and the fact that the student has a significant higher number of positions could mean uncertainty.
+    In the end, this image may have had a big impact for the QCM and QROL1 because the content of the questions could heavily be associated to the image.
 
     \subsection{Global Grades}
 
@@ -1966,7 +2047,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     An interesting observation is that the learning algorithm has a easier time predicting theoretical grades over practical grades.
     As using Cytomine is overall a practical activity, the fact predicting theoretical grades works just as well can possibly imply that students can retain theoretical concepts with Cytomine.\\
 
-    Observing what behaviors lead to this grade can prove useful : (Figures \ref{fig:var_tot1}, \ref{fig:var_tot2}, and \ref{fig:var_tot3})
+    Observing what behaviors lead to this grade can prove useful (Figures \ref{fig:var_tot1}, \ref{fig:var_tot2}, and \ref{fig:var_tot3}).
 
       \begin{figure}[H]
       \centering
@@ -1993,7 +2074,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     This indicator that the student followed the instructions has a notable impact on the results.
     Also, module features are also much less impactful than their regular counterparts.\\
 
-    As for the images themselves the results are : (Figures \ref{fig:im_tot1}, \ref{fig:im_tot2}, and \ref{fig:im_tot3})
+    As for the images themselves the results are shown in figures \ref{fig:im_tot1}, \ref{fig:im_tot2}, and \ref{fig:im_tot3}.
 
       \begin{figure}[H]
       \centering
@@ -2026,13 +2107,11 @@ In the end, some images and some modules have more impact than others.  (Figures
     This extra information can prove usefull.
     The experiment is to see if those who did well on the white tests do well on the main exam.
     For those who did not participate in the trial tests, they receive a value of -1 for those features.
-    The results are : (Figure \ref{fig:test1_1} \& \ref{fig:test1_2})
+    The results are shown in figure \ref{fig:test1_1} \& \ref{fig:test1_2}
     \begin{itemize}
         \item[\textbullet] Score : 1.79
         \item[\textbullet] Score from Median Model : 2.37
         \item[\textbullet] Score Difference : 0.58
-        \item[\textbullet] P-value : 0.92
-        \item[\textbullet] P-Value of Median Model : 0.67
     \end{itemize}
       \begin{figure}[H]
       \centering
@@ -2066,8 +2145,6 @@ In the end, some images and some modules have more impact than others.  (Figures
         \item[\textbullet] Score : 1.56
         \item[\textbullet] Score from Median Model : 2.59
         \item[\textbullet] Score Difference : 1.03
-        \item[\textbullet] P-value : 0.91
-        \item[\textbullet] P-Value of Median Model : 0.84
     \end{itemize}
       \begin{figure}[H]
       \centering
@@ -2091,7 +2168,83 @@ In the end, some images and some modules have more impact than others.  (Figures
     This shows the individualism of each student.\\
 
     This same experiment could be done in reverse but the results would be extremely similar.
-    
+
+    \subsection{RandomForest Comparison}
+
+    For this experiment, the RandomForest will be used to compare the Global Grade results with the Extra Tree method.
+    The RandomForest is a popular and powerful tree Ensemble method.
+    The RandomForest is configured with the following parameters.
+
+    \begin{itemize}
+        \item[\textbullet] \textbf{Number of Estimators : 100}\\
+        Represents the number randomized trees generated.
+        \item[\textbullet] \textbf{Max depth : None}\\
+        The max depth of the trees.
+        \item[\textbullet] \textbf{Bootstrap : False}\\
+        Whether or not bootstrapping was implemented.
+        Bootstrapping implements sampling with replacement within the training set.
+        \item[\textbullet] \textbf{Max Features : Auto ( = Number of Features)}\\
+        Max number of features that can be used by the randomized tree.
+        \item[\textbullet] \textbf{Max leaf Nodes : None}\\
+        The maximum number of leaf nodes that be present in a tree.
+        \item[\textbullet] \textbf{Minimum Impurity Decrease : 0.0}\\
+        A node will be split if the impurity is less than the minimum impurity decrease value.
+        Threshold for early stopping tree growth.
+        \item[\textbullet] \textbf{Minimum Samples Leaf : 1}\\
+        The minimum number of samples required at a leaf node.
+        \item[\textbullet] \textbf{Minimum Samples split : 2}\\
+        The minimum number of samples required to split an internal node.
+        \item[\textbullet] \textbf{Minimum Weight Fraction Leaf : 0.0}\\
+        Minimum weighted fraction of the sum total of all weights (of all input samples) required at a leaf node.
+        If 0.0, samples have equal weights.
+        \item[\textbullet] \textbf{Criterion : msq - Mean Square Error}\\
+        The method to measure the quality of a split.
+        \item[\textbullet] \textbf{Out-of-bag Score : False}\\
+        Whether out-of-bag samples are used to estimate how well unseen data is fitted to a regression line.
+    \end{itemize}
+
+    The results are shown in figures \ref{fig:test3_1}, \ref{fig:test3_2}, and \ref{fig:test3_2}.
+    \begin{itemize}
+        \item[\textbullet] Score : 2.07
+        \item[\textbullet] Score from Median Model : 2.37
+        \item[\textbullet] Score Difference : 0.30
+    \end{itemize}
+
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.40\linewidth]{plots/cv_boxplot_GLOBAL_GRADE_2018-05-29_01_56_26.png}
+      \includegraphics[width=.40\linewidth]{plots/cv_comp_GLOBAL_GRADE_2018-05-29_01_56_26.png}
+      \caption{RandomForest : Results - Statistics}
+      \label{fig:test3_1}
+      \end{figure}
+
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{plots/var_importance_GLOBAL_GRADE_2018-05-29_11_04_26.png}
+      \caption{RandomForest : Results - Feature Importance}
+      \label{fig:test3_2}
+      \end{figure}
+
+      \begin{figure}[H]
+      \centering
+      \includegraphics[width=.95\linewidth]{plots/im_importance_GLOBAL_GRADE_2018-05-29_11_04_29.png}
+      \caption{RandomForest : Results - Image Importance}
+      \label{fig:test3_3}
+      \end{figure}
+
+    For one the cross validation results are weaker than the Extra counter part with a score of 1.93.
+    Secondly, module variables seem to have more of an impact for the RandomForest.
+    As for image importance, it seems that the same images are often at the top in terms of importance but the values are distinct between the low ranking and high ranking images.\\
+
+
+    In the end, ExtraTrees are more advantageous because they give the opportunity for more features to be used.
+    When tweaking the parameter "Minimum Sample Leaf" Random Forest ends up not even using some features while the ExtraTree's randomness allows for the usage of many more features.
+    Because analyzing features and image importance is principal, other methods that are hard to interpret like neural networks are not as ideal.
+    Humans are very inconsistent, this data set contains much noise because of it.
+    Methods like linear regression are very sensitive to this noise and therefore not ideal.
+
+
+
 \chapter{Discussion} \label{Discussion}
 
     \section{Limitations}
@@ -2180,6 +2333,7 @@ In the end, some images and some modules have more impact than others.  (Figures
         The main thing that can be determined is which annotations had the most impact for the exam.
         This leads to image importance, and which images were the most impactful.
         A good example is for the QROL1 and the QROL2, the differences are clear.
+        These results could be interpreted using Gazemaps or scan paths to visually see the link with an image.
         One question was most likely more associated to the earlier portion of the course while the other was more associated to the end of the course.
         This is theorized without actually knowing the contents of the two questions.
 
