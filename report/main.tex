@@ -89,7 +89,7 @@ type,var},
 
 % URLs
 \usepackage{url}
-\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{chapter} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
 
 \makeatletter
 \def\url@leostyle{%
@@ -320,11 +320,34 @@ The goal is to see how much of an effect Cytomine has on students.
 
 This is not the first attempt to analyze a person's behavior when scanning through cellular images.
 ~\cite{pathedex}, ~\cite{pathexams}, and ~\cite{pathinterations} all tackle this problem.
+~\cite{pathedex} compares image viewing patterns between students and pathologists.
+They study high level patterns like the number of fixation points in an image (E.G. positions).
+The users are split into two classes based on their diagnostics that were either good or bad.
+Finally, they used learning techniques like Markov Chain Monte Carlo to do predictions.
+
+~\cite{pathinterations} focuses more on microscope observations instead of high quality images.
+This leads to different patterns compared to the previous study.
+Experts were used to create dictionaries of viewing patterns.
+Dictionaries of different experts can be merged to form a new dictionary.
+This can be used to propose techniques that can automatically identify certain patterns in images.
+It can help diagnose conditions like cancer.
+
+~\cite{pathexams} explores viewing patterns in students.
+During an exam, they track the students' focus on images with software based  path tracking methods.
+In this case, they used a binary classifier.
+Either the students passed or failed.
+Tree based classifiers were implemented and tested.
+Features would also include high level patterns like the number of view steps and average zoom.
+
 These studies are similar in a sense that they analyze user scanning of images and compare it with a performance criteria (E.G rate of detecting cancer).
 They also often analyze a set of students and how they behave will scanning images.
-The main difference is that in this study, students go through more than one image.
+The main difference is that in this study, students go through more than one image and regression is used instead of binary classification.
 Since they are assessed from their performance as a whole, this analysis cannot be donne image by image.
 Since images are often vastly different, information retrieved and studied need to be more general.
+In this study, obtaining the data is also much easier.
+The students are not subject to specialized tools that track them during their exams.
+Data is stored over time in a Server when the user uses the website.
+The fact that they are unaware that the data is used for analysis makes the study more compelling.
 
 
 \chapter{Tools and Methods}
@@ -421,14 +444,16 @@ Since images are often vastly different, information retrieved and studied need 
 
     The problem with most tree based methods is the high error rate often due to the high bias and variance.
     This often happens due to overfitting or underfitting.
-    Unlike previous tree based ensemble method, the ExtraTree method selects splits of both attribute and cut-point partially or totally at random.
-    For each node, it is combined with a random choice of a certain number of attributes, among which the best one is determined.
+    Overfitting occurs when the model is too dependent on the data set used for training, when testing on a different set the error would be much higher than anticipated.
+    Underfitting is the exact opposite, it occurs when the model is unable to properly train the data often because it is too simple.
+    Unlike previous tree based ensemble method, the ExtraTree method selects splits of both features and cut-points partially or totally at random.
+    For each node, it is combined with a random choice of a certain number of features, among which the best one is determined.
     Using Ensemble techniques, many trees can be built in parallel.
     Predictions can be made with the ExtraTree Regressor and and the final output becomes a average between the output of all the trees.
     With this randomization, the ExtraTree should be able to reduce the variance more effectively than other weaker randomizing methods.
     It also uses the full learning sample for each tree, thus minimizing bias.
     Overall this handles overfitting very well for most learning samples.
-    To avoid underfitting, building the ExtraTree with enough estimators is enough.\\
+    To avoid underfitting, building the ExtraTree with enough estimators is usually enough.\\
 
 
     The following algorithm described in ~\cite{extratree} explains how the splitting is done at a tree node:
@@ -441,7 +466,7 @@ Since images are often vastly different, information retrieved and studied need 
         \KwOut{a split $[ \, a < a_c ] \, $ or nothing}
         \eIf{\textbf{Stop\_split($S$)} == True}
             {Return nothing\;}
-            {--Select $K$ attributes $ \{ a_1, ..., a_K  \} $ among non constant candidate attributes in $S$\;
+            {--Select $K$ features $ \{ a_1, ..., a_K  \} $ among non constant candidate features in $S$\;
              --Draw $K$ splits $ \{ s_1, ..., s_K  \} $ with $s_i$ = \textbf{Pick\_a\_random\_split($S$, $a_i$)}, $\forall i \in [ \, 1 , K ] \, $\;
              --Return a split $s_*$ such that Score($s_*$, $S$) = $max_{i = 1,...,k}$Score($s_i$, $S$)\;}
 
@@ -452,7 +477,7 @@ Since images are often vastly different, information retrieved and studied need 
         \caption{Pick\_a\_random\_split($S$, $a$)}
         \SetAlgoLined
         \RestyleAlgo{boxruled}
-        \KwIn{a subset $S$ and a attribute $a$}
+        \KwIn{a subset $S$ and a feature $a$}
         \KwOut{a split}
         --$a^S_{max}$ and $a^S_{min}$ the maximal and minimal values of a in $S$ \;
         --Draw random cut-point $a_c$ uniformly in $[ \, a^S_{min}, a^S_{max} ] \, $\;
@@ -468,14 +493,14 @@ Since images are often vastly different, information retrieved and studied need 
         \KwOut{a boolean}
         \If{$|S| < n_{min}$}
            {Return True\;}
-        \If{all attributes constant}
+        \If{all features constant}
            {Return True\;}
         \eIf{Output constant}
             {Return True\;}
             {return False\;}
     \end{algorithm}
 }
-    When picking a ranodm split, an attribute $a$ is a feature with values ranging from $a_{min}^S$ to $a_{max}^S$.
+    When picking a random split, a feature $a$ contains values ranging from $a_{min}^S$ to $a_{max}^S$.
     A split belonging to this range is then chosen at random.
     This is done $K$ times and the best split is chosen for this node based on the scores of the splits.
     In regression, a score is measured by calculating the amount of output variance reduction.
@@ -584,26 +609,26 @@ Since images are often vastly different, information retrieved and studied need 
             \end{subfigure}
             \begin{subfigure}[b]{0.3\textwidth}
             \includegraphics[width=\textwidth]{images/zooms2.png}
-            \caption{Zoom 2}
+            \caption{Zoom 4}
             \end{subfigure}
             \begin{subfigure}[b]{0.3\textwidth}
             \includegraphics[width=\textwidth]{images/zooms3.png}
-            \caption{Zoom 3}
+            \caption{Zoom 5}
             \end{subfigure}
 
             \begin{subfigure}[b]{0.3\textwidth}
             \includegraphics[width=\textwidth]{images/zooms4.png}
-            \caption{Zoom 4}
+            \caption{Zoom 6}
             \end{subfigure}
             \begin{subfigure}[b]{0.3\textwidth}
             \includegraphics[width=\textwidth]{images/zooms5.png}
-            \caption{Zoom 5}
+            \caption{Zoom 7}
             \end{subfigure}
             \begin{subfigure}[b]{0.3\textwidth}
             \includegraphics[width=\textwidth]{images/zooms6.png}
-            \caption{Zooms 6 to 9}
+            \caption{Zooms 8 to 10}
             \end{subfigure}
-            \caption{Figure of different zooms}\label{fig:zooms}
+            \caption{Figure of different zooms on image 1217722}\label{fig:zooms}
         \end{figure}
 
         \item[\textbullet] \textbf{Annotations Actions :}\newline
