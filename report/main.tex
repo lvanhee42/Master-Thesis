@@ -1084,7 +1084,7 @@ Since images are often vastly different, information retrieved and studied need 
         \item[\textbullet] \textbf{Minimum Impurity Decrease : 0.0}\\
         A node will be split if the impurity is less than the minimum impurity decrease value.
         Threshold for early stopping tree growth.
-        \item[\textbullet] \textbf{Minimum Samples Leaf : 1}\\
+        \item[\textbullet] \textbf{Minimum Samples Leaf : 10}\\
         The minimum number of samples required at a leaf node.
         \item[\textbullet] \textbf{Minimum Samples split : 2}\\
         The minimum number of samples required to split an internal node.
@@ -1695,10 +1695,10 @@ Since these exams are graded, students should have the motivation to study and a
       \hline
       & \tiny{Score} & \tiny{Median Score} & \tiny{Score Difference} & \tiny{Real Median Grade} & \tiny{Median Est.
       Grade}\\ \hline
-      \tiny{QCM practical} & \tiny{1.94} & \tiny{2.29} & \tiny{0.36} & \tiny{10.80} & \tiny{11.01}\\ \hline
-      \tiny{QROL practical} & \tiny{3.23} & \tiny{3.64} & \tiny{0.40} & \tiny{7.93} & \tiny{8.80}\\ \hline
-      \tiny{QCL identification Practical} & \tiny{2.86} & \tiny{3.36} & \tiny{0.5} & \tiny{11.0} & \tiny{11.61}\\ \hline
-      \tiny{QCL incidence Practical} & \tiny{2.23} & \tiny{2.83} & \tiny{0.59} & \tiny{15.0} & \tiny{15.32}\\
+      \tiny{QCM practical} & \tiny{1.91} & \tiny{2.29} & \tiny{0.37} & \tiny{10.80} & \tiny{11.02}\\ \hline
+      \tiny{QROL practical} & \tiny{3.25} & \tiny{3.64} & \tiny{0.39} & \tiny{7.93} & \tiny{8.60}\\ \hline
+      \tiny{QCL identification Practical} & \tiny{2.87} & \tiny{3.36} & \tiny{0.50} & \tiny{11.0} & \tiny{11.59}\\ \hline
+      \tiny{QCL incidence Practical} & \tiny{2.21} & \tiny{2.83} & \tiny{0.61} & \tiny{15.3} & \tiny{15.30}\\
       \hline
       \end{tabular}\\
       \vspace{0.5cm}
@@ -1721,7 +1721,7 @@ Since these exams are graded, students should have the motivation to study and a
     \item[\textbullet]  \textbf{QCM practical :} The best score, the boxplots show the most well rounded results.
     The 75 percentile of grades estimated have an error of less than 3 and a 25 percentile of grades with an error of less than 1.
     Unfortunately, there are still some cases with a significantly high error.
-    As for relation between the expected grade and the estimated grade, there is a clear pattern following the red line.
+    As for relation between the expected grade and the estimated grade, there is a pattern following the red line that is stronger than other results.
     The exception being that low actual grades are overestimated by the model.
     QCM exams are usually are straight to the point.
     Students need to know the answer to question but they don't have to explain it.
@@ -1813,10 +1813,11 @@ In the end, some images and some modules have more impact than others.  (Figures
       \end{figure}
 
 	It is hard to determine which modules were are more impactful as a whole.
-    It seems that each module has at least one image that has a big impact on the result for each test.
+    It seems that each module has at least one image that has a good impact on the result for each test.
 	Like before, most these images are the ones dedicated to exercises.
 	This supports the hypothesis that doing the exercises has a positive impact on the grades.
 	But for example the image 1218120 does not appear at the top anymore.
+    For both QCL exams, the 1219597 image has an overall big impact on the results.
 	This shows that even though the models follow the same patterns, it is still varies based on the contents of the exam.\\
 
     Sometimes it is interesting  to look for correlations between the expected result and some features.
@@ -2190,7 +2191,7 @@ In the end, some images and some modules have more impact than others.  (Figures
         \item[\textbullet] \textbf{Minimum Impurity Decrease : 0.0}\\
         A node will be split if the impurity is less than the minimum impurity decrease value.
         Threshold for early stopping tree growth.
-        \item[\textbullet] \textbf{Minimum Samples Leaf : 1}\\
+        \item[\textbullet] \textbf{Minimum Samples Leaf : 30}\\
         The minimum number of samples required at a leaf node.
         \item[\textbullet] \textbf{Minimum Samples split : 2}\\
         The minimum number of samples required to split an internal node.
