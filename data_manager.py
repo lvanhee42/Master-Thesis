@@ -133,21 +133,24 @@ class Data_manager:
         for image in self.image_list:
             image.init_user_data_link(self.user_list)
 
-        f = open(config.WORKING_DIRECTORY + project_name + "/timeline.csv", 'rb')
-        csv_in = csv.reader(f)
-        data = list(csv_in)
-        for i in range(1, len(data)):
-            row = data[i]
-            m = module_data.Module_data(row, self.image_list, self, self.user_list)
-            self.module_list.append(m)
-        f.close()
+        dir_l = os.listdir(config.WORKING_DIRECTORY + project_name + "/")
+        mod_name = config.WORKING_DIRECTORY + project_name + "/timeline.csv"
+        if "timeline.csv" in dir_l:
+            f = open(mod_name, 'rb')
+            csv_in = csv.reader(f)
+            data = list(csv_in)
+            for i in range(1, len(data)):
+                row = data[i]
+                m = module_data.Module_data(row, self.image_list, self, self.user_list)
+                self.module_list.append(m)
+            f.close()
 
 
     def __repr__(self):
-        return "NbIm : " + str(self.nb_images) + ", NbUsers : " + str(self.nb_users) + "\n"
+        return "NbIm : " + str(self.nb_images) + ", NbUsers : " + str(self.nb_users) + ", NbModules : " + str(len(self.module_list)) + "\n"
 
     def __str__(self):
-        return "NbIm : " + str(self.nb_images) + ", NbUsers : " + str( self.nb_users) + "\n"
+        return "NbIm : " + str(self.nb_images) + ", NbUsers : " + str(self.nb_users) + ", NbModules : " + str(len(self.module_list)) + "\n"
 
     def nb_users(self):
         """
@@ -1022,7 +1025,8 @@ class Data_manager:
         nb = 0
         for im in self.image_list:
             nb += im.nb_of_users()
-
+        if nb == 0:
+            nb = 1
         bar = Bar('Generating Heatmaps', max=nb, stream=sys.stdout)
         bar.start()
 
@@ -1070,6 +1074,8 @@ class Data_manager:
         nb = 0
         for im in self.image_list:
             nb += im.nb_of_users()
+        if nb == 0:
+            nb = 1
         bar = Bar('Generating Scanpaths', max=nb, stream=sys.stdout)
         bar.start()
 
@@ -1085,6 +1091,8 @@ class Data_manager:
         nb = 0
         for im in self.image_list:
             nb += im.nb_of_users()
+        if nb == 0:
+            nb = 1
         bar = Bar('Generating raw points images', max=nb, stream=sys.stdout)
         bar.start()
 

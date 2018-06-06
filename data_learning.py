@@ -152,7 +152,7 @@ def build_models(project, index=None, savedir=config.WORKING_DIRECTORY):
     :param index : the index of the Y variable used for learning
     :param savedir: the save directory where the statistics will be stored.
     :return: list of containers with a container :  A : type ('MD') for model
-                                                    B : container: 1) the built ExtraTree Regressor
+                                                    B : container: 1) the built ExtraTrees Regressor
                                                                    2) names of all the features
                                                                    3) the save directory
                                                                    4) the 2D array of features
@@ -181,7 +181,7 @@ def build_models(project, index=None, savedir=config.WORKING_DIRECTORY):
             regr = ExtraTreesRegressor(bootstrap=False, criterion='mse', max_depth=None,
                                   max_features='auto', max_leaf_nodes=None,
                                   min_impurity_decrease=0.0, min_impurity_split=None,
-                                  min_samples_leaf=1, min_samples_split=2,
+                                  min_samples_leaf=10, min_samples_split=2,
                                   min_weight_fraction_leaf=0.0, n_estimators=10000, n_jobs=1,
                                   oob_score=False, random_state=0, verbose=0, warm_start=False)
 
@@ -422,7 +422,7 @@ def cross_validation_test(project, index=None, savedir=config.WORKING_DIRECTORY)
             regr = ExtraTreesRegressor(bootstrap=False, criterion='mse', max_depth=None,
                                   max_features='auto', max_leaf_nodes=None,
                                   min_impurity_decrease=0.0, min_impurity_split=None,
-                                  min_samples_leaf=1, min_samples_split=2,
+                                  min_samples_leaf=10, min_samples_split=2,
                                   min_weight_fraction_leaf=0.0, n_estimators=1000, n_jobs=1,
                                   oob_score=False, verbose=0, random_state=0, warm_start=False)
 
@@ -519,17 +519,25 @@ def cv_graphs(data):
     pred_grades_tmp = pred_grades[:]
     pred_grades_tmp.sort()
 
+    out_str = ""
 
-    print y_name + " " + datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    out_str += y_name + " " + datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + "\n\n"
 
-    print "AVG score : " + str(avg_cv)
-    print "Error from Median Model : " + str(med)
-    print "score difference to Median: " + str(med - avg_cv)
-    print "MEDIAN Real Grade : " + str(grades[int(len(grades) / 2)])
-    print "MEDIAN Estimated Grade : " + str(pred_grades_tmp[int(len(pred_grades_tmp) / 2)])
-    print "P Value : " + str(p)
-    print "P Value of Median model : " + str(p2)
+    out_str += "AVG score : " + str(avg_cv) + "\n"
+    out_str += "Error from Median Model : " + str(med) + "\n"
+    out_str += "score difference to Median: " + str(med - avg_cv) + "\n"
+    out_str += "MEDIAN Real Grade : " + str(grades[int(len(grades) / 2)]) + "\n"
+    out_str += "MEDIAN Estimated Grade : " + str(pred_grades_tmp[int(len(pred_grades_tmp) / 2)]) + "\n"
+    #out_str += "P Value : " + str(p) + "\n"
+    #out_str += "P Value of Median model : " + str(p2) + "\n"
+    savefile = savedir + "cv_stats_" + y_name + "_" + datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + ".txt"
 
+    with open(savefile, "w") as text_file:
+        text_file.write(out_str)
+
+
+
+    print out_str
     print ""
     plt.close('all')
 
@@ -542,6 +550,10 @@ def get_modules(project):
     :param project: project name
     :return: list of modules, in each module a list of images
     """
+    dir_l = os.listdir(config.WORKING_DIRECTORY + project + "/")
+    if "timeline.csv" not in dir_l:
+        return []
+
     f = open(config.WORKING_DIRECTORY + project + "/timeline.csv", 'rb')
     csv_in = csv.reader(f)
     data = list(csv_in)
@@ -885,6 +897,17 @@ if __name__ == '__main__':
 
     if len(sys.argv) == 3:
         project = sys.argv[1]
+
+        dir_l = os.listdir(config.WORKING_DIRECTORY)
+        if project not in dir_l:
+            print "Error: Project does not already exist"
+            exit()
+
+        dir_l = os.listdir(config.WORKING_DIRECTORY + project + "/")
+        if "learning_data.csv" not in dir_l:
+            print "Error: learning_data file does not exist in project " + project
+            exit()
+
         mode = sys.argv[2]
         if mode == 'MODEL':
             models = build_models(project)
