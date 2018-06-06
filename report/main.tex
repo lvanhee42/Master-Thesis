@@ -1091,11 +1091,10 @@ The fact that they are unaware that the data is used for analysis makes the stud
             This is to give confirmation on whether or not the results of the ExtraTree Regressor are determined somewhat randomly.
             \item \textbf{Score Difference :} This is the difference between the two previously mentioned scores.
             The higher the difference, the better.
-            \item \textbf{P-Value :} The P-value of the cross validation results with the original output variables.
-            This method uses the T-Test to see if the two variables are significantly different from each other.
-            The P-value is valued from 0 to 1 with 1 meaning that the sets are exactly the same and 0 meaning the sets are completely different.
-            In this case, the ideal P-value would be 0.95.
-            \item \textbf{P-Value of the Median Model :} Similar to the previous P-Value but applied to the median model.
+            \item \textbf{Median Estimated Grade :} The median grades learned from the leave-one-out cross validation.
+            \item \textbf{Median Real Grade :} The median original grades  from the output variable.
+            These medians are compared with each other.
+            It is small indicator on how close the predictions were from the real values.
         \end{itemize}
         This leads to the implementation of statistics that are visualized in graphs:
         \begin{itemize}
@@ -1114,6 +1113,15 @@ The fact that they are unaware that the data is used for analysis makes the stud
             These cases are related to really high error values.
         \end{itemize}
     \end{itemize}
+
+    The component can also be described with the diagram in figure \ref{fig:comp3}
+
+     \begin{figure}[H]
+      \centering
+      \includegraphics[width=.9\linewidth]{diagrams/module3.png}
+      \caption{Data Learning Component}
+      \label{fig:comp3}
+    \end{figure}
 
     The ExtraTree (Extremely Randomized Tree) regressor is a class that fits a number of randomized decision trees on many sub samples of the population (see ~\cite{extratree}).
     This method uses averaging to to improve learning accuracy all while controlling over-fitting.
