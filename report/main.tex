@@ -140,45 +140,46 @@ University of Li\`{e}ge - Faculty of Applied Sciences\\
 
 
 \newpage
-\chapter{Abstract}
+\chapter*{Abstract}
 In the medical field, doctors and researchers should be able to observe and interpret cell samples.
 The
 most widely spread method is to observe samples with a microscope.
 New methods allow for scanning
-samples into very large and detailed image.
+samples into very large and detailed images.
 These images can be uploaded to the Cytomine web
-application and doctors can go through the images with ease.
+application and doctors can go through the images at ease.
 The application includes many
 functionalities, namely the ability to annotate regions of interest.
-Currently the ULiege MOOC server is
-used for the benefit of the students studying the medical field at the University of Liege.
+Currently the ULiege MOOC server is open to the general public (see https//www.fun-mooc.fr).
+Anyone can take part in the MOOC, but it's mostly used for the benefit of the students studying the medical field at the University of Liege.
 The students
 study particular images and are then evaluated at the end of the year.
 Meanwhile, the Cytomine app
 has been collecting data on the students' time spent on the website.
+The main objective is to develop IT tools to analyze data collected.
 The bulk of the data collected
 consists of where the students decided to look in the images (Gaze data).
-Consequently, attempts  were made to find correlations between students' behavior and the results they obtain during exams.
+Consequently, a tool was implemented to find correlations between students' behavior and the results they obtain during exams.
 Using Machine
 Learning techniques, the goal is to predict a student's grade based on how they used the application.
 This allows for the analysis of specific viewing patterns that can give more insight on how the student used Cytomine.
 Currently, the model contains 395 students' data with over 2000 features.
 Extra Trees and Random Forest
 learning techniques have been applied to attempt to predict grades.
-Otherwise, another goal is to
+Otherwise, other tools were implemented to better
 visualize these patterns.
 The idea would be to generate Heatmaps of the students' gaze data (Gazemap).
 These Gazemaps would be included in the application and users can be given access to this information.
 This
 could give teachers the ability to keep track of the students' work.
 
-\chapter{Acknowledgment}
-I would first like to thank my thesis advisor Mar\'{e}e, Rapha\"{e}l of the Faculty of Applied Sciences at the University of Li\`{e}ge.
+\chapter*{Acknowledgment}
+I would first like to thank my thesis advisor, scientific coordinator at Cytomine Mar\'{e}e, Rapha\"{e}l of the Faculty of Applied Sciences at the University of Li\`{e}ge.
 The door to Mr. Mar\'{e}e office was always open whenever I ran into a trouble spot or had a question about my research or writing.
 He consistently allowed this paper to be my own work, but steered me in the right the direction whenever he thought I needed it.\\
 
 
-I would also like to thank the experts who were involved in the validation survey for this research project: Geurts, Pierre and Defaweux, Val\'{e}rie and Wehenkel, Louis and Louppe, Gilles.
+I would also like to thank the experts who were involved in the validation survey for this research project: Professor Geurts, Pierre and Professor Defaweux, Val\'{e}rie and Professor Wehenkel, Louis and Professor Louppe, Gilles.
 Without their passionate participation and input, the validation survey could not have been successfully conducted.\\
 
 
@@ -196,14 +197,14 @@ Thank you.
 
 \chapter{Introduction}
 
-\section{Cytomine}
 
+\section{Cytomine}
 
 \begin{center}
     \includegraphics[scale=0.80]{images/logo_cytomine.jpg}
 \end{center}
 
-Open-source rich internet application for collaborative analysis of multi-gigapixel images.
+Open-source rich internet application for collaborative analysis of multi-gigapixel images (http://www.cytomine.org).
 Cytomine can be described by three main properties :
 \begin{itemize}
 \item[\textbullet] \textbf{Open Source} : The source code is available to the general public, in this case with Github.
@@ -222,7 +223,7 @@ With Cytomine, images are stored in a server.
 These images can be viewed using the web application with any modern browser.
 Cytomine handles everything locally so that performance is not an issue for the clients.\\
 
-	Cytomine also comes with a comprehensive and robust API (Application Programing Interface).
+	Cytomine also comes with a comprehensive and robust API.
 	This API allows clients to fetch and send data to and from a Cytomine Server.
 	This is very useful for data analysis, it is well organized so that researchers can find what they are looking for.
 	There are also tools included that eases certain aspects of handling big data.
@@ -237,7 +238,7 @@ This can be done for many fields in computer sciences including Machine Learning
 
 This is not limited to the field of Computer Sciences.
 Fields that require the use of large high definition images can benefit from using Cytomine.
-For instance, this includes astrology where people can learn about planets and stars using imagery.
+For instance, this includes Astronomy where people can learn about planets and stars using imagery.
 Other sectors include Geology, Art, and in this case Medicine.
 
 
@@ -250,7 +251,8 @@ Other sectors include Geology, Art, and in this case Medicine.
       \end{figure}
 
 The MOOC server is a Cytomine Web Application used for education by the Faculty of Medicine at the University of Liege.
-It is used for the HISL0541 (General histology and alternative experimentation methods that do not use animals) course.
+MOOC stands for Massive Open Online Course, this means that it's open to anyone.
+It is mostly used for the General histology and alternative experimentation methods that do not use animals (HISL0541) course.
 This course is organized for students enrolled for a Bachelor in Medicine.
 Students have to study tissue samples. (Figure \ref{fig:lame_example})
 
@@ -307,7 +309,8 @@ The goal is to see how much of an effect Cytomine has on students.
     The teachers also provided some information on students that followed the course.
     This includes the grade obtained and all the tests that lead to that final grade.
     With this information, machine learning can be used to analyze these grades and what patterns lead to them.
-    This analysis returns statistics in many forms since there is a wide range of variables. (Figure \ref{fig:highlevel})
+    This analysis returns statistics in many forms since there is a wide range of variables.
+    The figure \ref{fig:highlevel} describes in a more general sense what the necessary input and the outputs of the analysis tool.
 
       \begin{figure}[H]
       \centering
@@ -350,14 +353,17 @@ Data is stored over time in a Server when the user uses the website.
 The fact that they are unaware that the data is used for analysis makes the study more compelling.
 
 
-\chapter{Tools and Methods}
+\chapter{Tools and Methods} \label{chapt:tools}
 
-    Cytomine developed with many tools that makes it user friendly ~\cite{cyt}.
+    Cytomine was developed with many tools that makes it robust and user friendly ~\cite{cyt}.
+    This chapter will talk about the tools already available with Cytomine and the Tools that were implemented in this project.
+    Cytomine stores its data in Databases and comes with a robust Application programming Interface to gain access to this information.
+    With this, the analysis tool was implemented in order to interpret all the data stored.
 
     \section{Cytomine Databases}
     % todo ask if allowed to use figures from the Cytomine website
     Data comes in different shapes and forms, therefore different methods are used to store this data.
-    The databases included are :
+    The databases included in Cytomine are :
     \begin{itemize}
         \item[\textbullet] \textbf{PostgreSQL} : A object relational database that stores most of the Cytomine information.
         Its functions are to store data and return this data queried by applications.
@@ -381,7 +387,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
     \section{Cytomine API}
 
     The Cytomine API allows for a user to retrieve data from the server.
-    It is defined as a REST API.
+    It is defined as a Representational State Transfer (REST) API.
     It follows an architectural style that defines a set of constraints and properties based on HTTP.
     It defines a predefined set of stateless operations.
     All interactions with the Cytomine Core is done through the REST API.
@@ -420,7 +426,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         The goal with clustering is to group different individuals that share similar characteristics.
         A widely used technique used in this analysis is the K-means clustering.
         It uses distances (often Euclidean) to compare individuals.
-        The number of distances is determined by K.
+        The number of clusters is determined by K value.
         At the start, individuals are placed in random clusters.
         At each step, individuals are moved to the closest cluster.
         There are many ways to define the closest cluster, a common one is the closest center of the cluster to the individual.
@@ -429,7 +435,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
     \end{itemize}
 
     There are many supervised learning techniques that can be used to learn labeled data.
-    Methods include K-NN, linear regression, neural networks, and many others.\\
+    Methods include K-NN (K-nearest neighbors), linear regression, neural networks, and many others.\\
 
     The focus on this project was to work with regression trees.
     Since the main goal is analysis and not machine learning, regression trees provides much insight into the roots of the results with the feature importance tools it provides.
@@ -509,16 +515,19 @@ The fact that they are unaware that the data is used for analysis makes the stud
     $$Score_R(s,S) = \dfrac{var \{ y | S \}   - \dfrac{|S_l|}{|S|} var \{  y | S_l \}  - \dfrac{|S_r|}{|S|} var \{  y | S_r \} }{var \{  y | S \} } $$
     with $var \{  y | S \} $ the variance of the output $y$ in the sample $S$.
 
-    \section{Three Separate Components}
+    \section{Analysis Tool}
     	Since there is a vast amount of data, most operations require a good amount of time to complete.
-    	Therefore, the data analysis tool is divided into three components :
+    	Therefore, the data analysis tool developed in this project is divided into three components :
         \begin{itemize}
         \item[\textbullet] Data Acquisition (download\_data.py).
         \item[\textbullet] Data Manipulation (data\_manager.py).
         \item[\textbullet] Data Learning (data\_learning.py).
         \end{itemize}
 
-        The code is available at Github (https://github.com/lvanhee42/Master-Thesis).
+        In the Data Manipulation component there is a statistics file generated that will be used for the Data Learning component.
+        The contents of the statistics file will be described at the end of this section.
+
+        The code is written in Python ~\cite{pyth} and is available at Github (https://github.com/lvanhee42/Master-Thesis).
 
 		\subsection{Data Acquisition}
 
@@ -527,7 +536,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
 			With administrator rights, a user can get a hold of all if not most of the data stored on the SQL and MongoDB databases.
 
           There are currently a total of two projects called GOLD and SILVER that students could participate in.
-          To start of, each project contains a set of images and a set of students that have signed up.
+          To start off, each project contains a set of images and a set of students that have signed up.
 
           \begin{center}
           \begin{tabular}{| l | c | c |}
@@ -540,7 +549,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
           \end{center}
 
 		  Both projects have their own objectives but GOLD is more complete and thorough.
-		  unlike the SILVER project, the students were tested and graded on the course that was given to them but also the content of the project.
+		  Unlike the SILVER project, the students were tested and graded on the course that was given to them but also the content of the project.
 
           To analyze user behavior, it is necessary to fetch data that is relevant, this includes (as shown in Figure \ref{fig:data}):
 
@@ -580,7 +589,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
 
          This is the most important information.
          A position is what the user sees at a current time stamp.
-         positions are defined by its center, four corners, time recorded, and zoom.
+         Positions are defined by its center, four corners, time recorded, and zoom.
          Unlike common gaze data, positions here are not collected from the tracking of eye movements, they are based on what the user sees on the screen.
          positions are saved on a regular basis when a user observes an image.
          More precisely positions are saved :
@@ -690,29 +699,37 @@ The fact that they are unaware that the data is used for analysis makes the stud
             Each row of the file contains one user identifier.
             This follows the same principles than the images.
             \item[\textbullet] \textbf{-M <modules>} : The <modules> field contains the address to a csv file containing a list of modules associated to the course.
-            Each row of the file contains one module.
-            It's formatted as follows :\newline
-
+            Modules are defined as a set of images to be visited within a certain time period.
+            It is used for the course to guide and help organize the students.
+            As for the file, each row of the file contains one module.
+            It's formatted as shown in figure \ref{fig:moddd}
+            \begin{figure}[H]
               \begin{tabular}{| c | c | c | c | c | c | c | c |}
               \hline
               \tiny{Module Id} & \tiny{Start Date} & \tiny{End Date} & \tiny{Image 1} & \tiny{Type 1} & \tiny{...} & \tiny{Image n} & \tiny{Type n}\\ \hline
               \tiny{1} & \tiny{dd/mm/yyyy} & \tiny{dd/mm/yyyy} & \tiny{$id_1$} & \tiny{T} & \tiny{...} & \tiny{$id_{n1}$} & \tiny{L}\\ \hline
               \tiny{...} & & & & & & & \\ \hline
               \tiny{m} & \tiny{dd/mm/yyyy} & \tiny{dd/mm/yyyy} & \tiny{$id_1$} & \tiny{E} & \tiny{...} & \tiny{$id_{n2}$} & \tiny{B}\\ \hline
-              \end{tabular}\newline
+              \end{tabular}
+              \caption{Modules file structure}
+              \label{fig:moddd}
+            \end{figure}
+
 
             For the types, T represents the tutorials, L represents learning images, E represents exercise images, and B represents supplements.
             Each module does not necessarily have the same number of images associated to it.
+            Even though this tool is built for Cytomine projects that are split into modules, it is still compatible with projects that do not get split.
         \end{itemize}
 
 
-        The project has a dedicated directory to store all this information, usually in a csv format.
+        The project has a dedicated directory to store all this information, usually in a Comma-seperated values (csv) format.
+        This format similar to excel stores data in tables while being simple and light.
         For each data type, image, and user triplet, there is a dedicated file containing this information.
         In conclusion, the following diagram explains the role of this component (Figure \ref{fig:comp1}).
 
        \begin{figure}[H]
         \centering
-         \includegraphics[width=.6\linewidth]{diagrams/module1.png}
+         \includegraphics[width=.8\linewidth]{diagrams/module1.png}
          \caption{Data Acquisition Component}
          \label{fig:comp1}
        \end{figure}
@@ -847,14 +864,15 @@ The fact that they are unaware that the data is used for analysis makes the stud
     This component used two libraries :
     \begin{itemize}
         \item[\textbullet] \textbf{PyGazeAnalyser} ~\cite{pygaze} : This open-source library implemented by PyGaze draws statistics about Gaze data.
-        This data is often in form of figures.
+        PyGaze itself is an open-source eye tracking software that generates Gaze data in Python (http://www.pygaze.org/).
+        These statistics that are drawn often come in form of figures and images.
         In this implementation, it calculates the Gaussian arrays for each zoom and draws the visualisation figures (Gazemap, scan paths, raw points).
         Unfortunately, PyGazeAnalyzer in its current state was not perfectly suitable with the data retrieved from Cytomine.
         It generated heatmaps but did not allow the regularisation for example.
         It also was not compatible with different levels of zoom.
-        In fact, this library is more suitable for gaze data that comes directly from capturing eye movements.
+        In fact, this library is more suitable for gaze data that comes directly from capturing eye movements with the PyGaze application itself.
         The code was forked and tweaked to handle these changes.
-        \item[\textbullet] \textbf{scikit-learn} ~\cite{scikit-learn} : This library implements many learning techniques.
+        \item[\textbullet] \textbf{scikit-learn} ~\cite{scikit-learn} : This open-source library implements many learning techniques in Python.
         For this component, the K-Fold clustering method has been implemented in order to group up positions that are close in regards to space and time.
     \end{itemize}
 
@@ -874,6 +892,13 @@ The fact that they are unaware that the data is used for analysis makes the stud
         This allows the observation of the students' patterns as a whole or comparing the behavior of particular students.
         An interesting experiment would be to compare the figures for the very best student and the very worst students to get more insight.
         The example in Figure \ref{fig:timelapse} shows the total activity for all the students.
+        \begin{figure}[H]
+        \centering
+        \includegraphics[width=.99\linewidth]{images/timelapse.png}
+        \caption{Overall Student Activity over Time}
+        \label{fig:timelapse}
+        \end{figure}
+
         \item[\textbullet] \textbf{Output Raw points figures :} These figures are represented by the image and the center of each position is drawn.
         This can give a good visualisation of the number of positions and where they are most concentrated. (Example in Figure \ref{fig:scanpath})
         \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represents the Gazemaps of the student activity in regards to an image.
@@ -976,12 +1001,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
     \end{figure}
     \end{itemize}
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=.9\linewidth]{images/timelapse.png}
-      \caption{Overall Student Activity over Time}
-      \label{fig:timelapse}
-    \end{figure}
+
 
     There are multiple options when running this component.
     When running the script it comes with one mandatory parameter \textbf{<project\_name>}.
@@ -1015,6 +1035,12 @@ The fact that they are unaware that the data is used for analysis makes the stud
     \end{itemize}
 
     Overall, the component can be explained with the following diagrams (Figures \ref{fig:comp2} \& \ref{fig:comp2uml}).
+    Figure \ref{fig:comp2} describes the input and the consequent output of this component.
+    Meanwhile figure \ref{fig:comp2uml} briefly describes the Object-Oriented structure of the code.
+    In short Data\_Manager is a class that manages and handles general methods.
+    Instances of the classes communicate with each other in order to obtain the needed information.
+    For certain operations, Image\_Data calls PyGazeAnalyser or scikit-learn usually to manipulate Gaze data for a image/user pair.
+
     \begin{figure}[H]
       \centering
       \includegraphics[width=.9\linewidth]{diagrams/module2.png}
@@ -1134,226 +1160,25 @@ The fact that they are unaware that the data is used for analysis makes the stud
         With the sample size, it is risky to try and infer more complex relations.
     \end{itemize}
 
-    \section{Performance}
+    To run this component, one simply calls \textit{data\_learning.py} which launches a Tkinter Graphical Interface Unit (GUI) default to Python ~\cite{pyth}.
+    Assuming the "learning_data.csv" file exists as shown in figure \label{fig:struct}, it will open the file and give the user many options.
+    It will show a list of possible output variables to learn, the user can select one and run either model study or a cross-validation.
+    This GUI also gives the user options on where the statistics are saved and designates a button to go to the save file directory.
+    After finishing at least one test, the GUI also displays the statistic image files generated.
+    Figure \ref{fig:gui} shows an example of the GUI after Studying the model for the global grade of all students.
 
-    Like mentioned before, the tool as a whole can take a while to executed depending on the parameters set.
-    The device used for running and testing this tool has the following properties:
-    \begin{itemize}
-        \item[\textbullet] \textbf{Processor} : Intel Core i7-6700M/PCIe/SSE2
-        \item[\textbullet] \textbf{RAM} : 16 GB
-        \item[\textbullet] \textbf{Disk} : 1 TB (For storing data, about 48 GB used for this tool)
-    \end{itemize}
-
-    The data acquisition component is hard to measure.
-    Since the Cytomine server ran locally and that there are no other users using the application, the download time measured may be quicker than it should be.
-    For the project GOLD with 78 images and 395 users, it takes about 6 hours to acquire all the data.
-    Conversely, for the SILVER project with 75 images and 85 users, it only takes about 16 minutes.
-    Overall most operations on the SILVER project are much quicker.
-    Overall, users are more active in the GOLD project.
-    They have more positions, it influences directly the complexity of most operations.\\
-
-
-    For the data manipulation component, most operations done on a image/user pair scale linearly with the number of positions.
-    Outputs measured include :
-    \begin{itemize}
-        \item[\textbullet] \textbf{Generating a reduced Gazemap}  : With $N$ positions and an image with a height and width of $h$ and $w$ respectively, heat values need to be calculated for each pixel.
-        How a heat value is calculated for a pixel is shown in section \ref{enum:score} when calculating a score of an annotation.
-        For a pixel the complexity is $O(N*log(N))$.
-        The most costly operation is sorting the list.
-        This is donne for each pixel, therefore the final complexity is $O(h*w*N*log(N))$.
-        With an image that has a resolution of about 1024x1024, it heavily relies on the number of positions.
-        Overall it can take from 5 seconds up to about 2 minutes for users that do not have an absurd amount of positions.
-        \item[\textbullet] \textbf{Generating a scan Path} : $N$ positions need to be clustered into about 20 areas.
-        Using K-means clustering with scikit-learn, the average complexity is $O(K*N**T)$ where $T$ is the number of iterations.
-        In this case, $T$ is set at 300.
-        When drawing the scan path itself, it's much quicker because positions are reduced to 20 zones.
-        Overall operations are done almost instantly, the biggest burden is saving the image to the disk.
-        \item[\textbullet] \textbf{Generating a raw Point image} : Drawing $N$ raw points with no prior manipulation has a complexity of $O(N)$.
-        Overall operations are also done instantly.
-        \item[\textbullet] \textbf{Generating Timelines} : The total number of positions (from all the images) for each day needs to be calculated for each user, therefore it has a complexity of $O(N)$.
-        This is slightly slower than the previous two methods because as a whole, users can have many positions.
-        \item[\textbullet] \textbf{Generating Statistics File} : Generating this file requires the calculation of many features.
-        Most features are calculated instantly, however the score variables shown in section \ref{enum:score} can take significantly more time.
-        For an image/user pair, if there are no reference annotations, scores are calculated as the average score of each pixel.
-        Unfortunately, it's the same complexity as generating a Gazemap in this case.
-        However, there are not many images with no reference annotation.
-        Overall for the GOLD project, it can take 4 hours to generate this file as a whole.
-        However, without those score features it takes less than 20 minutes.
-    \end{itemize}
-
-    As for the data learning component, building a full model takes about 30 minutes while the cross-validation takes about 8 to 14 hours to run.
-    This depends on the variable that is learned. \\
-
-    Overall, most operations cannot be done in real time.
-    If this were to be added to the Cytomine Application, a user requesting a Gazemap may need to wait.
-
-\chapter{Data Analysis}
-
-	\section{Experiments} \label{experiments}
-
-
-    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project.
-    This is due to the many constraints given by the SILVER project including the sample size and the lack of results (student grades).
-    The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation component.
-    There were over 2000 features generated, where each one can weigh in on the prediction.
-    These features were used to learn over 13 grades including the final grade obtained by these students (first session).\newline
-
-
-    Due to the nature of the dataset, regression trees were the most ideal.
-    The somewhat small dataset paired with a large amount of features is a big constraint to work with.
-    Therefore, Ensemble methods were used and tested.
-    This includes Random Forest regression and Extra Trees regression using sklearn.\newline
-
-    The Learning component is given a statistics file containing rows of students paired with their features.
-    The features are split into three categories :
-    \begin{itemize}
-\item[\textbullet] \textbf{M} : Meta-data variables, these variables have no statistical significance.
-These variables usually contain basic information on the users.\\
-\item[\textbullet] \textbf{X} : Variables with statistical significance, these variables mostly include data extracted from the Cytomine website.
-Either individual image variables or variables on the set of images.
-These variables are used in the machine learning model as input variables.\\
-\item[\textbullet] \textbf{Y} : Result variables, these variables is what the algorithm is attempting to guess using the  \textbf{X} variables.
-These variables are used in the machine learning model as output variables. In this case, they are the students' grades.\\
-\end{itemize}
-
-    With this, a couple experiments have been ran.
-    For each Y variable (that will be described in the next sections), the model was built fully for the first analysis.
-    The second analysis, a leave-one-out cross validation was ran.
-    The goal is to give insight on different user behaviors.
-    Hopefully, these experiments will prove to be useful.
-
-    \section{Data Set} \label{Data_Set}
-
-    	\subsection{Students}
-    Like mentioned earlier, there are a total of 395 students in the data set.
-    Students are defined by their features and the grades obtained.
-    These student followed the course HISL054, "General histology and alternative experimentation methods that do not use animals" at the University of Liege during the academic year 2016-2017.
-    Most of the work done by the students is done online using the MOOC and Ecampus.
-    Ecampus is a website used by students and teachers of the University of Liege to exchange information used for courses.
-    In fact all of the assignments for this course are explained on Ecampus.
-    The issue with this is that it is a different entity from the MOOC and therefore is not ideal for fetching information.
-    But it is not much of a problem because there is nothing to retrieve about students on Ecampus that is not already known.\newline
-
-    When applying machine learning techniques, students with a 0/20 were taken out of the sample because they default to signing the exam.
-    Since there are too few that do so, there is not enough information to find correlations between people who sign and the features.
-    Keeping students who sign also increases the error rate because they are outliers.
-    The goal is to guess how well the exam would have went for the students.
-    If the student decides not to bother with taking the exam, it is a lost sample.\newline
-
-    	\subsection{Teacher Input : Grades}
-
-    %% QROL - Question a Reponse Ouverte Longue
-    %% QCM - Question a choix multiples
-    %% QCL - incidence de coupe et identification
-
-	The students are evaluated by multiple exams and quizzes, these take the form of:
-    \begin{itemize}
-    \item[\textbullet]  \textbf{QCM : Multiple choice question test.}
-    Students are given questions and have to respond with 1 out of the 9 (or less) options.
-    They have to set a degree of certainty for each response.
-    The exam results are then calculated by a machine.
-    The students are also given more boxes to answer in case they make a mistake the first time.(Figure \ref{fig:qcm})
     \begin{figure}[H]
-    \centering
-     \includegraphics[width=0.4\linewidth]{images/exam_qcm.png}
-     \includegraphics[width=0.5\linewidth]{images/exam_qcm2.png}
-     \caption{QCM sheet and question example}
-     \label{fig:qcm}
+      \centering
+      \includegraphics[width=.9\linewidth]{images/gui.png}
+      \caption{GUI Example}
+      \label{fig:gui}
     \end{figure}
-	\item[\textbullet]  \textbf{QCL : Identification and Incidence test.}
-	Graded similarly to a QCM, the students are given multiple questions to answer and they have to fill out a form.
-	The are a couple differences.
-	Each question is split into two, the identification and the incidence.
-	For the identification, the students have to identify an object on an image.
-	They are given an exhaustive list of possible answers ranging from cells to tissues.
-	Each answer contains is associated to a 3 digit code that they need to write on the form.
-	For the incidence, the students needs to identify how the observed object "was cut".
-	There are a total of 3 possible answers, transversal, longitudinal, and undetermined.
-	The answer is written on the form under the identification answer.(Figure \ref{fig:qcl})
-      \begin{figure}[H]
-    \centering
-     \includegraphics[width=0.42\linewidth]{images/exam_qcl2.png}
-     \includegraphics[width=0.5\linewidth]{images/exam_qcl.png}
-     \caption{QCL sheet with question example and list of answers}
-     \label{fig:qcl}
-    \end{figure}
-	\item[\textbullet]  \textbf{QROL : Long answer open question test.}
-	Students are to write and explain their answers in a detailed fashion. (Figure \ref{fig:qrol})
-          \begin{figure}[H]
-    \centering
-     \includegraphics[width=0.45\linewidth]{images/exam_qrol.png}
-     \caption{QROL sheet with a set of questions}
-     \label{fig:qrol}
-    \end{figure}
-    \end{itemize}
 
-    These variables will be denoted as \textbf{Y} variables for output.
-    Out of the 13 results associated to the students, 3 were white tests given as a practice tool :
-    \begin{itemize}
-    \item[\textbullet]  QCL identification white test.
-	\item[\textbullet]  QCL incidence white test.
-	\item[\textbullet]  Practical QCM white test.
-    \end{itemize}
-    Similarly, 7 graded exams and quizzes were given to students with 3 being theoretical and 4 being practical.
-    Something to note for the practical exam is that there are 2 different exam forms for the QCM and the QRL. This means that half the students are given different questions from the other half.
-    The list of exams include:
-    \begin{itemize}
-    \item[\textbullet]  QROL1 theory (10\%).
-    \item[\textbullet]  QROL2 theory (10\%).
-    \item[\textbullet]  QCM theory (30\%).
-    \item[\textbullet]  QCM practical (20\%).
-    \item[\textbullet]  QROL practical (10\%).
-    \item[\textbullet]  QCL identification Practical (16\%).
-    \item[\textbullet]  QCL incidence Practical (4\%).
-    \end{itemize}
-    Finally, based on the previous results given, there are:
-    \begin{itemize}
-    \item[\textbullet] Total Theory (50\%)
-    \item[\textbullet] Total Practical (50\%)
-    \item[\textbullet] global Grade (100\%)
-    \end{itemize}
-
-    Most of the experiments are done using one of these grades as Y variables.
-    In later experiments, some variables will be set as features.
-    The learning of final grades using white test results as bonus features (\textbf{X} variable) could yield better results.
-    Learning theoretical grades while also using practical grades and vice versa can also give some interesting results. \\
-
-    Statistics can be derived for each variable :\\
-
-    \begin{center}
-      \begin{tabular}{| p{1cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | }
-      \hline
-      & \tiny{White Test QCL ID} & \tiny{White Test QCL IC} & \tiny{White Test QCM} & \tiny{QROL Theory 1} & \tiny{QROL Theory 2} & \tiny{QCM Theory} & \tiny{QCM Practical} & \tiny{QROL Practical} & \tiny{QCL ID Practical} & \tiny{QCM IC Practical} & \tiny{Total Theory} & \tiny{Total Practical} & \tiny{Global Grade}\\ \hline
-      \tiny{Minimum} & \tiny{1.33} & \tiny{1.33} & \tiny{0.36} & \tiny{0.44} & \tiny{0.67} & \tiny{3.43} & \tiny{3.16} & \tiny{0.29} & \tiny{1} & \tiny{2} & \tiny{2.59} & \tiny{2.01} & \tiny{1.68}\\ \hline
-      \tiny{Maximum} & \tiny{18.67} & \tiny{20} & \tiny{19.64} & \tiny{20} & \tiny{20} & \tiny{17} & \tiny{17.32} & \tiny{18.82} & \tiny{20} & \tiny{20} & \tiny{17.8} & \tiny{17.99} & \tiny{17.85}\\ \hline
-      \tiny{Average} & \tiny{8.09} & \tiny{12.17} & \tiny{10.18} & \tiny{10.67} & \tiny{12.16} & \tiny{10.05} & \tiny{10.88} & \tiny{8.6} & \tiny{11.15} & \tiny{15.03} & \tiny{10.56} & \tiny{10.81} & \tiny{10.63}\\ \hline
-      \tiny{Median} & \tiny{8} & \tiny{13.33} & \tiny{10.31} & \tiny{10.75} & \tiny{12.83} & \tiny{10.03} & \tiny{10.8} & \tiny{7.93} & \tiny{11} & \tiny{15} & \tiny{10.75} & \tiny{10.76} & \tiny{10.67}\\ \hline
-      \tiny{Variance} & \tiny{14.09} & \tiny{17.67} & \tiny{13.3} & \tiny{16.78} & \tiny{19.51} & \tiny{6.41} & \tiny{7.93} & \tiny{18.92} & \tiny{16.48} & \tiny{9.35} & \tiny{8.46} & \tiny{9.92} & \tiny{8.64}\\ \hline
-      \tiny{Standard Deviation} & \tiny{3.75} & \tiny{4.2} & \tiny{3.36} & \tiny{4.09} & \tiny{4.41} & \tiny{2.53} & \tiny{2.81} & \tiny{4.34} & \tiny{4.06} & \tiny{3.05} & \tiny{2.9} & \tiny{3.15} & \tiny{2.94}\\ \hline
-      \end{tabular}
-
-
-    \end{center}
-
-
-    Teachers also input basic student information, but it mostly consists of general information that won't be used in the experiments.
-    These will be denoted as \textbf{M} variables:
-   	\begin{itemize}
-   	\item[\textbullet] \textbf{ID Cytomine :} The Cytomine ID associated to the user. (Compulsory)
-    \item[\textbullet] \textbf{LAST NAME :} User's last name.
-    \item[\textbullet] \textbf{FIRST NAME :} User's First name (forename).
-    \item[\textbullet] \textbf{GROUP :} group user belongs in (GOLDULiege, GOLD, or SILVER).
-    GOLDULIEGE is a subset of GOLD containing the set of students following the course.
-    This will be used for the analysis and will be referred to as GOLD.
-    \item[\textbullet] \textbf{USERNAME CYTOMINE :} user's Cytomine username.
-   	\end{itemize}
-
-
-    \subsection{Features pre-Calculated}
+\subsection{Features pre-Calculated} \label{section:features}
 
     There are over two thousand features calculated and generated by the Data Manipulation component.
     This is based on the list of images  defined in figure \ref{ann:images}.
-    These variables belong to the \textbf{X} category and are listed:
+    These variables belong to the input category (\textbf{X}) of the  input/output pairs and are listed:
 
    \begin{itemize}
     \item[\textbullet] \textbf{NB IMAGES VISITED :} The total number of different images that a user has opened over the course of the year.\\
@@ -1388,10 +1213,12 @@ These variables are used in the machine learning model as output variables. In t
     The size and values of this Gaussian relies on the zoom of the position.
     For example at the center of the Gaussian with the highest zoom, the value is 1.
     While at the lowest zoom the value is $1/MAX\_ZOOM$.
+    Different gaussians for the same images are shown in Figure \ref{fig:grids}.
     \begin{figure}[H]
 \begin{center}
 \includegraphics[scale=0.35]{plots/gaussian.png}
 \caption{Example Gaussian Grids for an Image that has a zoom up to 9}
+\label{fig:grids}
 \end{center}
 \end{figure}
 
@@ -1511,6 +1338,226 @@ a user during the module's time period. \\
 
     All these features end up describing how users participated on Cytomine and their effects will be analyzed.
     It will be evident that most of these features will have little impact in the learning process.
+
+
+
+    \section{Performance}
+
+    Like mentioned before, the tool as a whole can take a while to executed depending on the parameters set.
+    The device used for running and testing this tool has the following properties:
+    \begin{itemize}
+        \item[\textbullet] \textbf{Processor} : Intel Core i7-6700M/PCIe/SSE2
+        \item[\textbullet] \textbf{RAM} : 16 GB
+        \item[\textbullet] \textbf{Disk} : 1 TB (For storing data, about 48 GB used for this tool)
+    \end{itemize}
+
+    The data acquisition component is hard to measure.
+    Since the Cytomine server ran locally and that there are no other users using the application, the download time measured may be quicker than it should be.
+    For the project GOLD with 78 images and 395 users, it takes about 6 hours to acquire all the data.
+    Conversely, for the SILVER project with 75 images and 85 users, it only takes about 16 minutes.
+    Overall most operations on the SILVER project are much quicker.
+    Overall, users are more active in the GOLD project.
+    They have more positions, it influences directly the complexity of most operations.\\
+
+
+    For the data manipulation component, most operations done on a image/user pair scale linearly with the number of positions.
+    Outputs measured include :
+    \begin{itemize}
+        \item[\textbullet] \textbf{Generating a reduced Gazemap}  : With $N$ positions and an image with a height and width of $h$ and $w$ respectively, heat values need to be calculated for each pixel.
+        How a heat value is calculated for a pixel is shown in section \ref{enum:score} chapter \ref{chapt:tools} when calculating a score of an annotation.
+        For a pixel the complexity is $O(N*log(N))$.
+        The most costly operation is sorting the list.
+        This is donne for each pixel, therefore the final complexity is $O(h*w*N*log(N))$.
+        With an image that has a resolution of about 1024x1024, it heavily relies on the number of positions.
+        Overall it can take from 5 seconds up to about 2 minutes for users that do not have an absurd amount of positions.
+        \item[\textbullet] \textbf{Generating a scan Path} : $N$ positions need to be clustered into about 20 areas.
+        Using K-means clustering with scikit-learn, the average complexity is $O(K*N**T)$ where $T$ is the number of iterations.
+        In this case, $T$ is set at 300.
+        When drawing the scan path itself, it's much quicker because positions are reduced to 20 zones.
+        Overall operations are done almost instantly, the biggest burden is saving the image to the disk.
+        \item[\textbullet] \textbf{Generating a raw Point image} : Drawing $N$ raw points with no prior manipulation has a complexity of $O(N)$.
+        Overall operations are also done instantly.
+        \item[\textbullet] \textbf{Generating Timelines} : The total number of positions (from all the images) for each day needs to be calculated for each user, therefore it has a complexity of $O(N)$.
+        This is slightly slower than the previous two methods because as a whole, users can have many positions.
+        \item[\textbullet] \textbf{Generating Statistics File} : Generating this file requires the calculation of many features.
+        Most features are calculated instantly, however the score variables shown in section \ref{enum:score} chapter \ref{chapt:tools}  can take significantly more time.
+        For an image/user pair, if there are no reference annotations, scores are calculated as the average score of each pixel.
+        Unfortunately, it's the same complexity as generating a Gazemap in this case.
+        However, there are not many images with no reference annotation.
+        Overall for the GOLD project, it can take 4 hours to generate this file as a whole.
+        However, without those score features it takes less than 20 minutes.
+    \end{itemize}
+
+    As for the data learning component, building a full model takes about 30 minutes while the cross-validation takes about 8 to 14 hours to run.
+    This depends on the variable that is learned. \\
+
+    Overall, most operations cannot be done in real time.
+    If this were to be added to the Cytomine Application, a user requesting a Gazemap may need to wait.
+
+\chapter{Data Analysis}
+
+    This chapter will describe the experiments done on a set of students active on Cytomine.
+    Most experiments that are carried out include Machine Learning and in some cases will take advantage of visual interpretations of data including Gazemaps.
+
+	\section{Experiments} \label{experiments}
+
+
+    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project.
+    This is due to the many constraints given by the SILVER project including the smaller sample size and the lack of results (student grades).
+    The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation component.
+    There were over 2000 features generated, where each one can weigh in on the prediction.
+    These features were used to learn over 13 grades including the final grade obtained by these students (first session).\newline
+
+
+    Due to the nature of the dataset, regression trees were the most ideal.
+    The somewhat small dataset paired with a large amount of features is a big constraint to work with.
+    Therefore, Ensemble methods were used and tested.
+    This includes Random Forest regression and Extra Trees regression using sklearn.\newline
+
+    The Learning component is given a statistics file containing rows of students paired with their features.
+    The features are split into three categories :
+    \begin{itemize}
+\item[\textbullet] \textbf{M} : Meta-data variables, these variables have no statistical significance.
+These variables usually contain basic information on the users.\\
+\item[\textbullet] \textbf{X} : Variables with statistical significance, these variables mostly include data extracted from the Cytomine website.
+Either individual image variables or variables on the set of images.
+These variables are used in the machine learning model as input variables.\\
+\item[\textbullet] \textbf{Y} : Result variables, these variables is what the algorithm is attempting to guess using the  \textbf{X} variables.
+These variables are used in the machine learning model as output variables. In this case, they are the students' grades.\\
+\end{itemize}
+
+    With this, a couple experiments have been ran.
+    For each Y variable (that will be described in the next sections), the model was built fully for the first analysis.
+    The second analysis, a leave-one-out cross validation was ran to determine the validity of these observations.
+    The goal is to give insight on different user behaviors.
+
+    \section{Data Set} \label{Data_Set}
+
+    	\subsection{Students}
+    Like mentioned earlier, there are a total of 395 students in the data set.
+    Students are defined by their features and the grades obtained.
+    These student followed the course HISL054, "General histology and alternative experimentation methods that do not use animals" at the University of Liege during the academic year 2016-2017.
+    Most of the work done by the students is done online using the MOOC and Ecampus.
+    Ecampus is a website used by students and teachers of the University of Liege to exchange information used for courses.
+    In fact all of the assignments for this course are explained on Ecampus.
+    The issue with this is that it is a different entity from the MOOC and therefore is not ideal for fetching information.
+    But it is not much of a problem because there is nothing to retrieve about students on Ecampus that is not already known.\newline
+
+    When applying machine learning techniques, students with a 0/20 were taken out of the sample because they default to signing the exam.
+    Since there are too few that do so, there is not enough information to find correlations between people who sign and the features.
+    Keeping students who sign also increases the error rate because they are outliers.
+    The goal is to guess how well the exam would have went for the students.
+    If the student decides not to bother with taking the exam, it is a lost sample.\newline
+
+    	\subsection{Teacher Input : Grades}
+
+    %% QROL - Question a Reponse Ouverte Longue
+    %% QCM - Question a choix multiples
+    %% QCL - incidence de coupe et identification
+
+	The students are evaluated by multiple exams and quizzes, these take the form of:
+    \begin{itemize}
+    \item[\textbullet]  \textbf{QCM : Multiple choice question test.}
+    Students are given questions and have to respond with 1 out of the 9 (or less) options.
+    They have to set a degree of certainty for each response.
+    The exam results are then calculated by a machine.
+    The students are also given more boxes to answer in case they make a mistake the first time.(Figure \ref{fig:qcm})
+    \begin{figure}[H]
+    \centering
+     \includegraphics[width=0.4\linewidth]{images/exam_qcm.png}
+     \includegraphics[width=0.5\linewidth]{images/exam_qcm2.png}
+     \caption{QCM sheet and question example}
+     \label{fig:qcm}
+    \end{figure}
+	\item[\textbullet]  \textbf{QCL : Identification and Incidence test.}
+	Graded similarly to a QCM, the students are given multiple questions to answer and they have to fill out a form.
+	The are a couple differences.
+	Each question is split into two, the identification and the incidence.
+	For the identification, the students have to identify an object on an image.
+	They are given an exhaustive list of possible answers ranging from cells to tissues.
+	Each answer contains is associated to a 3 digit code that they need to write on the form.
+	For the incidence, the students needs to identify how the observed object "was cut".
+	There are a total of 3 possible answers, transversal, longitudinal, and undetermined.
+	The answer is written on the form under the identification answer.(Figure \ref{fig:qcl})
+      \begin{figure}[H]
+    \centering
+     \includegraphics[width=0.45\linewidth]{images/exam_qcl2.png}
+     \includegraphics[width=0.54\linewidth]{images/exam_qcl.png}
+     \caption{QCL sheet with question example and list of answers}
+     \label{fig:qcl}
+    \end{figure}
+	\item[\textbullet]  \textbf{QROL : Long answer open question test.}
+	Students are to write and explain their answers in a detailed fashion. (Figure \ref{fig:qrol})
+          \begin{figure}[H]
+    \centering
+     \includegraphics[width=0.45\linewidth]{images/exam_qrol.png}
+     \caption{QROL sheet with a set of questions}
+     \label{fig:qrol}
+    \end{figure}
+    \end{itemize}
+
+    These variables will be denoted as \textbf{Y} variables for output.
+    Out of the 13 results associated to the students, 3 were white tests given as a practice tool :
+    \begin{itemize}
+    \item[\textbullet]  QCL identification white test.
+	\item[\textbullet]  QCL incidence white test.
+	\item[\textbullet]  Practical QCM white test.
+    \end{itemize}
+    Similarly, 7 graded exams and quizzes were given to students with 3 being theoretical and 4 being practical.
+    Something to note for the practical exam is that there are 2 different exam forms for the QCM and the QRL. This means that half the students are given different questions from the other half.
+    The list of exams include:
+    \begin{itemize}
+    \item[\textbullet]  QROL1 theory (10\%).
+    \item[\textbullet]  QROL2 theory (10\%).
+    \item[\textbullet]  QCM theory (30\%).
+    \item[\textbullet]  QCM practical (20\%).
+    \item[\textbullet]  QROL practical (10\%).
+    \item[\textbullet]  QCL identification Practical (16\%).
+    \item[\textbullet]  QCL incidence Practical (4\%).
+    \end{itemize}
+    Finally, based on the previous results given, there are:
+    \begin{itemize}
+    \item[\textbullet] Total Theory (50\%)
+    \item[\textbullet] Total Practical (50\%)
+    \item[\textbullet] global Grade (100\%)
+    \end{itemize}
+
+    Most of the experiments are done using one of these grades as Y variables.
+    In later experiments, some variables will be set as features.
+    The learning of final grades using white test results as bonus features (\textbf{X} variable) could yield better results.
+    Learning theoretical grades while also using practical grades and vice versa can also give some interesting results. \\
+
+    Statistics can be derived for each variable :\\
+
+    \begin{center}
+      \begin{tabular}{| p{1cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | }
+      \hline
+      & \tiny{White Test QCL ID} & \tiny{White Test QCL IC} & \tiny{White Test QCM} & \tiny{QROL Theory 1} & \tiny{QROL Theory 2} & \tiny{QCM Theory} & \tiny{QCM Practical} & \tiny{QROL Practical} & \tiny{QCL ID Practical} & \tiny{QCM IC Practical} & \tiny{Total Theory} & \tiny{Total Practical} & \tiny{Global Grade}\\ \hline
+      \tiny{Minimum} & \tiny{1.33} & \tiny{1.33} & \tiny{0.36} & \tiny{0.44} & \tiny{0.67} & \tiny{3.43} & \tiny{3.16} & \tiny{0.29} & \tiny{1} & \tiny{2} & \tiny{2.59} & \tiny{2.01} & \tiny{1.68}\\ \hline
+      \tiny{Maximum} & \tiny{18.67} & \tiny{20} & \tiny{19.64} & \tiny{20} & \tiny{20} & \tiny{17} & \tiny{17.32} & \tiny{18.82} & \tiny{20} & \tiny{20} & \tiny{17.8} & \tiny{17.99} & \tiny{17.85}\\ \hline
+      \tiny{Average} & \tiny{8.09} & \tiny{12.17} & \tiny{10.18} & \tiny{10.67} & \tiny{12.16} & \tiny{10.05} & \tiny{10.88} & \tiny{8.6} & \tiny{11.15} & \tiny{15.03} & \tiny{10.56} & \tiny{10.81} & \tiny{10.63}\\ \hline
+      \tiny{Median} & \tiny{8} & \tiny{13.33} & \tiny{10.31} & \tiny{10.75} & \tiny{12.83} & \tiny{10.03} & \tiny{10.8} & \tiny{7.93} & \tiny{11} & \tiny{15} & \tiny{10.75} & \tiny{10.76} & \tiny{10.67}\\ \hline
+      \tiny{Variance} & \tiny{14.09} & \tiny{17.67} & \tiny{13.3} & \tiny{16.78} & \tiny{19.51} & \tiny{6.41} & \tiny{7.93} & \tiny{18.92} & \tiny{16.48} & \tiny{9.35} & \tiny{8.46} & \tiny{9.92} & \tiny{8.64}\\ \hline
+      \tiny{Standard Deviation} & \tiny{3.75} & \tiny{4.2} & \tiny{3.36} & \tiny{4.09} & \tiny{4.41} & \tiny{2.53} & \tiny{2.81} & \tiny{4.34} & \tiny{4.06} & \tiny{3.05} & \tiny{2.9} & \tiny{3.15} & \tiny{2.94}\\ \hline
+      \end{tabular}
+
+
+    \end{center}
+
+
+    Teachers also input basic student information, but it mostly consists of general information that won't be used in the experiments.
+    These will be denoted as \textbf{M} variables:
+   	\begin{itemize}
+   	\item[\textbullet] \textbf{ID Cytomine :} The Cytomine ID associated to the user. (Compulsory)
+    \item[\textbullet] \textbf{LAST NAME :} User's last name.
+    \item[\textbullet] \textbf{FIRST NAME :} User's First name (forename).
+    \item[\textbullet] \textbf{GROUP :} group user belongs in (GOLDULiege, GOLD, or SILVER).
+    GOLDULIEGE is a subset of GOLD containing the set of students following the course.
+    This will be used for the analysis and will be referred to as GOLD.
+    \item[\textbullet] \textbf{USERNAME CYTOMINE :} user's Cytomine username.
+   	\end{itemize}
+
+    Finally there are the input (\textbf{X}) variables that are generated in the Data Manipulation component and described in section \ref{section:features} of the Tools and Methods chapter.
 
     \section{Results}
 
@@ -1694,7 +1741,7 @@ a user during the module's time period. \\
     For the QCM, the image 1552356 which is a module 1 tutorial image is the most impactful alongside 1218120.
     Those who follow the tutorial may have an easier time understanding the course from the start and may perform better for the QCM. As for the incidence test, the module 3 variables seem to be the most impactful.
     This module may contain examples that allow the student to better differentiate different incidence angles for specific objects in the images.
-    OF course the cross validation results are not the best, so these assumption are not necessary correct. This leads to the actual practical exam.
+    Of course the cross validation results are not the best, so these assumption are not necessary correct. This leads to the actual practical exam.
 
     \subsection{Practical Exam Grades}
 
@@ -2273,6 +2320,8 @@ In the end, some images and some modules have more impact than others.  (Figures
 
 \chapter{Discussion} \label{Discussion}
 
+    This chapter will discuss what this tool was able to accomplish but also its drawbacks.
+
     \section{Limitations}
 
         First of all, the results obtained from the Machine Learning were subpar.
@@ -2350,7 +2399,7 @@ In the end, some images and some modules have more impact than others.  (Figures
         These tools can give indication on what the students are doing and when they are doing it.
         It is unfortunate that generating some of the figures may take some time.
         But with this tool, it is possible to generate Scan Paths or Gazemaps for specific image and user pairs on demand.
-        This can be directly implemented on a Cytomine website and not necessarly only for the MOOC.\\
+        This can be directly implemented on a Cytomine website and not necessarily only for the MOOC.\\
 
 
         Even though the Machine Learning results were not the best, the variable importance can still give small indications on what can lead students to pass or fail exams.
@@ -2373,7 +2422,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     Comparing a set of students based on the grades they obtained for their exams could give more insight on what can differentiate students.
     This could also give insight on what works well with Cytomine and what needs improvements.
     Overall, there were some interesting results.
-    This tool provided the means to analyze and visualize user behavior on Cytomine.
+    The tools built in this project provided the means to analyze and visualize user behavior on Cytomine.
     Gazemaps and Scan paths provide some key information on the viewing pattern for a single image while timelines gave an overview on the project as a whole.
     Machine Learning methods have been attempted and the results give much insight on groups of people but also individuals.
     The results obtained were not the best due to the lack of individuals and the fact that this study has been carried out on people who each has there own way of thinking and doing things.
@@ -2381,7 +2430,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     Of course there still is much more information that can still be extracted and there may be even more complexity associated to it.
     A background in psychology would complement the analysis in understanding the behavioral component when using Cytomine.
     Anyways this study proposes new tools that be used by Cytomine to draw statistics and even some minor adjustments to the MOOC.
-    An abstract of this study has been accepted at the  ECDP (European Congress on Digital Pathology) 2018 conference and an extended abstract has been submitted.
+    An abstract of this study has been accepted at the ECDP (European Congress on Digital Pathology) 2018 conference and an extended abstract has been submitted.
 
 
 \bibliography{main}{}
