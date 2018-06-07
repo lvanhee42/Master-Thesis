@@ -506,6 +506,9 @@ The fact that they are unaware that the data is used for analysis makes the stud
             {return False\;}
     \end{algorithm}
 }
+\vspace{1cm}
+
+
     When picking a random split, a feature $a$ contains values ranging from $a_{min}^S$ to $a_{max}^S$.
     A split belonging to this range is then chosen at random.
     This is done $K$ times and the best split is chosen for this node based on the scores of the splits.
@@ -704,6 +707,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
             As for the file, each row of the file contains one module.
             It's formatted as shown in figure \ref{fig:moddd}
             \begin{figure}[H]
+              \centering
               \begin{tabular}{| c | c | c | c | c | c | c | c |}
               \hline
               \tiny{Module Id} & \tiny{Start Date} & \tiny{End Date} & \tiny{Image 1} & \tiny{Type 1} & \tiny{...} & \tiny{Image n} & \tiny{Type n}\\ \hline
