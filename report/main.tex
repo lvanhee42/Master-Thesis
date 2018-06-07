@@ -308,7 +308,7 @@ The goal is to see how much of an effect Cytomine has on students.
 \section{General Goals}
 
 
-    The Main objective is to observe how the students use Cytomine.
+    The Main objective is to develop a tool to observe how students use use Cytomine.
     Since Cytomine is still in development, an objective is to make it robust and user friendly.
     This analysis can give some insight on what works well and what doesn't.
     As a follow up, it would be interesting to see the patterns that that can be observed in regards to the user.
@@ -349,9 +349,9 @@ Tree based classifiers were implemented and tested.
 Features would also include high level patterns like the number of view steps and average zoom.
 
 These studies are similar in a sense that they analyze user scanning of images and compare it with a performance criteria (E.G rate of detecting cancer).
-They also often analyze a set of students and how they behave will scanning images.
+They also often analyze a set of students and how they behave while scanning images.
 The main difference is that in this study, students go through more than one image and regression is used instead of binary classification.
-Since they are assessed from their performance as a whole, this analysis cannot be donne image by image.
+Since they are assessed based on their performance as a whole, this analysis cannot be donne image by image.
 Since images are often vastly different, information retrieved and studied need to be more general.
 In this study, obtaining the data is also much easier.
 The students are not subject to specialized tools that track them during their exams.
@@ -383,7 +383,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         For Cytomine it is used for user activity which includes user positions and user connections.
         \item[\textbullet] \textbf{File Systems} : Information simply stored in directories and folders.
         The previous database methods cannot handle Images.
-        These images that are store with file systems are often very high resolution images.
+        These images that are stored with file systems are often very high resolution images.
     \end{itemize}
 
     This data is retrieved locally by the Cytomine Core Application.
@@ -399,7 +399,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
     All interactions with the Cytomine Core is done through the REST API.
     This includes communication with the Cytomine Python Client.\\
 
-    The cytomine Python Client is a add-on to Cytomine for easy communication between the user and the server using the Python programming language.
+    The cytomine Python Client is an add-on to Cytomine for easy communication between the user and the server using the Python programming language.
     It includes methods that returns the called information in a more structured like manner.
     Methods to retrieve image and user information were used for this analysis.
 
@@ -416,7 +416,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         When the algorithm finished learning what rules determine whether or not a dog is in an image, it can be tested with new images.
         The algorithm tries to guess which images contain dogs and which don't.
         The algorithm needs to be tested in order to determine frequency of predictions are correct.
-        This methods often requires a large amount of data to work effectively.
+        These methods often requires a large amount of data to work effectively.
         Machine learning can support two types of outputs :
         \begin{itemize}
             \item Classification : Output data is split into different groups.
@@ -543,7 +543,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
 
 			During the 2016-2017 Academic year, Cytomine tracked and stored user information on the MOOC server.
 			To obtain all this information, Cytomine is accessible by a REST API. To ease the access to the server, Cytomine developed a Python Client that was used for the acquisition of relevant information.
-			With administrator rights, a user can get a hold of all if not most of the data stored on the SQL and MongoDB databases.
+			With administrator rights, a user can get a hold of all if not most of the data stored in the SQL and MongoDB databases.
 
           There are currently a total of two projects called GOLD and SILVER that students could participate in.
           To start off, each project contains a set of images and a set of students that have signed up.
@@ -673,10 +673,10 @@ The fact that they are unaware that the data is used for analysis makes the stud
 		After some interruptions to the service, it was necessary to install the MOOC locally with backups of the original. \newline
 
 
-        For both projects, an excel file containing user information not found on Cytomine was given.
+        For both projects, a csv file containing user information not found on Cytomine was given.
         For the SILVER project, this only included basic information that were irrelevant to the analysis (names, emails, etc..).
         Meanwhile for the GOLD project, the University of Liege students had to partake in multiple graded assignments.
-        The excel file given for the GOLD students therefore contained grades for numerous activities.
+        The csv file given for the GOLD students therefore contained grades for numerous activities.
         These grades will be useful in order to understand some aspects of the user behavior on Cytomine. \newline
 
         To use this component, one can call the \textit{download\_data} script.
@@ -688,7 +688,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
             \item[\textbullet] \textbf{<project\_id>} : The Cytomine identifier of the project to run the script on.
             The reason to have both the name and identifier is to be able to have multiple versions of the same project stored in different directories.
             \item[\textbullet] \textbf{<user\_data>} : Contains the address to a csv file containing a list of users with information that cannot be retrieved from Cytomine.
-            The file is structured similarly to the format described in section \ref{experiments}.
+            The file is structured similarly to the format described in section \ref{experiments} of Chapter 3.
             The column named 'CYTOMINE ID' is necessary.
             It contains the user Cytomine identifiers that need to be valid.
             Otherwise, the file contains data which includes grades and other basic user information.
@@ -707,7 +707,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
             It is used if the user wants to use the component on a subset of images.
             \item[\textbullet] \textbf{-U <users>} : The <users> field contains the address to a csv file containing a list of Cytomine user identifiers.
             Each row of the file contains one user identifier.
-            This follows the same principles than the images.
+            This follows the same principles as with the images.
             \item[\textbullet] \textbf{-M <modules>} : The <modules> field contains the address to a csv file containing a list of modules associated to the course.
             Modules are defined as a set of images to be visited within a certain time period.
             It is used for the course to guide and help organize the students.
@@ -912,7 +912,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
 
         \item[\textbullet] \textbf{Output Raw points figures :} These figures are represented by the image and the center of each position is drawn.
         This can give a good visualisation of the number of positions and where they are most concentrated. (Example in Figure \ref{fig:scanpath})
-        \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represents the Gazemaps of the student activity in regards to an image.
+        \item[\textbullet] \textbf{Output Gaze Map figures :} These figures represent the Gazemaps of the student activity in regards to an image.
         Since an image is resized to a reasonable resolution, each pixel is assigned a weight based on the user's activity near that pixel.
         Therefore, operations are done pixel by pixel.
         The values assigned rely on the 2D Gaussians generated for the positions.
@@ -960,7 +960,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         In this example, the student focused a zone with a low zoom for a very long duration while also visiting annotations for a reasonable amount of time.
         Observing these Gazemaps, they all have their flaws.
         The logarithmic normalizer is too powerful.
-        Even though the colors for the reduced Gazemap is lighter, the colors are consistent with every other reduced heatmap that can be generated.
+        Even though the colors for the reduced Gazemap are lighter, the colors are consistent with every other reduced heatmap that can be generated.
         Unlike the two relative heatmaps who are only consistent between either users in the same image or images associated with the same user.
 
         \begin{figure}[H]
@@ -989,7 +989,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         \end{figure}
         \item[\textbullet] \textbf{Output Scan Path Figures :} These figures represents the path taken by the students when they scan through an image.
         Another Idea that seems interesting is to observe a student's viewing order when looking at images.
-        The idea is to draw arrow an plot that connects each position to the following position.
+        The idea is to draw an arrow plot that connects each position to the following position.
         After doing so for all the positions, it is possible to analyze the viewing order.
         Unfortunately, in most cases there are too many positions.
         This is why clustering is used to group up close positions in regards to time and space.
@@ -1041,7 +1041,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         They are saved in their respective directories.
         \item[\textbullet] \textbf{-T} : This generates timelines for all users defined.
         They are saved in their respective directories.
-        \item[\textbullet] \textbf{-R} :This generates raw point images for all user/image pairs defined.
+        \item[\textbullet] \textbf{-R} : This generates raw point images for all user/image pairs defined.
         They are saved in their respective directories.
     \end{itemize}
 
@@ -1086,11 +1086,11 @@ The fact that they are unaware that the data is used for analysis makes the stud
             For each image, the average feature importance is calculated.
             This is then shown in the Histogram.
             Images were also split into categories based on the module they belong to.
-            The each category is represented by a color.
+            Each category is also represented by a color.
             This helps determining what images and modules had the biggest impact on the grades obtained.
             \item \textbf{Variable Correlation Scatter Plot :} This scatter plot compares the output variable to a top feature.
             This visualizes the relation between those two variables.
-            This includes aline with a Pearson Correlation to represent the slope of the of the relation.
+            This includes a line with a Pearson Correlation to represent the slope of the of the relation.
         \end{itemize}
         \item \textbf{Running a Leave-One-Out Cross Validation :} With a total of N individuals, the model is fit N times with N-1 individuals.
         For each iteration, the individual left out will be tested with the model.
@@ -1184,7 +1184,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
     It will show a list of possible output variables to learn, the user can select one and run either model study or a cross-validation.
     This GUI also gives the user options on where the statistics are saved and designates a button to go to the save file directory.
     After finishing at least one test, the GUI also displays the statistic image files generated.
-    Figure \ref{fig:gui} shows an example of the GUI after Studying the model for the global grade of all students.
+    Figure \ref{fig:gui} shows an example of the GUI after studying the model for the global grade of all students.
 
     \begin{figure}[H]
       \centering
@@ -1362,7 +1362,7 @@ a user during the module's time period. \\
 
     \section{Performance}
 
-    Like mentioned before, the tool as a whole can take a while to executed depending on the parameters set.
+    Like mentioned before, the tool as a whole can take a while to execute depending on the parameters set.
     The device used for running and testing this tool has the following properties:
     \begin{itemize}
         \item[\textbullet] \textbf{Processor} : Intel Core i7-6700M/PCIe/SSE2
@@ -1371,11 +1371,11 @@ a user during the module's time period. \\
     \end{itemize}
 
     The data acquisition component is hard to measure.
-    Since the Cytomine server ran locally and that there are no other users using the application, the download time measured may be quicker than it should be.
+    Since the Cytomine server is ran locally and that there are no other users using the application, the download time measured may be quicker than it should be.
     For the project GOLD with 78 images and 395 users, it takes about 6 hours to acquire all the data.
     Conversely, for the SILVER project with 75 images and 85 users, it only takes about 16 minutes.
     Overall most operations on the SILVER project are much quicker.
-    Overall, users are more active in the GOLD project.
+    Generally, users are more active in the GOLD project.
     They have more positions, it influences directly the complexity of most operations.\\
 
 
@@ -1390,7 +1390,7 @@ a user during the module's time period. \\
         With an image that has a resolution of about 1024x1024, it heavily relies on the number of positions.
         Overall it can take from 5 seconds up to about 2 minutes for users that do not have an absurd amount of positions.
         \item[\textbullet] \textbf{Generating a scan Path} : $N$ positions need to be clustered into about 20 areas.
-        Using K-means clustering with scikit-learn, the average complexity is $O(K*N**T)$ where $T$ is the number of iterations.
+        Using K-means clustering with scikit-learn, the average complexity is $O(K*N*T)$ where $T$ is the number of iterations.
         In this case, $T$ is set at 300.
         When drawing the scan path itself, it's much quicker because positions are reduced to 20 zones.
         Overall operations are done almost instantly, the biggest burden is saving the image to the disk.
@@ -1421,7 +1421,7 @@ a user during the module's time period. \\
 	\section{Experiments} \label{experiments}
 
 
-    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were on run on the GOLD project.
+    Even though the data was obtained for both the GOLD and SILVER projects, the experiments were ran on the GOLD project.
     This is due to the many constraints given by the SILVER project including the smaller sample size and the lack of results (student grades).
     The goal for most experiments is to learn a specific grade the student obtained based on all the information gathered in the Data Manipulation component.
     There were over 2000 features generated, where each one can weigh in on the prediction.
@@ -1431,7 +1431,7 @@ a user during the module's time period. \\
     Due to the nature of the dataset, regression trees were the most ideal.
     The somewhat small dataset paired with a large amount of features is a big constraint to work with.
     Therefore, Ensemble methods were used and tested.
-    This includes Random Forest regression and Extra Trees regression using sklearn.\newline
+    This includes Random Forest regression and Extra Trees regression using scikit-learn.\newline
 
     The Learning component is given a statistics file containing rows of students paired with their features.
     The features are split into three categories :
@@ -1446,7 +1446,7 @@ These variables are used in the machine learning model as output variables. In t
 \end{itemize}
 
     With this, a couple experiments have been ran.
-    For each Y variable (that will be described in the next sections), the model was built fully for the first analysis.
+    For each Y variable (that were described previously), the model was built fully for the first analysis.
     The second analysis, a leave-one-out cross validation was ran to determine the validity of these observations.
     The goal is to give insight on different user behaviors.
 
@@ -1462,7 +1462,7 @@ These variables are used in the machine learning model as output variables. In t
     The issue with this is that it is a different entity from the MOOC and therefore is not ideal for fetching information.
     But it is not much of a problem because there is nothing to retrieve about students on Ecampus that is not already known.\newline
 
-    When applying machine learning techniques, students with a 0/20 were taken out of the sample because they default to signing the exam.
+    When applying machine learning techniques, students with a 0/20 were taken out of the sample because they often default to signing portion of the exam.
     Since there are too few that do so, there is not enough information to find correlations between people who sign and the features.
     Keeping students who sign also increases the error rate because they are outliers.
     The goal is to guess how well the exam would have went for the students.
@@ -1522,8 +1522,8 @@ These variables are used in the machine learning model as output variables. In t
 	\item[\textbullet]  QCL incidence white test.
 	\item[\textbullet]  Practical QCM white test.
     \end{itemize}
-    Similarly, 7 graded exams and quizzes were given to students with 3 being theoretical and 4 being practical.
-    Something to note for the practical exam is that there are 2 different exam forms for the QCM and the QRL. This means that half the students are given different questions from the other half.
+    Similarly, 7 graded exam questions were given to students with 3 being theoretical and 4 being practical.
+    Something to note for the practical exam is that there are 2 different exam forms for the QCM and the QROL. This means that half the students are given different questions from the other half.
     The list of exams include:
     \begin{itemize}
     \item[\textbullet]  QROL1 theory (10\%).
@@ -1614,7 +1614,7 @@ These variables are used in the machine learning model as output variables. In t
     There is one student who followed different patterns with a respectable activity.
     Unfortunately, the student still failed the exam.\\
 
-    Meanwhile, for the students with th highest grades, there are many more positions as a whole.
+    Meanwhile, for the students with the highest grades, there are many more positions as a whole.
     Also, images for all the modules were visited.
     There is a clear difference between the two sets.
     But in the set of students with the highest grades, there are many different patterns.
@@ -1623,7 +1623,7 @@ These variables are used in the machine learning model as output variables. In t
     This shows that it is hard to judge a student's performance and comprehension of the course.
     Students follow different habits and exhibit different patterns.
     There is no "best" method for studying according to this small study.
-    The Machine Learning can give more insight on this question.
+    The Machine Learning results can give more insight on this question.
 
 
 
@@ -1675,7 +1675,7 @@ These variables are used in the machine learning model as output variables. In t
     For the incidence test, it seems that the scores are underestimated, this seems to be the case because there is a significantly high grades compared to low grades.
     There are many reasons why results are the way they are.
     This includes the fact that these grades do not rely on activity that occur after the exam date.
-    When comparing grade the learned grades against the original grades, it is noticeable that the estimated grades tend to predict values close to the average of the actual grades.
+    When comparing the learned grades against the original grades, it is noticeable that the estimated grades tend to predict values close to the average of the actual grades.
     This makes it so that high and low actual grades when predicted tend to be more erroneous.
     The sample also lacks a good amount of extreme grades which gives the algorithm less to work with for these cases.
     Furthermore, the fact that the exams are ungraded puts less pressure on the students to succeed.
@@ -1764,7 +1764,7 @@ These variables are used in the machine learning model as output variables. In t
 
     \subsection{Practical Exam Grades}
 
-	There are a total of 5 practical exam results including the total.
+	There are a total of 4 practical exam results excluding the total.
 	These \textbf{Y} variables tested similarly to the white tests.
 	The exam took place on the 12th of June 2017.
 	Unlike the white exam, the students should have finished working on all the modules.
@@ -1870,7 +1870,7 @@ Since these exams are graded, students should have the motivation to study and a
 The results are different from the trial tests.
 For one, the Module features are relatively less impactful than before.
 This shows that the total work done throughout the semester is more important than working more during specific modules.
-It also is shown that the students spent the most time on Cytomine the day before the exam (see Figure \ref{fig:timelapse}).
+It also is shown that the students spent the most time on Cytomine the days before the exam (see Figure \ref{fig:timelapse}).
 Similar to the white tests models, the Average Score feature always shows up as an important feature.
 This variable seems to be the closest variable into determining whether or not a student understands the course but it is still not perfect.
 In the end, some images and some modules have more impact than others.  (Figures \ref{fig:im_tp1}, \ref{fig:im_tp2}, \ref{fig:im_tp3},\ref{fig:im_tp4})
@@ -2230,7 +2230,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     Of course, the cross validation results are still far from ideal so it is still dangerous to make too many assumptions.\\
 
     The next experiment tries to learn practical results all while knowing the theoretical results.
-    The goal the correlation between theory and practical.
+    The goal is to study the correlation between theory and practical.
     This can also help determine an ideal prediction.
     The figures \ref{fig:test2_1} and \ref{fig:test2_2} show these results.
     \begin{itemize}
@@ -2282,7 +2282,7 @@ In the end, some images and some modules have more impact than others.  (Figures
         \item[\textbullet] \textbf{Minimum Impurity Decrease : 0.0}\\
         A node will be split if the impurity is less than the minimum impurity decrease value.
         Threshold for early stopping tree growth.
-        \item[\textbullet] \textbf{Minimum Samples Leaf : 10}\\
+        \item[\textbullet] \textbf{Minimum Samples Leaf : 5}\\
         The minimum number of samples required at a leaf node.
         \item[\textbullet] \textbf{Minimum Samples split : 2}\\
         The minimum number of samples required to split an internal node.
