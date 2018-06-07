@@ -33,5 +33,5 @@ cytomine_public_key="XXX-XXX-XXX-XXX-XXX" ##to edit
 cytomine_private_key="XXX-XXX-XXX-XXX-XXX" ##to edit
 start_time = "2017-02-01 21:00:00"
 end_time = "2017-09-01 19:30:00"
-##exam_time = "2017-06-12 19:30:00"
-exam_time = "2017-09-01 19:30:00"
+exam_time = "2017-06-12 19:30:00"
+#exam_time = "2017-09-01 19:30:00"

@@ -105,8 +105,9 @@ def cluster_points(points, duration=20):
 
     # sort clusters by timestamp
     cluster_size = cluster_size[np.argsort(centers[:, 2])]
+    cluster_size = list(reversed(cluster_size))
     centers = centers[np.argsort(centers[:, 2])]
-
+    centers = list(reversed(centers))
     # put all the new data into the output dictionary
     ret = {'x': np.zeros(len(centers)),
            'y': np.zeros(len(centers)),
