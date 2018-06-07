@@ -197,6 +197,10 @@ Thank you.
 
 \chapter{Introduction}
 
+This section will introduce the study is about.
+It will start by introducing Cytomine which is a company that provide the means and the tools that made this project possible.
+This is followed by an overview of the MOOC server and the goals set by teachers and developers.
+Finally this section will introduce the tools proposed by this project that allows for the analysis of user behavior extracted from the MOOC.
 
 \section{Cytomine}
 
@@ -250,8 +254,10 @@ Other sectors include Geology, Art, and in this case Medicine.
       \caption{Cytomine MOOC home page}
       \end{figure}
 
-The MOOC server is a Cytomine Web Application used for education by the Faculty of Medicine at the University of Liege.
+The MOOC server is a Cytomine Web Application used for education by the Faculty of Medicine at the University of Liege ~\cite{fun}.
 MOOC stands for Massive Open Online Course, this means that it's open to anyone.
+The MOOC accessible from :\\
+https://www.fun-mooc.fr/courses/course-v1:ulg+108001+session03/about\\
 It is mostly used for the General histology and alternative experimentation methods that do not use animals (HISL0541) course.
 This course is organized for students enrolled for a Bachelor in Medicine.
 Students have to study tissue samples. (Figure \ref{fig:lame_example})
@@ -2425,10 +2431,28 @@ In the end, some images and some modules have more impact than others.  (Figures
         This is theorized without actually knowing the contents of the two questions.
 
 
+        The biggest asset of this tool is that it can be reused for other different projects.
+        It is built to fetch data from any Cytomine server.
+        This means that this tool is not limited to Pathology.
+        It can be used in Astronomy or Geology alike.
+        Of course, the teachers for the Histology course split the contents of the course into 6 modules.
+        This might not be the case for different courses or projects.
+        This tool is built so that modules are not required.
+        The only drawback with this tool is that before running it for the first time, a csv file with user information not on Cytomine needs to be created.
+        This file contains grades for example, but this file is also necessary because it contains the Cytomine identifiers for all the users.
+
+
+        Finally this tool can be used in different contexts.
+        Currently, it is being used for students.
+        This tool could be applied to real doctors that observes images in order to do diagnostics.
+        This information can be reused to possibly design new algorithms that could quickly and efficiently scan images.
+        It can then be used to detect health conditions with a lower error than traditional approaches.
+
+
 
 \chapter{Conclusion}
 
-    The goal with this study was to analyze user behavior using the new tools that Cytomine offered.
+    The goal with this study was to develop a tool to analyze user behavior using the new tools that Cytomine offered.
     By studying user behavior, one can learn much about the varying ways that users use the application.
     In some cases it may be possible to analyze their reasoning.
     Comparing a set of students based on the grades they obtained for their exams could give more insight on what can differentiate students.
