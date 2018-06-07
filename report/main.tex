@@ -722,7 +722,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         \end{itemize}
 
 
-        The project has a dedicated directory to store all this information, usually in a Comma-seperated values (csv) format.
+        The project has a dedicated directory to store all this information, usually in a Comma-separated values (csv) format.
         This format similar to excel stores data in tables while being simple and light.
         For each data type, image, and user triplet, there is a dedicated file containing this information.
         In conclusion, the following diagram explains the role of this component (Figure \ref{fig:comp1}).
@@ -988,7 +988,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
         Each cluster is also given a weight based on the number of positions that belong to it.
         This makes the scan path complete in a sense that it shows most of the needed information relating to the user's viewing order.
         The example in Figure \ref{fig:scanpath} shows the scan path associated to the same image and user pair as the Figure \ref{fig:heatmaps}.
-        This shows that the zone where the student focused for a long duration was during the begining of the scan.
+        This shows that the zone where the student focused for a long duration was during the beginning of the scan.
         The student may have been reading up on the course while keeping the image still.
         Following that, the student started visiting the different annotations.
         It's interesting to see that the student did not respect the order for the most part.
@@ -1006,7 +1006,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
     There are multiple options when running this component.
     When running the script it comes with one mandatory parameter \textbf{<project\_name>}.
     This is similar to the previous component where it corresponds to a certain project.
-    Other optional prameters include :
+    Other optional parameters include :
     \begin{itemize}
         \item[\textbullet] \textbf{-I <images>} : The <images> field contains the address to a csv file containing a list of Cytomine image identifiers.
         Each row of the file contains one image identifier.
@@ -1107,7 +1107,7 @@ The fact that they are unaware that the data is used for analysis makes the stud
             The last (in blue) represents the slope of the relation between the two variables.
             It includes a Pearson Correlation to better understand the slope of the line.
             \item \textbf{Box Plot :} This visualizes the error between the learned results with the output variables.
-            In this case, it draws the median error, the two quartiles Q1 (separating the 25 \% with the lowest error with the rest) and Q3 (seperating the 75 \% with the lowest error with the rest), and the two whiskers.
+            In this case, it draws the median error, the two quartiles Q1 (separating the 25 \% with the lowest error with the rest) and Q3 (separating the 75 \% with the lowest error with the rest), and the two whiskers.
             The whiskers have a reach that are 1.5 times the inter-quartile range.
             This means that any error outside the reach of the whiskers would be deemed extreme cases.
             These cases are related to really high error values.
@@ -1610,7 +1610,7 @@ These variables are used in the machine learning model as output variables. In t
     Some students have a significant higher activity than others.
     One worked on modules ahead of time, and some didn't even log onto Cytomine the weeks before the exam.
     This shows that it is hard to judge a student's performance and comprehension of the course.
-    Students follow different habbits and exhibit different patterns.
+    Students follow different habits and exhibit different patterns.
     There is no "best" method for studying according to this small study.
     The Machine Learning can give more insight on this question.
 
@@ -1986,7 +1986,7 @@ In the end, some images and some modules have more impact than others.  (Figures
       \end{figure}
 
     As usual, the scores are the most prominent features for all the theoretical exercises.
-    It is interesting to note some differences with the practical exercices.
+    It is interesting to note some differences with the practical exercises.
     This includes features that are associated to the time worked.
     It would not be too much of a stretch to theorize that studying with Cytomine during certain time periods, the student would assimilate more information.
     For example, when working after 2AM, the students may be more tired and they might retain less information.\\
@@ -2185,7 +2185,7 @@ In the end, some images and some modules have more impact than others.  (Figures
     \subsection{Learning with additional Information}
 
     A small experiment is to set the White Test grades as features and learn the Global grades.
-    This extra information can prove usefull.
+    This extra information can prove useful.
     The experiment is to see if those who did well on the white tests do well on the main exam.
     For those who did not participate in the trial tests, they receive a value of -1 for those features.
     The results are shown in figure \ref{fig:test1_1} \& \ref{fig:test1_2}
@@ -2455,7 +2455,7 @@ In the end, some images and some modules have more impact than others.  (Figures
         Cytomine Analysis Tool & https://github.com/lvanhee42/Master-Thesis & https://cytomine.coop/\\ \hline
         Cytomine & https://github.com/cytomine & https://cytomine.coop/ \\ \hline
         PyGazeAnalyser & https://github.com/lvanhee42/PyGazeAnalyser & http://www.pygaze.org/ \\ \hline
-        Cytomine Analysis Tool & hhttps://github.com/scikit-learn & http://scikit-learn.org/stable/ \\ \hline
+        Cytomine Analysis Tool & https://github.com/scikit-learn & http://scikit-learn.org/stable/ \\ \hline
     \end{tabular}}
     \caption{Source Code References}
 \end{table}
